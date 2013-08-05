@@ -1,0 +1,8 @@
+This software is Copyright (c) 2009-2012 Björn Granvik & Jonas Andersson, http://reudd.org
+
+It is licensed under the GNU Affero General Public License version 3 or later,
+which in essence means that it's free to embed in other works of free software.
+
+For legalese details, see LICENSE.txt.
+
+For more information, contact bjorn.granvik@gmail.com.

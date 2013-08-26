@@ -17,4 +17,4 @@ detect desire paths in the users' usage of it.
 
 Contact information:
 * Björn Granvik: bjorn.granvik@gmail.com 
-* Jonas Andersson: jonas@splanaden.se
+* Jonas Andersson: @matsjonas me@matsjonas.com

@@ -6,6 +6,11 @@ grails.project.target.level = 1.6
 grails.project.source.level = 1.6
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
+// uncomment (and adjust settings) to fork the JVM to isolate classpaths
+//grails.project.fork = [
+//   run: [maxMemory:1024, minMemory:64, debug:false, maxPerm:256]
+//]
+
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
     inherits("global") {
@@ -14,6 +19,7 @@ grails.project.dependency.resolution = {
     }
     log "warn" // log level of Ivy resolver, either 'error', 'warn', 'info', 'debug' or 'verbose'
     checksums true // Whether to verify checksums on resolve
+    legacyResolve true // whether to do a secondary resolve on plugin installation, not advised and here for backwards compatibility
 
     repositories {
         inherits true // Whether to inherit repository definitions from plugins
@@ -37,14 +43,16 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.20'
         compile 'net.sf.jung:jung-visualization:2.0.1'
         compile 'net.sf.jung:jung-graph-impl:2.0.1'
-        runtime 'org.neo4j:neo4j-community:1.8.RC1'
+        runtime 'org.neo4j:neo4j-community:1.9.2'
 
     }
 
     plugins {
-        runtime ":hibernate:$grailsVersion"
-        runtime ":jquery:1.7.2"
-        runtime ":resources:1.1.6"
+        // runtime ":hibernate:$grailsVersion" // make sure to configure DataSource.groovy correctly when enabling hibernate
+        runtime ":neo4j:1.0.1"
+
+        runtime ":jquery:1.8.3"
+        runtime ":resources:1.2"
 
         // Uncomment these (or add new ones) to enable additional resources capabilities
         //runtime ":zipped-resources:1.0"
@@ -52,10 +60,9 @@ grails.project.dependency.resolution = {
         //runtime ":yui-minify-resources:0.1.4"
 
         build ":tomcat:$grailsVersion"
-        runtime ":neo4j:1.0.0.M2"
 
         //runtime ":database-migration:1.1"
 
-        //compile ':cache:1.0.0'
+        compile ":cache:1.0.1"
     }
 }

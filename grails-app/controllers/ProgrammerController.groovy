@@ -365,7 +365,7 @@ public class ProgrammerController {
 		out.println "}"
 		
 		Runtime runtime = Runtime.getRuntime()
-		Process p = runtime.exec("/usr/local/bin/dot -Tpng")
+		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()
 		}   
@@ -406,7 +406,7 @@ public class ProgrammerController {
 		out.println "}"
 		
 		Runtime runtime = Runtime.getRuntime()
-		Process p = runtime.exec("/usr/local/bin/dot -Tpng")
+		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()
 		}   
@@ -474,7 +474,7 @@ public class ProgrammerController {
 		out.println "}"
 		
 		Runtime runtime = Runtime.getRuntime()
-		Process p = runtime.exec("/usr/local/bin/dot -Tpng")
+		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()
 		}   

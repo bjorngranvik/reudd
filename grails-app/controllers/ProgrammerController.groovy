@@ -474,6 +474,19 @@ public class ProgrammerController {
 		out.println "}"
 		
 		Runtime runtime = Runtime.getRuntime()
+        // On a mac and Intellij the PATH variable is not inherited from .bash_profile.
+        // This means that Graphviz dot below might work just fine in your Terminal since you PATH variable is setup
+        // correctly. However, IntelliJ might not be started with the same values set.
+        // Check using
+        //    $ launchctl export
+        // and see if you have "/usr/local/bin" there.
+        // If not, you can use launctl command, create a file in /etc/launchd.conf or fiddle with plists.
+        // But these approach all have problems and seem dependent on your Mac OS version. Sigh.
+        //
+        // Poor man's solution: Set a PATH variable in your IntelliJ project
+        // Go Settings->Path Variables and enter a new PATH with for instance the value
+        //    /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+        //todo Replace Graphviz with D3.
 		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()

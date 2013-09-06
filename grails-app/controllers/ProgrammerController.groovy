@@ -39,33 +39,33 @@ import edu.uci.ics.jung.visualization.control.*
 import org.neo4j.graphdb.Direction
 
 public class ProgrammerController {
-	
+
 	def graphDatabaseService
-	
+
 	def index = { redirect( action:whatHasHappenedSince, params:params )
 	}
-	
+
 	def listTypes = {
 		def data = [:]
 		TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
 		data.allNodes = factory.getTypeNodes()
 		data
 	}
-	
+
 	def listViews = {
 		def data = [:]
 		ViewNodeFactory factory = new ViewNodeFactory(graphDatabaseService)
 		data.viewNodes = factory.getViewNodes()
 		data
 	}
-	
+
 	def listReports = {
 		def data = [:]
 		ReportNodeFactory reportNodeFactory = new ReportNodeFactory(graphDatabaseService)
 		data.reportNodes = reportNodeFactory.getReportNodes()
 		data
 	}
-	
+
 	def editReport = {
 		def data = [:]
 		ReportNodeFactory reportNodeFactory = new ReportNodeFactory(graphDatabaseService)
@@ -73,7 +73,7 @@ public class ProgrammerController {
 		data.templates = reportNodeFactory.getReportTemplateNodes()
 		data
 	}
-	
+
 	def editReportSubmit = {
 		ReportNodeFactory reportNodeFactory = new ReportNodeFactory(graphDatabaseService)
 		def report = reportNodeFactory.getReportNode(params.id.toLong())
@@ -85,7 +85,7 @@ public class ProgrammerController {
 		report.save()
 		redirect( action:listReports )
 	}
-	
+
 	def showType = {
 		def data = [:]
 		TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
@@ -95,7 +95,7 @@ public class ProgrammerController {
 		data.SHOW = true
 		render(view:"crudType", model:data)
 	}
-	
+
 	def editType = {
 		def data = [:]
 		TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
@@ -106,7 +106,7 @@ public class ProgrammerController {
 		data.EDIT = true
 		render(view:"crudType", model:data)
 	}
-	
+
 	def updateType = {
 		TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
 		def node = factory.getTypeNode(params.id.toLong())
@@ -135,14 +135,14 @@ public class ProgrammerController {
 		params.id = node.id
 		redirect( action:showType, params:[id:node.id] )
 	}
-	
+
 	def deleteType = {
 		TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
 		def typeNode = factory.getTypeNode(params.id.toLong())
 		factory.deleteNode(typeNode)
 		redirect( action:listTypes )
 	}
-	
+
 	def deleteManyTypes = {
 		def selectedIds = []
 		if (params.selectedIds instanceof String) {
@@ -157,7 +157,7 @@ public class ProgrammerController {
 		}
 		redirect( action:listTypes )
 	}
-	
+
 	def deleteManyReports = {
 		def selectedIds = []
 		if (params.selectedIds instanceof String) {
@@ -172,7 +172,7 @@ public class ProgrammerController {
 		}
 		redirect( action:listReports )
 	}
-	
+
 	def deleteManyViews = {
 		def selectedIds = []
 		if (params.selectedIds instanceof String) {
@@ -187,17 +187,17 @@ public class ProgrammerController {
 		}
 		redirect( action:listViews )
 	}
-	
+
 	def bulkAdd = {
 		def data = [:]
 		TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
 		data.nodeTypes = typeNodeFactory.getTypeNodes()
 		data
 	}
-	
+
 	def bulkAddSubmit = {
 		def bulktext = request.getFile("file").inputStream
-		
+
 		if (bulktext) {
 			def headline = []
 			def nodeList = []
@@ -210,7 +210,7 @@ public class ProgrammerController {
 					def newNode = [types:[],attributes:[:],relationships:[]]
 					line.split(';').eachWithIndex { item, innerIndex ->
 						if (!item.isEmpty()) {
-							def title = headline[innerIndex] 
+							def title = headline[innerIndex]
 							if (title == "type:") {
 								item.split(",").each { type ->
 									newNode.types.add type.trim()
@@ -230,27 +230,27 @@ public class ProgrammerController {
 					}
 				}
 			}
-			
+
 			// Add nodes
 			DataNodeFactory dataNodeFactory = new DataNodeFactory(graphDatabaseService)
 			TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
 			def savedDataNodes = [:]
 			for (item in nodeList) {
 				def dataNode = dataNodeFactory.createNode()
-				
+
 				// types
 				for (type in item.types) {
 					dataNode.types.add typeNodeFactory.getOrCreateNode(type)
 				}
 				// attributes
 				dataNode.attributes = item.attributes
-				
+
 				// save the new node
 				dataNodeFactory.saveNode(dataNode)
 				savedDataNodes.put((item), dataNode)
-				
+
 			}
-			
+
 			// Add relationships
 			for (item in nodeList) {
 				def thisNode = savedDataNodes[item]
@@ -275,7 +275,7 @@ public class ProgrammerController {
 		}
 		redirect( action:index, params:[type:'*'] )
 	}
-	
+
 	def tagCloudTypes = {
 		def data = [:]
 		TypeNodeFactory typeFactory = new TypeNodeFactory(graphDatabaseService)
@@ -284,36 +284,36 @@ public class ProgrammerController {
 		data.totalNbrOfDataNodes = dataFactory.getDataNodes().size()
 		data
 	}
-	
+
 	def relationBrowser = {
-		
+
 	}
-	
+
 	def relationBrowserXml = {
 		def data = [:]
 		DataNodeFactory factory = new DataNodeFactory(graphDatabaseService)
 		data.dataNodes = factory.getDataNodes()
 		render(view:"relationBrowserXml",contentType:"text/xml",model:data)
 	}
-	
+
 	def jung = {
 		Graph<Integer, String> g;
-		
+
 		g = new DirectedSparseMultigraph<Integer, String>();
-		
+
 		DataNodeFactory factory = new DataNodeFactory(graphDatabaseService)
 		def dataNodes = factory.getDataNodes()
-		
+
 		for (node in dataNodes) {
 			g.addVertex(node.toString())
 		}
-		
+
 		for (node in dataNodes) {
 			for (rel in node.outRelationships) {
 				g.addEdge(rel, node.toString(), rel.endNode.toString())
 			}
 		}
-		
+
 		Layout<Integer, String> layout = new FRLayout(g);
 		layout.setSize(new Dimension(800,600));
 		VisualizationViewer<Integer,String> vv = new VisualizationViewer<Integer,String>(layout);
@@ -321,36 +321,36 @@ public class ProgrammerController {
 		// Show vertex and edge labels
 		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
 		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
-		
+
 		// Create our "custom" mouse here. We start with a PluggableGraphMouse
 		// Then add the plugins you desire.
-		PluggableGraphMouse gm = new PluggableGraphMouse(); 
+		PluggableGraphMouse gm = new PluggableGraphMouse();
 		gm.add(new ScalingGraphMousePlugin(new CrossoverScalingControl(), 0, 1.1f, 0.9f));
 		gm.add(new PickingGraphMousePlugin());
 		gm.add(new TranslatingGraphMousePlugin());
-		
-		vv.setGraphMouse(gm); 
+
+		vv.setGraphMouse(gm);
 		JFrame frame = new JFrame("Viewing ReUDD Node Space");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(vv);
 		frame.pack();
 		frame.setVisible(true);
 	}
-	
+
 	def nodeConnections = {
-		
+
 	}
-	
+
 	def nodeConnectionsGraphviz = {
 		def dotBuffer = new StringWriter()
 		def out = new PrintWriter(dotBuffer)
-		
+
 		TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-		
+
 		out.println """digraph nodeConnections {"""
 		out.println """size="8,20";"""
 		out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
-		
+
 		def typeNodes = typeNodeFactory.getTypeNodes()
 		typeNodes.each { type ->
 			typeNodes.each { otherType ->
@@ -363,37 +363,37 @@ public class ProgrammerController {
 			}
 		}
 		out.println "}"
-		
+
 		Runtime runtime = Runtime.getRuntime()
 		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()
-		}   
-		
+		}
+
 		def imageBuffer = new ByteArrayOutputStream()
 		imageBuffer << p.inputStream
 		byte[] image = imageBuffer.toByteArray()
-		
+
 		response.contentLength = image.length
 		response.contentType = "image/png"
 		response.outputStream << image
 	}
-	
+
 	def navigatedPaths = {
-		
+
 	}
-	
+
 	def navigatedPathsGraphviz = {
 		def dotBuffer = new StringWriter()
 		def out = new PrintWriter(dotBuffer)
-		
+
 		TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-		
+
 		out.println """digraph navigatedPaths {"""
 //		out.println """rankdir="LR";"""
 		out.println """size="8,20";"""
 		out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
-		
+
 		NodePathBuilder pathBuilder = new NodePathBuilder(graphDatabaseService)
 		def rootNode = pathBuilder.statisticsNode
 		def relationships = rootNode.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
@@ -404,22 +404,22 @@ public class ProgrammerController {
 		}
 		printRecursiveNavPaths(rootNode, out, true, outCount)
 		out.println "}"
-		
+
 		Runtime runtime = Runtime.getRuntime()
 		Process p = runtime.exec("dot -Tpng")
 		p.outputStream.withStream { stream ->
 			stream << dotBuffer.toString()
-		}   
-		
+		}
+
 		def imageBuffer = new ByteArrayOutputStream()
 		imageBuffer << p.inputStream
 		byte[] image = imageBuffer.toByteArray()
-		
+
 		response.contentLength = image.length
 		response.contentType = "image/png"
 		response.outputStream << image
 	}
-	
+
 	private def printRecursiveNavPaths(node, PrintWriter out, isStartNode, prevCount) {
 		def nodeString = isStartNode ? "Start" : "No Type"
 		if (node.hasProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)) {
@@ -440,67 +440,7 @@ public class ProgrammerController {
 			printRecursiveNavPaths(endNode, out, false, travCount)
 		}
 	}
-	
-	def domainModel = {
-		
-	}
-	
-	def domainModelGraphviz = {
-		def dotBuffer = new StringWriter()
-		def out = new PrintWriter(dotBuffer)
-		
-		TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-		
-		out.println """digraph domainModel {"""
-		out.println """size="8,20";"""
-		out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
-		def typeNodes = typeNodeFactory.getTypeNodes()
-		typeNodes.each { type ->
-			def outRels = type.getOutgoingRelationshipNames()
-			outRels.each { relName ->
-				def targets = type.getOutgoingRelationshipTargetTypeNames(relName)
-				targets.each { target ->
-					def startName = type.name.escapeSomeHtml()
-					def targetName = target.escapeSomeHtml()
-					relName = relName.escapeSomeHtml()
-					out.println """<$startName> -> <$targetName> [label=<  $relName  >];"""
-				}
-			}
-			if (!outRels) {
-				def name = type.name.escapeSomeHtml()
-				out.println "<$name>"
-			}
-		}
-		out.println "}"
-		
-		Runtime runtime = Runtime.getRuntime()
-        // On a mac and Intellij the PATH variable is not inherited from .bash_profile.
-        // This means that Graphviz dot below might work just fine in your Terminal since you PATH variable is setup
-        // correctly. However, IntelliJ might not be started with the same values set.
-        // Check using
-        //    $ launchctl export
-        // and see if you have "/usr/local/bin" there.
-        // If not, you can use launctl command, create a file in /etc/launchd.conf or fiddle with plists.
-        // But these approach all have problems and seem dependent on your Mac OS version. Sigh.
-        //
-        // Poor man's solution: Set a PATH variable in your IntelliJ project
-        // Go Settings->Path Variables and enter a new PATH with for instance the value
-        //    /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
-        //todo Replace Graphviz with D3.
-		Process p = runtime.exec("dot -Tpng")
-		p.outputStream.withStream { stream ->
-			stream << dotBuffer.toString()
-		}   
-		
-		def imageBuffer = new ByteArrayOutputStream()
-		imageBuffer << p.inputStream
-		byte[] image = imageBuffer.toByteArray()
-		
-		response.contentLength = image.length
-		response.contentType = "image/png"
-		response.outputStream << image
-	}
-	
+
 	def addView = {
 		def data = [:]
 		ViewNodeFactory viewNodeFactory = new ViewNodeFactory(graphDatabaseService)
@@ -511,14 +451,14 @@ public class ProgrammerController {
 		data.viewNode = viewNode
 		redirect(action:editView, params:[id:viewNode.id])
 	}
-	
+
 	def editView = {
 		def data = [:]
 		ViewNodeFactory viewNodeFactory = new ViewNodeFactory(graphDatabaseService)
 		data.view = viewNodeFactory.getViewNode(params.id.toLong())
 		data
 	}
-	
+
 	def editViewSubmit = {
 		ViewNodeFactory viewNodeFactory = new ViewNodeFactory(graphDatabaseService)
 		def view = viewNodeFactory.getViewNode(params.id.toLong())
@@ -527,14 +467,14 @@ public class ProgrammerController {
 		view.save()
 		redirect( action:listViews )
 	}
-	
+
 	def deleteView = {
 		ViewNodeFactory viewNodeFactory = new ViewNodeFactory(graphDatabaseService)
 		def view = viewNodeFactory.getViewNode(params.id.toLong())
 		view.delete()
 		redirect( action:listTypes )
 	}
-	
+
 	def whatHasHappenedSince = {
 		def data = [:]
 		Date date = new Date().minus(1)
@@ -567,5 +507,5 @@ public class ProgrammerController {
 		data.itemList = itemList
 		data
 	}
-	
+
 }

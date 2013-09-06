@@ -14,6 +14,7 @@
 		<div class="list">
 			<ul>
 				<g:if test="${menuItemsTypes && menuItemsTypes.size() != 0}">
+                    <li><g:link action="domainModel">Domain Model</g:link></li>
 					<li>
 						<g:link action="listNodes" params="[type:'*']">All Types</g:link>
 					</li>
@@ -78,7 +79,6 @@
 				<li><g:link action="listTypes">Show Types</g:link></li>
 				<li><g:link action="listViews">Show Views</g:link></li>
 				<li><g:link action="listReports">Show Reports</g:link></li>
-				<li><g:link action="domainModel">Domain Model</g:link></li>
 				<li><g:link action="relationBrowser">Relation Browser</g:link></li>
 				<li><g:link action="nodeConnections">Node Connections</g:link></li>
 				<g:if test="${params.action=='nodeConnections'}">

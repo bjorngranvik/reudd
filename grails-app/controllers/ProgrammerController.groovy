@@ -285,17 +285,6 @@ public class ProgrammerController {
 		data
 	}
 
-	def relationBrowser = {
-
-	}
-
-	def relationBrowserXml = {
-		def data = [:]
-		DataNodeFactory factory = new DataNodeFactory(graphDatabaseService)
-		data.dataNodes = factory.getDataNodes()
-		render(view:"relationBrowserXml",contentType:"text/xml",model:data)
-	}
-
 	def jung = {
 		Graph<Integer, String> g;
 

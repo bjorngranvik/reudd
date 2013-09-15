@@ -79,7 +79,6 @@
 				<li><g:link action="listTypes">Show Types</g:link></li>
 				<li><g:link action="listViews">Show Views</g:link></li>
 				<li><g:link action="listReports">Show Reports</g:link></li>
-				<li><g:link action="relationBrowser">Relation Browser</g:link></li>
 				<li><g:link action="nodeConnections">Node Connections</g:link></li>
 				<g:if test="${params.action=='nodeConnections'}">
 					<ul>

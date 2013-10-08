@@ -367,6 +367,94 @@ public class UserController {
    	}
 
 
+    def importFile = {
+        def data = request.preData
+      	data
+   	}
+
+
+   	def importFileSubmit = {
+   		def importtext = request.getFile("file").inputStream
+
+   		if (importtext) {
+   			def headline = []
+   			def nodeList = []
+   			importtext.eachLine { line, index ->
+   				if (index == 1) {
+   					line.split(';').each { item ->
+   						headline.add item
+   					}
+   				} else {
+   					def newNode = [types:[],attributes:[:],relationships:[]]
+   					line.split(';').eachWithIndex { item, innerIndex ->
+   						if (!item.isEmpty()) {
+   							def title = headline[innerIndex]
+   							if (title == "type:") {
+   								item.split(",").each { type ->
+   									newNode.types.add type.trim()
+   								}
+   							} else if (title.startsWith("rel:")) {
+   								def relName = title[4..title.lastIndexOf("(")-1]
+   								def relKey = title[title.lastIndexOf("(")+1..-2]
+   								def relation = "$relName($relKey:$item)"
+   								newNode.relationships.add relation
+   							} else {
+   								newNode.attributes[title] = item
+   							}
+   						}
+   					}
+   					if (!newNode.isEmpty()) {
+   						nodeList.add(newNode)
+   					}
+   				}
+   			}
+
+   			// Add nodes
+   			DataNodeFactory dataNodeFactory = new DataNodeFactory(graphDatabaseService)
+   			TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
+   			def savedDataNodes = [:]
+   			for (item in nodeList) {
+   				def dataNode = dataNodeFactory.createNode()
+
+   				// types
+   				for (type in item.types) {
+   					dataNode.types.add typeNodeFactory.getOrCreateNode(type)
+   				}
+   				// attributes
+   				dataNode.attributes = item.attributes
+
+   				// save the new node
+   				dataNodeFactory.saveNode(dataNode)
+   				savedDataNodes.put((item), dataNode)
+
+   			}
+
+   			// Add relationships
+   			for (item in nodeList) {
+   				def thisNode = savedDataNodes[item]
+   				// Updates the incoming relationships to the node
+   				thisNode.inRelationships
+   				def relationList = []
+   				for (rel in item.relationships) {
+   					def relName = rel[0..rel.lastIndexOf("(")-1]
+   					def relTarget = rel[rel.lastIndexOf("(")+1..-2]
+   					def relTargetKey = relTarget[0..relTarget.lastIndexOf(":")-1]
+   					def relTargetValue = relTarget[relTarget.lastIndexOf(":")+1..-1]
+   					for (mapItem in savedDataNodes) {
+   						def otherNode = mapItem.value
+   						if (otherNode.attributes[relTargetKey] && otherNode.attributes[relTargetKey] == relTargetValue) {
+   							relationList.add(new DynamicRelationship(thisNode, relName, otherNode))
+   						}
+   					}
+   				}
+   				thisNode.outRelationships = relationList
+   				dataNodeFactory.saveNode(thisNode)
+   			}
+   		}
+   		redirect( action:index, params:[type:'*'] )
+   	}
+
+
 	def addReport = {
 		def data = request.preData
 		data

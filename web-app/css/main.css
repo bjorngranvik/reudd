@@ -249,9 +249,9 @@ img {
     background-color:#EEEEEE;
 }
 
-/* bulkAdd */
+/* import */
 
-.bulkAdd #bulkText {
+.importFile #importFileText {
     width:100%;
     height:60%;
 }

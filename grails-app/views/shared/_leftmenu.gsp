@@ -13,6 +13,8 @@
 		</div>
 		<div class="list">
 			<ul>
+                <!-- todo:bg Menu structure a bit odd with import always present at top. Improve. -->
+                <li><g:link action="importFile">Import</g:link></li>
 				<g:if test="${menuItemsTypes && menuItemsTypes.size() != 0}">
                     <li><g:link action="domainModel">Domain Model</g:link></li>
 					<li>
@@ -88,7 +90,6 @@
 					</ul>
 				</g:if>
 				<li><g:link action="navigatedPaths">Navigated Paths</g:link></li>
-				<li><g:link action="bulkAdd">Add Bulk</g:link></li>
 			</ul>
 		</div>
 	</div>

@@ -31,6 +31,8 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 
+        mavenRepo "http://m2.neo4j.org/releases"
+
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
         //mavenRepo "http://snapshots.repository.codehaus.org"
         //mavenRepo "http://repository.codehaus.org"
@@ -44,6 +46,7 @@ grails.project.dependency.resolution = {
         compile 'net.sf.jung:jung-visualization:2.0.1'
         compile 'net.sf.jung:jung-graph-impl:2.0.1'
         runtime 'org.neo4j:neo4j-community:1.9.2'
+        compile "org.neo4j:neo4j-rest-graphdb:1.9"
 
     }
 

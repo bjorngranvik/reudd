@@ -4,3 +4,6 @@
 /*.iws
 /.idea
 /data
+/neo4j
+/.classpath
+/.project

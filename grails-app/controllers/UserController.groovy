@@ -440,11 +440,10 @@ public class UserController {
    					def relTarget = rel[rel.lastIndexOf("(")+1..-2]
    					def relTargetKey = relTarget[0..relTarget.lastIndexOf(":")-1]
    					def relTargetValue = relTarget[relTarget.lastIndexOf(":")+1..-1]
-   					for (mapItem in savedDataNodes) {
-   						def otherNode = mapItem.value
-   						if (otherNode.attributes[relTargetKey] && otherNode.attributes[relTargetKey] == relTargetValue) {
-   							relationList.add(new DynamicRelationship(thisNode, relName, otherNode))
-   						}
+   					for (dataNode in dataNodeFactory.getDataNodes()) {
+                        if (dataNode.attributes[relTargetKey] && dataNode.attributes[relTargetKey] == relTargetValue) {
+                            relationList.add(new DynamicRelationship(thisNode, relName, dataNode))
+                        }
    					}
    				}
    				thisNode.outRelationships = relationList

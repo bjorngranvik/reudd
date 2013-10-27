@@ -139,5 +139,37 @@ var ReUDD = {
 			$('#addRelationshipRowLink').click()
 		}
 	},
+
+    relationshipTypeFilterChanged: function(DOMitem) {
+        var $this = $(DOMitem);
+        var selectedType = $this.val();
+        var relRow = $this.closest('.relationshiprow');
+        var nodeSelect = relRow.find('select.relOtherNode');
+        var nodeOptions = nodeSelect.find('option');
+
+        if (!nodeSelect.data('allOptions')) { nodeSelect.data('allOptions', nodeOptions.clone(true)); }
+        nodeOptions.remove();
+
+        for (var i = 0; i < nodeSelect.data('allOptions').length; i++) {
+            var option = $(nodeSelect.data('allOptions')[i]);
+            var typesAttr = option.attr('data-types');
+            if (typesAttr == undefined) {
+                option.appendTo(nodeSelect);
+            } else {
+                var typesArray = typesAttr.split(' ');
+                var typeFound = false;
+                for(var j = 0; j<typesArray.length; j++) {
+                    if (parseInt(typesArray[j], 10) == selectedType) {
+                        typeFound = true;
+                        break;
+                    }
+                }
+                if (typeFound) {
+                    option.appendTo(nodeSelect);
+                }
+            }
+        }
+
+    }
     
 }

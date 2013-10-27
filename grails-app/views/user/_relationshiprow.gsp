@@ -63,10 +63,16 @@
 			</div>
 		</div>
 		<div class="value">
-			<select class="value" name="${valueName}" onKeyDown="ReUDD.relationshipCtrlClick(event)">
+            <select class="relTypeFilter" onchange="ReUDD.relationshipTypeFilterChanged(this)">
+                <option value="">Filter Types</option>
+                <g:each var="typeNode" in="${typeNodes}">
+                    <option <g:if test="${!name && typeNode.id == item?.getOtherNode(node)?.id}">selected="selected"</g:if> value="${typeNode.id}">${typeNode.name}</option>
+                </g:each>
+            </select>
+			<select class="value relOtherNode" name="${valueName}" onKeyDown="ReUDD.relationshipCtrlClick(event)">
 				<option value="">Select Node</option>
 				<g:each var="dataNode" in="${dataNodes}">
-					<option <g:if test="${!name && dataNode.id == item?.getOtherNode(node)?.id}">selected="selected"</g:if> value="${dataNode.id}">${dataNode}</option>
+					<option <g:if test="${!name && dataNode.id == item?.getOtherNode(node)?.id}">selected="selected"</g:if> data-types="<g:each var="typeNode" in="${dataNode.typeNodes}">${typeNode.id} </g:each>" value="${dataNode.id}">${dataNode}</option>
 				</g:each>
 			</select>
 		</div>

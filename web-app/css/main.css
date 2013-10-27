@@ -453,8 +453,18 @@ img {
     width:47%;
 }
 
-.relationshiprow .key input, .relationshiprow .value input, .relationshiprow .value select {
+.relationshiprow .key input, .relationshiprow .value input {
     width:100%;
+}
+
+.relationshiprow .value select.relTypeFilter {
+    float: left;
+    width: 30%;
+}
+
+.relationshiprow .value select.relOtherNode {
+    float:right;
+    width: 68%;
 }
 
 /* greytable */

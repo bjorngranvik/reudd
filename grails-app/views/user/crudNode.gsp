@@ -132,19 +132,15 @@
 						<div class="inputhead">Relationships:</div>
 						
 						<g:each var="item" in="${node?.outRelationships}">
-							<g:render template="relationshiprow" 
-								model="[item:item,edit:EDIT,dataNodes:dataNodes,direction:'out',node:node]" />
+							<g:render template="relationshiprow" model="[item:item,edit:EDIT,dataNodes:dataNodes,direction:'out',node:node,typeNodes:typeNodes]" />
 						</g:each>
 						
-						
 						<g:each var="item" in="${node?.inRelationships}">
-							<g:render template="relationshiprow" 
-								model="[item:item,edit:EDIT,dataNodes:dataNodes,direction:'in',node:node]" />
+							<g:render template="relationshiprow" model="[item:item,edit:EDIT,dataNodes:dataNodes,direction:'in',node:node,typeNodes:typeNodes]" />
 						</g:each>
 						
 						<g:if test="${node?.outRelationships?.size() == 0 && node?.inRelationships?.size() == 0 && (EDIT || ADD) || !node}">
-							<g:render template="relationshiprow" 
-								model="[edit:true,dataNodes:dataNodes,direction:'out',node:node]" />
+							<g:render template="relationshiprow" model="[edit:true,dataNodes:dataNodes,direction:'out',node:node,typeNodes:typeNodes]" />
 						</g:if>
 						
 						<g:if test="${ADD || EDIT}">
@@ -166,7 +162,7 @@
 					<g:render template="/shared/attributerow" model="[edit:true]" />
 				</div>
 				<div id="relationshipTemplate">
-					<g:render template="relationshiprow" model="[edit:true,dataNodes:dataNodes,direction:'out']" />
+					<g:render template="relationshiprow" model="[edit:true,dataNodes:dataNodes,direction:'out',typeNodes:typeNodes]" />
 				</div>
 				<div id="typeNodeRequiredAttributes">
 					<g:each var="type" in="${typeNodes}">

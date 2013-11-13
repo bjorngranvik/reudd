@@ -7,3 +7,5 @@
 /neo4j
 /.classpath
 /.project
+.DS_Store
+

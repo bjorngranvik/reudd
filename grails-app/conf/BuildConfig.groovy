@@ -2,8 +2,8 @@ grails.servlet.version = "2.5" // Change depending on target container complianc
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
-grails.project.target.level = 1.6
-grails.project.source.level = 1.6
+grails.project.target.level = 1.7
+grails.project.source.level = 1.7
 //grails.project.war.file = "target/${appName}-${appVersion}.war"
 
 // uncomment (and adjust settings) to fork the JVM to isolate classpaths
@@ -32,17 +32,8 @@ grails.project.dependency.resolution = {
         mavenCentral()
 
         mavenRepo "http://m2.neo4j.org/releases"
-
-        // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-        //mavenRepo "http://snapshots.repository.codehaus.org"
-        //mavenRepo "http://repository.codehaus.org"
-        //mavenRepo "http://download.java.net/maven/2/"
-        //mavenRepo "http://repository.jboss.com/maven2/"
     }
     dependencies {
-        // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
-        // runtime 'mysql:mysql-connector-java:5.1.20'
         compile 'net.sf.jung:jung-visualization:2.0.1'
         compile 'net.sf.jung:jung-graph-impl:2.0.1'
         runtime 'org.neo4j:neo4j-community:1.9.2'
@@ -51,21 +42,14 @@ grails.project.dependency.resolution = {
     }
 
     plugins {
-        // runtime ":hibernate:$grailsVersion" // make sure to configure DataSource.groovy correctly when enabling hibernate
         runtime ":neo4j:1.0.1"
 
         runtime ":jquery:1.8.3"
         runtime ":resources:1.2"
 
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-        //runtime ":zipped-resources:1.0"
-        //runtime ":cached-resources:1.0"
-        //runtime ":yui-minify-resources:0.1.4"
 
-        build ":tomcat:$grailsVersion"
+        //build ":tomcat:2.2.4"
+        compile ":jetty:2.0.3"
 
-        //runtime ":database-migration:1.1"
-
-        compile ":cache:1.0.1"
     }
 }

@@ -20,5 +20,6 @@ Contact information:
 * Jonas Andersson: me@matsjonas.com
 
 CI provided by https://travis-ci.org/bjorngranvik/reudd
+
 Current build status:
 [![Build Status](https://travis-ci.org/bjorngranvik/reudd.png?branch=master)](https://travis-ci.org/bjorngranvik/reudd)

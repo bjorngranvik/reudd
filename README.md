@@ -19,5 +19,6 @@ Contact information:
 * Björn Granvik: bjorn.granvik@gmail.com 
 * Jonas Andersson: me@matsjonas.com
 
-CI provided by http://travis-ci.org Current build status:
+CI provided by https://travis-ci.org/bjorngranvik/reudd
+Current build status:
 [![Build Status](https://travis-ci.org/bjorngranvik/reudd.png?branch=master)](https://travis-ci.org/bjorngranvik/reudd)

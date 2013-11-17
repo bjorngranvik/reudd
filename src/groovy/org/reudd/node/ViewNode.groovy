@@ -14,16 +14,13 @@
  * limitations under the License.
  */
 
+package org.reudd.node
 
-package org.reudd.node;
-
-import org.neo4j.graphdb.Direction;
-import java.util.List;
-
-import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Relationship;
-import org.reudd.util.ReUddConstants;
-import org.reudd.util.ReUddRelationshipTypes;
+import org.neo4j.graphdb.Direction
+import org.neo4j.graphdb.Node
+import org.neo4j.graphdb.Relationship
+import org.reudd.util.ReUddConstants
+import org.reudd.util.ReUddRelationshipTypes
 
 class ViewNode {
 	

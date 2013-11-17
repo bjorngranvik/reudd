@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.reudd.node;
+package org.reudd.node
 
-import org.neo4j.graphdb.*;
-import org.reudd.util.*;
+import org.neo4j.graphdb.Direction
+import org.neo4j.graphdb.GraphDatabaseService
+import org.reudd.util.ReUddConstants
+import org.reudd.util.ReUddRelationshipTypes;
 
 public class TypeNodeFactory extends BaseNodeFactory {
 	

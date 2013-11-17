@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.reudd.reports;
+package org.reudd.reports
 
-import org.neo4j.graphdb.Node;
-import org.reudd.util.*;
-import java.util.Date;
+import org.neo4j.graphdb.Node
+import org.reudd.util.ReUddConstants
 
 class ReportNode {
 	

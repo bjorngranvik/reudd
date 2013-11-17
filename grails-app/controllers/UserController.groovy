@@ -15,27 +15,15 @@
  */
 
 
-import java.io.StringWriter;
-
-import java.io.File;
-
-import groovy.text.SimpleTemplateEngine;
-
-import org.reudd.node.DataNodeFactory;
-import org.reudd.node.ViewNodeFactory;
-
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-
-import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.reudd.reports.ReportNode;
-import org.reudd.reports.ReportNodeFactory;
-import org.reudd.statistics.NodePathBuilder;
-import org.reudd.node.TypeNodeFactory;
-
-import org.reudd.node.DynamicRelationship;
-
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import org.neo4j.graphdb.GraphDatabaseService
+import org.reudd.node.DataNodeFactory
+import org.reudd.node.DynamicRelationship
+import org.reudd.node.TypeNodeFactory
+import org.reudd.node.ViewNodeFactory
+import org.reudd.reports.ReportNode
+import org.reudd.reports.ReportNodeFactory
+import org.reudd.statistics.NodePathBuilder
 
 public class UserController {
 	

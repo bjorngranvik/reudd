@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
-package org.reudd.node;
+package org.reudd.node
 
-import org.reudd.util.*;
-import org.neo4j.graphdb.*;
+import org.neo4j.graphdb.Direction
+import org.reudd.util.ReUddConstants
+import org.reudd.util.ReUddRelationshipTypes
+import org.reudd.util.SettingsParser;
 
 public class TypeNode extends BaseNode {
 	

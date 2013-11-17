@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package org.reudd.node;
+package org.reudd.node
 
-import org.neo4j.graphdb.*;
-import org.reudd.util.*;
+import org.neo4j.graphdb.*
+import org.reudd.util.ReUddConstants;
 
 public class DynamicRelationship {
 	

@@ -16,6 +16,7 @@
 
 
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import org.neo4j.cypher.javacompat.ExecutionEngine
 import org.neo4j.graphdb.GraphDatabaseService
 import org.reudd.node.DataNodeFactory
 import org.reudd.node.DynamicRelationship
@@ -468,6 +469,7 @@ public class UserController {
 		Binding binding = new Binding()
 		binding.setProperty("dataNodeFactory", dataNodeFactory)
 		binding.setProperty("typeNodeFactory", typeNodeFactory)
+        binding.setProperty("engine", new ExecutionEngine( graphDatabaseService ))
 		GroovyShell shell = new GroovyShell(binding)
 		try {
 			data.reportRows = shell.evaluate(report.body)

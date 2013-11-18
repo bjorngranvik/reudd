@@ -15,26 +15,14 @@
  */
 
 
-import edu.uci.ics.jung.algorithms.layout.FRLayout
-import edu.uci.ics.jung.algorithms.layout.Layout
-import edu.uci.ics.jung.graph.DirectedSparseMultigraph
-import edu.uci.ics.jung.graph.Graph
-import edu.uci.ics.jung.visualization.VisualizationViewer
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller
+import org.neo4j.graphdb.Direction
 import org.reudd.node.DataNodeFactory
-import org.reudd.node.DynamicRelationship
 import org.reudd.node.TypeNodeFactory
 import org.reudd.node.ViewNodeFactory
 import org.reudd.reports.ReportNodeFactory
 import org.reudd.statistics.NodePathBuilder
 import org.reudd.util.ReUddConstants
 import org.reudd.util.ReUddRelationshipTypes
-
-import java.awt.Dimension
-import javax.swing.JFrame
-
-import edu.uci.ics.jung.visualization.control.*
-import org.neo4j.graphdb.Direction
 
 public class ProgrammerController {
 
@@ -194,47 +182,6 @@ public class ProgrammerController {
 		data.typeNodes = typeFactory.getTypeNodes()
 		data.totalNbrOfDataNodes = dataFactory.getDataNodes().size()
 		data
-	}
-
-	def jung = {
-		Graph<Integer, String> g;
-
-		g = new DirectedSparseMultigraph<Integer, String>();
-
-		DataNodeFactory factory = new DataNodeFactory(graphDatabaseService)
-		def dataNodes = factory.getDataNodes()
-
-		for (node in dataNodes) {
-			g.addVertex(node.toString())
-		}
-
-		for (node in dataNodes) {
-			for (rel in node.outRelationships) {
-				g.addEdge(rel, node.toString(), rel.endNode.toString())
-			}
-		}
-
-		Layout<Integer, String> layout = new FRLayout(g);
-		layout.setSize(new Dimension(800,600));
-		VisualizationViewer<Integer,String> vv = new VisualizationViewer<Integer,String>(layout);
-		vv.setPreferredSize(new Dimension(850,650));
-		// Show vertex and edge labels
-		vv.getRenderContext().setVertexLabelTransformer(new ToStringLabeller());
-		vv.getRenderContext().setEdgeLabelTransformer(new ToStringLabeller());
-
-		// Create our "custom" mouse here. We start with a PluggableGraphMouse
-		// Then add the plugins you desire.
-		PluggableGraphMouse gm = new PluggableGraphMouse();
-		gm.add(new ScalingGraphMousePlugin(new CrossoverScalingControl(), 0, 1.1f, 0.9f));
-		gm.add(new PickingGraphMousePlugin());
-		gm.add(new TranslatingGraphMousePlugin());
-
-		vv.setGraphMouse(gm);
-		JFrame frame = new JFrame("Viewing ReUDD Node Space");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().add(vv);
-		frame.pack();
-		frame.setVisible(true);
 	}
 
 	def nodeConnections = {

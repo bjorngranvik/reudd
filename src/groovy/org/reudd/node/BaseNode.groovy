@@ -14,32 +14,30 @@
  * limitations under the License.
  */
 
-package org.reudd.node;
+package org.reudd.node
 
-import org.reudd.util.*;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.neo4j.graphdb.Relationship;
-import org.neo4j.graphdb.Node;
+import org.neo4j.graphdb.Node
+import org.reudd.util.ReUddConstants;
 
 public abstract class BaseNode {
-	
+
 	Node underlyingNode
-	
+
 	def id
-	
+
 	def attributes
-	
+
 	Date created
-	
+
 	Date lastUpdate
-	
+
 	/**
 	 * Creates a new BaseNode.
 	 */
 	BaseNode() {
 		this.attributes = [:]
 	}
-	
+
 	/**
 	 * Creates a new BaseNode that already has a underlying node in
 	 * the neo service.
@@ -66,13 +64,13 @@ public abstract class BaseNode {
 		}
 		this.lastUpdate = updateDate
 	}
-	
+
 	/**
 	 * Returns a string representation of the BaseNode.
 	 */
 	def String toString() {
 		if (this.id) {
-			def string = "Node-" + this.id + " [" 
+			def string = "Node-" + this.id + " ["
 			for (item in this.attributes) {
 				string += item.key + ":" + item.value + ","
 			}
@@ -84,12 +82,12 @@ public abstract class BaseNode {
 			def string = "New BaseNode"
 		}
 	}
-	
+
 	/**
 	 * Checks if tow BaseNodes are equal by comparing id
 	 */
 	def boolean equals(baseNode) {
 		this.id == baseNode.id
 	}
-	
+
 }

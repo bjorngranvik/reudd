@@ -34,8 +34,6 @@ grails.project.dependency.resolution = {
         mavenRepo "http://m2.neo4j.org/releases"
     }
     dependencies {
-        compile 'net.sf.jung:jung-visualization:2.0.1'
-        compile 'net.sf.jung:jung-graph-impl:2.0.1'
         runtime 'org.neo4j:neo4j-community:1.9.2'
         compile "org.neo4j:neo4j-rest-graphdb:1.9"
 

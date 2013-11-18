@@ -15,27 +15,16 @@
  */
 
 
-import java.io.StringWriter;
-
-import java.io.File;
-
-import groovy.text.SimpleTemplateEngine;
-
-import org.reudd.node.DataNodeFactory;
-import org.reudd.node.ViewNodeFactory;
-
-import groovy.lang.Binding;
-import groovy.lang.GroovyShell;
-
-import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine;
-import org.neo4j.graphdb.GraphDatabaseService;
-import org.reudd.reports.ReportNode;
-import org.reudd.reports.ReportNodeFactory;
-import org.reudd.statistics.NodePathBuilder;
-import org.reudd.node.TypeNodeFactory;
-
-import org.reudd.node.DynamicRelationship;
-
+import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
+import org.neo4j.cypher.javacompat.ExecutionEngine
+import org.neo4j.graphdb.GraphDatabaseService
+import org.reudd.node.DataNodeFactory
+import org.reudd.node.DynamicRelationship
+import org.reudd.node.TypeNodeFactory
+import org.reudd.node.ViewNodeFactory
+import org.reudd.reports.ReportNode
+import org.reudd.reports.ReportNodeFactory
+import org.reudd.statistics.NodePathBuilder
 
 public class UserController {
 	
@@ -480,6 +469,7 @@ public class UserController {
 		Binding binding = new Binding()
 		binding.setProperty("dataNodeFactory", dataNodeFactory)
 		binding.setProperty("typeNodeFactory", typeNodeFactory)
+        binding.setProperty("engine", new ExecutionEngine( graphDatabaseService ))
 		GroovyShell shell = new GroovyShell(binding)
 		try {
 			data.reportRows = shell.evaluate(report.body)

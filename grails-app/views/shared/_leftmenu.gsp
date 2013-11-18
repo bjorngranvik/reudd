@@ -100,6 +100,9 @@
 	</div>
 </g:else>
 <div id="jayway-logo">
+    Sponsored by <a href="http://diversify.se">
+   		<img src="${resource(dir:'images',file:'diversify.png')}" alt="Diversify Logo" />
+   	</a>
 	Originally sponsored by <a href="http://jayway.com">
 		<img src="${resource(dir:'images',file:'jayway.png')}" alt="Jayway Logo" />
 	</a>

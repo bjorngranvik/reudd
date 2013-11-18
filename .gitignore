@@ -9,3 +9,4 @@
 /.project
 .DS_Store
 out/
+web-app/plugins/

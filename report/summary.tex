@@ -1,0 +1,69 @@
+\documentclass[a4paper]{article}
+
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenc}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+% Removes indent in new paragraphs and increases line-height
+\usepackage{parskip}
+
+% Include custom commands special for this report
+\include{udd_custom}
+
+\usepackage{multicol}
+\usepackage{nonfloat}
+\usepackage{fullpage}
+
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+
+\begin{document}
+
+\setlength{\columnsep}{1cm}
+\summarytitle{User Driven Development\\A Reversed Development Process}
+\begin{multicols}{2}
+	
+{ \itshape
+	In my master thesis I set out to put the activity of use first in the software development process. This was done by implementing an initial data handling system that can be used to extract desire paths from its use. These desire paths tell a story about what the users need to do and what they do. By allowing simple improvements and adjustments to be made to the initial system makes it possible for the system to adapt to the users' needs. Perhaps even fulfil them.
+}
+	
+\section*{Use Is Important}
+The importance of involving users during software development is widely known and accepted. Without involving the users there is little chance of fulfilling their needs. And in the end software development is about fulfilling the needs of the users.
+
+Requirements engineering offer many methods to elicit requirements. Many of them truly involve the users and are able to extract valuable information from them. This information is then analyzed and transformed into requirements that decide what the system should be like. No matter if the development method is an old-fashioned waterfall method or an agile one like Extreme Programming or Scrum, there exist some form of analysis. An analysis of what is believed to be a system that the users need.
+
+This analysis can be faulty. It can even be based on invalid information. There exists a mismatch between what people say they need and what they actually need. So errors may be introduced in the process as early as when the users describe what they need. These errors might also be enhanced if the analysis interprets the needs in an erroneous manner. No matter where an error occurs, the actual implementation of the software will depend on the analysis. The actual usage of the system will then depend on the system itself. The usage will depend on the developed software.
+
+But wouldn't it be better if it were the other way around? Shouldn't the developed software be a reaction of the use? If the software was a reaction of usage it would probably fulfil the needs of the users.
+
+\section*{Desire Paths}
+Desire paths describe the worn paths left by people on grassy areas, or the trails left in snow where people have walked. They are perfect impressions of the peoples needs as they walk where they want, not where they are supposed. Areas where these kinds of paths exist show that the analysis of where to place the permanent roads was faulty. Its users did not accept the pattern of usage that the permanent roads demanded. Instead the users created new paths that satisfied their needs.
+
+During software usage there is little possibility to stray from the paths that are set by the systems implementation. If the developed system isn't a successful one, there is little possibility for users to do what they need in a way that they need to do it.
+
+Listening to users and improving already existing software is quite easy. Many companies already do it in different ways. Apple tracks what music is being played in iTunes and suggests other music that might be interesting to the listener. Larry Wall used desire paths in Linux usage when developing the programming language Perl. Microsoft Windows error reports are also a kind of desire path, as it tries to prevent the same problem from happening again.
+
+\section*{Reverse The Process}
+Instead of placing the usage last, it should be first! But in order to do that there still needs to be something to use. In my thesis I developed an initial data handling system that can be used as the first step during development. It allows for improvements to be made to aid the users and adapt to their needs. The system tracks and records what kind of data the user inputs and uses. From this information desire paths are extracted and an observing programmer can implement improvements or discuss unclarities with the users.
+
+This initial system has been named ReUDD. It strives to be dynamic enough to be applicable to any domain, but of course has some constraints. The scope of the thesis limits the types of domains to systems of the type data in, report out. Hopefully this still includes a wide range of systems.
+
+Moving use from the end of the process to the beginning changes the order of dependencies. Instead of having the usage depend on the system, the system will depend on the usage. It feels like a reversed development process.
+
+\section*{Does It Work?}
+ReUDD was tested and evaluated during three different tests. Each test had new users who where given a short introduction to the system and its functionality. The users were asked to use ReUDD to model an arbitrary system that they had the need for. During their use an observing programmer observed their usage. Using the different observations available in ReUDD, improvements were made and the use continued.
+
+After the use the testers were interviewed to find out what they thought of ReUDD and if it was successful in observing their domain. The general impression was that ReUDD was easy to use and allowed the users to do what they wanted. There were some usability issues and things that need to be changed or improved, but the overall thoughts were positive. ReUDD was also successful in observing the domain modelled by the users.
+
+So the method seems to work. Place use first and extract desire paths from it. Use the desire paths to identify the needs of the users. This information can later be used to developed successful software.
+
+\section*{Future Versions}
+The development of ReUDD will continue and eventually released as open source. It's potential to observe use seems promising and with more development it might become truly successful. At it's current state it is only a prototype and not ready for release.
+	
+\end{multicols}
+\end{document}

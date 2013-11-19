@@ -1,0 +1,80 @@
+\usepackage{color}
+
+\newcommand\HRule{\noindent\rule{\linewidth}{2pt}}
+
+\newcommand{\uddtitle}[1]{
+	\begin{titlepage}
+		\begin{center}
+
+			\textsc{ \large 
+				Lund University, Faculty of Engineering\\
+				Department of Computer Science\\
+				\hfill 
+			}\\[0.5cm]
+
+			\textsc{ \large Master Thesis }\\[0.5cm]
+
+			\HRule \\[0.5cm]
+			{ \huge \bfseries #1 }\\[0.5cm]
+			\HRule \\[1cm]
+
+			\textsc{ \Large Jonas Andersson }\\[0.3cm]
+			jonas@splanaden.se\\[1cm]
+			{ \Large January 29, 2010 }
+
+			\vfill
+			\begin{tabular}{l l}
+				Supervisors: 	& Björn Granvik, Jayway 				\\
+								& Alma Orucevic-Alagic, Lund University	\\[0.5cm]
+				Examiner:		& Martin Höst, Lund University 			\\
+			\end{tabular}
+
+		\end{center}
+	\end{titlepage}
+}
+
+\newcommand{\summarytitle}[1]{
+	\begin{center}
+		{ \huge \bfseries #1 }\\[1cm]
+		\textsc{ \Large Jonas Andersson }\\[0.1cm]
+		jonas@splanaden.se\\[0.5cm]
+		{ \Large \today }\\[2cm]
+	\end{center}
+}
+
+\newcommand{\uddabstract}[2]{
+	%\begin{abstract}
+	\chapter*{Abstract}
+		{#1}
+
+		\textbf{Keywords:} {#2}
+	%\end{abstract}
+}
+
+\newcommand{\uddimage}[5]{
+	\begin{figure}[#1]
+		\centering
+		\includegraphics[width=#2\textwidth]{#3}
+		\caption{#5}
+		\label{fig:#4}
+	\end{figure}
+}
+
+\newcommand{\uddquote}[2]{
+	\begin{quote}
+		\em
+		#1
+
+		\begin{flushright}
+			\emph{#2}
+		\end{flushright}
+	\end{quote}
+}
+
+\newcommand{\me}[1]{
+	\textbf{#1}\vspace{2mm}\\
+}
+
+\newcommand{\per}[1]{
+	#1\vspace{4mm}\\
+}

@@ -24,20 +24,25 @@ import org.reudd.util.ReUddConstants
 import org.reudd.util.ReUddRelationshipTypes
 
 public abstract class BaseNodeFactory {
-	
+
 	final GraphDatabaseService graphDatabaseService
-	
+
 	final Node factoryNode
-	
+
 	final ReUddRelationshipTypes nodeType
-	
-	BaseNodeFactory(GraphDatabaseService graphDatabaseService, String name, ReUddRelationshipTypes relationType, ReUddRelationshipTypes nodeType) {
+
+    //SMELL: This is required to enable mocking, which in turn should not be needed.
+    BaseNodeFactory() {}
+
+	BaseNodeFactory(
+            GraphDatabaseService graphDatabaseService, String name,
+            ReUddRelationshipTypes relationType, ReUddRelationshipTypes nodeType) {
 		this.graphDatabaseService = graphDatabaseService
 		this.nodeType = nodeType
-		
+
 		Relationship rel = graphDatabaseService.getReferenceNode().getSingleRelationship(
 				relationType, Direction.OUTGOING)
-		
+
 		if (rel == null) {
 			factoryNode = graphDatabaseService.createNode()
 			factoryNode.setProperty("name", name)
@@ -46,9 +51,9 @@ public abstract class BaseNodeFactory {
 			factoryNode = rel.getEndNode()
 		}
 	}
-	
+
 	/**
-	 * Saves the BaseNode instance to the neo service. Uses an existing 
+	 * Saves the BaseNode instance to the neo service. Uses an existing
 	 * underlying node if possible, otherwise creates a new and connects
 	 * it to the factory node.
 	 */
@@ -81,13 +86,13 @@ public abstract class BaseNodeFactory {
 		for (item in baseNode.attributes) {
 			underlyingNode.setProperty(item.key, item.value)
 		}
-		
+
 		if (!underlyingNode.hasProperty(ReUddConstants.CREATED)) {
 			underlyingNode.setProperty(ReUddConstants.CREATED, new Date().getTime())
 		}
 		underlyingNode.setProperty(ReUddConstants.LAST_UPDATE, new Date().getTime())
 	}
-	
+
 	/**
 	 * Deletes the underlying node of the BaseNode if it exists
 	 */
@@ -99,5 +104,5 @@ public abstract class BaseNodeFactory {
 			baseNode.underlyingNode.delete()
 		}
 	}
-	
+
 }

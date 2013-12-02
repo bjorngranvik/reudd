@@ -16,7 +16,7 @@
                 <!-- todo:bg Menu structure a bit odd with import always present at top. Improve. -->
                 <li><g:link action="importFile">Import</g:link></li>
 				<g:if test="${menuItemsTypes && menuItemsTypes.size() != 0}">
-                    <li><g:link action="domainModel">Domain Model</g:link></li>
+                    <li><g:link action="dataModel">Data Model</g:link></li>
 					<li>
 						<g:link action="listNodes" params="[type:'*']">All Types</g:link>
 					</li>
@@ -27,7 +27,7 @@
 					</li>
 				</g:each>
 			</ul>
-			
+
 		</div>
 	</div>
 	<g:if test="${menuItemsTypes && menuItemsTypes.size() != 0}">

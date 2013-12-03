@@ -1,0 +1,109 @@
+\me{Du fick använda systemet nu lite. Vad tyckte du?}
+\per{Ehm... Ja för det som jag använde det till så var det lite bökigt. Men det ehm... när man. När jag hängde med på hur jag skulle klicka runt i det så är det rätt så lungt.}
+\me{Mmm.}
+\per{Det var vissa saker som till exemple eh... Ja när man skulle välja vilken nodtyp det var så var det inte helt intuitivt hur man fick fram nodetyperna. Men det e...}
+\me{Det var användargränssnittet som behövede finjusteras lite?}
+\per{Nja.}
+\me{Språket liksom, det grafiska språket?}
+\per{Ja, lite sånna saker. Men annars så eh... Tankesättet känndes, alltså jag har jobbat med neo i, ett tag, och grafdatabas så det känns ju. För mig är det rätt och riktigt att relatera saker till varandra.}
+\me{Mmm.}
+\per{Att man ganska fritt kan relatera sina entiteter till varandra. Det känns väldigt naturligt.}
+\me{Ja du har ju en bakgrund nu som programmerare och har använt neo sen tidigare. Kände du att den här intron du fick, den var fullt duglig för att förstå hur man bygger upp systemet?}
+\per{Ja, det var den. Absolut. Ehm... Den fick mig att förstå vad det var som var syftet liksom. Det, de, det kände jag. För det var jag inte riktigt med på tidigare, när jag hade hört om vad du håller på med.}
+\me{Mmm. Eh, domänmodellen som du ser här, beskriver den korrekt vad du har gjort?}
+\per{Får vi se här... Customer... Merchant... Oj jag skulle vilja dra och flytta på grejerna. Hehe.}
+\me{Haha.}
+\per{Men jag ska se. För det jag var lite nyfiken på var om jag fick fram just den, ehm, ska vi se. Merchant, customer, points, purchase. Purchase har vi där. Ehm customer made a purchase ehm, at merchant. Och den purchase... created points. Och dom points represents purchase at. Ja nä men det ser ut att va, stämma. Transaction made recieved payment. Ja nämen det e...}
+\me{Mmm.}
+\per{Det är lite intresant där eh, en sån grej som jag... Nä, nä men det. Nä men den stämmer rätt väl tycker jag.}
+\me{Ja, vad bra. Vad var det som var intressant sa du?}
+\per{Ehm... Det som jag har, Alltså det här är ju någonting som jag vet, men som jag kanske inte alltid tänker på. Det är ju att, och det reflekterar väl i det som jag har gjort också, kodmässigt. Att ehm... både Customer och merchant har recieved payment. Eh... och det är ju lite intressant. Det e ju orsaker till att jag har abstraherat så att i mitt system så är både merchant och customer actors, eftersom de är båda två actors i en transaction och kan stå på båda sidorna egentligen av.}
+\me{Ja precis.}
+\per{Och det är just den grejen där, men den kom fram rätt sent i utvecklingen att jag behövde göra den. Så det eh... Var ju, nä. Det är lite intressant.}
+\me{Okej.}
+\me{Märkte du när jag gjorde förbättringar på systemet?}
+\per{Mmm. Det gjorde jag, fast eh... Hehe.}
+\me{Det var inte...?}
+\per{Det var lite så... Vafan?}
+\me{Vad hände nu...?}
+\per{Ja precis. Helt plötsligt så dök amount upp som liksom ett fält och inte ett inmatningsfält, ett textfält och inte ett inmatningsfält. Och sen så stod amount i inmatningsfältet också ovanpå när jag fyllde i automatiskt.}
+\me{Ja}
+\per{Så det var lite...}
+\me{Lite förvirrande?}
+\per{Ja lite... lte så. Att eh... När jag hade. För där var en liten liten startsträcka på att jobba med gränssnittet som det var. Ehm, med browser och applikationsspecifika detaljer så fyllde den ju på liksom med de olika alternativen som jag valt olika relationstyper och olika fälttyper. Och när det då poppar upp andra grejer efter att man har vant sig vid det så blev det liksom...}
+\me{Då blev det börja om från början igen?}
+\per{Ja precis. Det jag hellre hade velat ha i så fall det är att ehm... autofill styrdes av nodtyperna.}
+\me{Direkt när man valde den?}
+\per{Ja så, så att du, när du la till ett fält så det som du fick på autofill var bara det som tidigare hade använts på den nodtypen.}
+\me{Okej.}
+\per{Så det är... Men som sagt.}
+\me{Det är en förbättring man kan göra sen, absolut.}
+\me{Ehm... Märkte du att jag gjorde strängrepresentationen annorlunda också?}
+\per{Eh ja. Vid några tillfällen. Transaction 1, transaction 2 osv... Det såg jag.}
+\me{Var det en korrekt representation tyckte du?}
+\per{Ja alltså det är ju, och du bytte över till Ikea. Det som, det som, det som väl blev lite det är i några av drop-listorna så ehm... blandades, alltså där var alla typer av noder. Och eftersom där stod Ikea, customer 1 och eh... purchase 1 och transaction 1 och så vidare, så blev det liksom bara men att okej, vad är vad? Det kändes lite osorterat.}
+\me{Du skulle vilja skilja på dom. Skilja customer från merchant och så?}
+\per{Precis, man skulle vilja skilja dom typmässigt så att man, man faktiskt får okej. För det är väldigt bra om man kan få en lista där det står ehm. Det här är dina customers, och så sen är dom namngivna eller har id, vad som nu finns. Ehm, men eh... man skulle väldigt gärna, jag minns inte riktigt men jag fick en känsla av att det inte var sorterat på typ.}
+\me{Nej.}
+\per{För det, det är. För annars blir det svårt om det inte står merchant kolon ikea.}
+\me{Vi har en planerad förbättring på att ehm. Man ska kunna specificera vad en viss relation ska kunna peka på för typ. Till exempel då att eh, recieved payment ska bara kunna peka på customer och merchant. Så att det är dom enda som kommer upp i drop-boxen.}
+\per{Mmm, mmm.}
+\me{Det skulle vara ett steg på vägen där?}
+\per{Ja, absolut. Ehm absolut.}
+\per{Fast hur gör man då om domän-modeller inte är liksom komplett än, och jag faktiskt vill göra någonting annat?}
+\me{Ja eh... Då har man kört in sig i en vägg där någonstanns.}
+\per{Precis.}
+\me{Så det är ju en förbättring man ska göra sent då, när domän-modellen har stabiliserat sig känns det som.}
+\per{Mmm, mmm.}
+\me{Ehm... men det kan funka.}
+\per{Mmm.}
+\me{Kändes ehm... idén vettig liksom?}
+\per{Eh... Ja det gör den. Det eh... man får massera sin domän. Det får man göra. Och jag kan tänka mig att rena inmatningssystem så är det väldigt vettigt. Där kan det eh, rena register-program om man säger.}
+\me{Mmm.}
+\per{Där kan det nog gå väldigt långt. Och i det som jag har gjort då, ett transaktionssystem egentligen, så ehm... kan det vara användbart för att massera domänen, men annars så...}
+\per{Nä så det är, men eh... Som sagt för ett rent register hantering eller inmatningssystem som du säger i introduktionen så tror jag säkert att det ehm. Att det är väldigt användbart. I ett ehm... lite mer... ehm... handlingsbaserat system så att säga...}
+\me{Mmm.}
+\per{Där du har, någonting händer vilket resulterar i. Där är det mer att du masserar domänen. Att du kan testa konceptuellt, hänger det här ihop? Ehm, men det var lite bökigt liksom. När det kom till dom här grejerna okej nu ska jag göra ett purchase, vad måste jag göra först? Men det har en poäng det också. Fast där skulle man kunna, där skulle man kunna säg, okej. För att jag ska göra en purchase så måste jag göra någonting först, ja jag måste ha en transaktion att hänga det på, och så får man just sekvensen av vad som behöver hända för att... Det blir ju relativt tydligt här vad som måste finnas först. Ja jag måste skapa en transaktion och sen hänga på mitt purchase på det, och sen hänger jag på dom där till det, och den i sin tur skapar. Alltså det är... det är, man kan nog använda det på det sättet också.}
+\me{Men det hade varit bra ifall det fanns liksom et automatiserat sätt att göra alla dom här stegen på, på en gång? Att skapa en transaction och sen peka på liksom vilka den ska påverka? På något sätt?}
+\per{Ja... Ehm... Det är väl snarare så att den en transaction resulterar ju i saker. Ehm... I alla all i mitt fall, den påverkar ju andra saker också, men eh... det är ehm... Att i, i den här typen av, vad ska man kalla det. Action hanterade transaktionella system så blir det ju mycket att, när jag gör en, att skapandet av någonting, exempelvis en transaktion en purchase-transaktion i mitt fall, kommer att resultera i ett antal olika saker. Och där skulle man ju kunna få hjälp på vägen, det skulle man ju kunna förstå efter ett tag, att den här resulterar i det, och den här resulterar i det osv... Det kan jag tänka mig att man kan härleda. Men det är ju inte helt sådär självklart... eftersom att den... det flödet, den sekvensen som saker och ting skapas på det är ju en väldigt central del av domänen det också. Så det ehm... Ja, ja. men det finns säkert möjligheter där.}
+\me{Ja. Ja det är ju en hel del till som behöver göras innan det är ett helt användbart system.}
+\per{Ja nä men det är... Som sagt, det jag använde det för var ju inte det som du sa att det var mest lämpat för heller.}
+\me{Men det funkade ändå?}
+\per{Ja absolut. Absolut, det gjorde det. Jag lyckades ehm... återspegla den domänen som jag själv har jobbat fram, och det är ju bra. Och även då hitta saker som jag hittade ganska sent i utvecklingsprocessen. Så att det är...}
+\me{Mmm. Ja dom hade man ju har kunnat identifiera ganska snabbt.}
+\per{Ja, precis.}
+\me{Eh... Ja, har du nåra övergripande sammanfattnings som du vill delge, eller intryck?}
+\per{Alltså jag är ju neo-fan, alltså graf-databas-fan så att eh... Redan första gången som jag fick en presentation av vad en graf-databas är, så fick jag den här upplevelsen att, ja men det är ju så här jag tänker på information.}
+\me{Det är så här det borde va?}
+\per{Ja, tack, så här fungerar ju världen. Allting relaterar till allting, och ingenting är exakt det samma som någonting annat. Det behöver det inte va. Vilket innebär att om du, speciellt när det kommer till att representera predimensionella modeller, eller vad som helst. Så passar modellen väldigt bra. Och det här är ju ett ganska enkelt sätt att skapa en graf. Vilket ju är väldigt trevligt.}
+\me{Databasen undertill ligger ju också väldigt nära domänen...}
+\per{Mmm, det gör det, precis.}
+\me{Så sen när man då känner att, oh nu vill vi skapa ett eget system, så skulle man kunna ta den databasen och bara flytta över till det nya för att slippa göra om allt det gamla.}
+\per{Har du, genererar du meta-modeller och så här också eller.}
+\me{Ja, dom här typ eh... noderna, det skapas en typ-nod då per typ som skapas. Och i den så finns det information, alltså då meta-information om hur noderna ska visas eller hanteras.}
+\per{Använder du meta-modellen som finns i neo eller?}
+\me{Nej det har jag inte gjort än.}
+\per{Okej. Där finns ju en styrande meta-modell. Jag har inte testat den.}
+\me{Nä jag fick höra talas om den i... i förrgår så att eh...}
+\per{Okej.}
+\me{Jag har inte hunnit.}
+\per{Där kan man lägga på constraints så, men det är ju lite spännande.}
+\per{Eh... Ja men det är ju det man brukar säga att graf-databaser är whiteboard-friendly, och det är ju precis den erfarenheten jag har haft också, att när jag har funderat på mina grejer och ritat upp min domän på en whiteboard och sagt att, nämen så här borde entiteterna eller de olika aktörerna hänga ihop.}
+\me{Mmm.}
+\per{När jag har representerat det, skapat koden för det så har det helt plötsligt sett ut likadant som på whiteboarden. Jag har kunnat göra den representationen i datan. Och det är ju, det är ju trevligt.}
+\me{Ja det är ju lite den tanken jag försöker använda också att eh... Vanliga användare har nog lättare att relatera till en graf-databas än till en...}
+\per{Relationsdatabas.}
+\me{Relationsdatabas.}
+\per{Absolut.}
+\me{Just för att den är, whiteboard-friendly.}
+\per{Absolut.}
+\me{Så det är mycket enklare att förklara för dom. Att om du kan rita det på tavlan så...}
+\per{Du kan uttrycka dig. Du kan uttrycka meningar. Som i mitt fall kan du säga att eh... A customer made a, ehm och så kan man följa den här, customer made purchase at merchant... Ehm... Which created ska det väl vara här någonstanns... För den ska ha skapat en sån och det tror jag finns där någonstanns också. Eh nä, nä, precis. Purchase... made a purchase at, and the purchase created points.}
+\me{Precis.}
+\per{Så det är, man kan prata om modellen. Du kan ta en mening som beskriver ett flöde och få ner det.}
+\me{Göra om.}
+\per{Du kan markera i meningen, så kan du markera, okej vilka är aktörerna, vilka är handlingarna. Och så kan du mappa det rakt ner. Handlingar är relationer, aktörerna noder.}
+\me{Precis. Mycket verb och subjekt och så. Subjekt är en nod och verb är relationer.}
+\per{Ja precis.}
+\me{Ja, nä så det känns bra. Men ja, då tackar jag för mig.}
+\per{Ja jag tackar med.}

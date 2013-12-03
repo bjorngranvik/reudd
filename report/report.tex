@@ -1,0 +1,901 @@
+\documentclass[a4paper]{report}
+
+% Use utf-8 encoding for foreign characters
+\usepackage[utf8]{inputenc}
+
+% Surround parts of graphics with box
+\usepackage{boxedminipage}
+
+% Package for including code in the document
+\usepackage{listings}
+
+% If you want to generate a toc for each chapter (use with book)
+\usepackage{minitoc}
+
+% This is now the recommended way for checking for PDFLaTeX:
+\usepackage{ifpdf}
+
+% Removes indent in new paragraphs and increases line-height
+\usepackage{parskip}
+
+% Sets up a new float to handle snippets of code
+\usepackage{float}
+%\usepackage{tocloft}
+%\newcommand{\listofsnippetname}{List of Listings}
+%\newlistof{snippet}{lol}{\listofsnippetname}
+%\floatstyle{boxed}
+\newfloat{snippet}{thp}{lol}[chapter]
+\floatname{snippet}{Snippet}
+%\newcommand{\snippetautorefname}{Listing}
+\renewcommand{\thesnippet}{\thechapter.\arabic{snippet}}
+
+% Include custom commands special for this report
+\include{udd_custom}
+
+% Pdf hyperlinks
+\usepackage[
+	pdftex,
+	bookmarks,
+	colorlinks=true,
+	linkcolor=black,
+	anchorcolor=black,
+	citecolor=black,
+	filecolor=black,
+	menucolor=black,
+	runcolor=black,
+	urlcolor=black,
+	pdftitle={User Driven Development - A Reversed Development Process},
+	pdfauthor={Jonas Andersson},
+	pdfsubject={Master Thesis}
+]{hyperref}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\addtolength{\intextsep}{0.5cm}
+
+\ifpdf
+\usepackage[pdftex]{graphicx}
+\else
+\usepackage{graphicx}
+\fi
+
+\begin{document}
+
+\uddtitle{User Driven Development\\A Reversed Development Process}
+
+\pagenumbering{roman}
+
+\uddabstract{
+	If a a development process should be truly user driven, the actual use must come first. If the use is not placed first then the use will instead be made into a reaction of whatever precedes it. Putting use first means that any activity following it will depend on the use, it will become a reaction of use. Most development methodologies put the actual use among the last steps to be performed during their cycles. Both tradition waterfall development and the agile methods do this, but agile methods have the advantage of iterating through the steps again, thereby letting the second iteration at least partly depend on use.
+	
+	In this thesis a method to put use first is proposed and an initial software prototype called ReUDD is developed and tested. ReUDD allows use-first by allowing users to use it to build systems of nodes and relationships representing their needs. This use can then be observed by programmers that can implement improvements to aid the users.
+}{
+	User Driven Development, UDD, ReUDD, Use-first, Reversed development, Agile development
+}
+
+\chapter*{Acknowledgements}
+I would like to thank Björn Granvik, who came up with the idea and gave me the opportunity to perform this master thesis. The subject has really been interesting and captured my imagination and interest for continued future development. He took a great personal interest and set aside much of his time to aid me and discuss ideas and solutions.
+
+Another thank you goes to Alma Orucevic-Alagic for excellent supervising and support. Not only did she give much appreciated and valuable feedback on the report to guide me in fulfilling the demands from the university, but also took a personal interest in the idea behind the thesis.
+
+I would also like to thank the people of neotechnology for supplying an excellent and easy to use graph database. Without it the development of the ReUDD prototype would surely been much more difficult.
+
+Finally, thanks to all the people at Jayway for all the tips, tricks and pointers they've given me.
+
+\newpage
+\tableofcontents
+
+\chapter{Introduction}
+\pagenumbering{arabic}
+Most software development methodologies of today, for example Waterfall, Extreme Programming, Scrum etc, put use as one of the last activities performed in the development process. Before a software product is delivered to the end users, the development of what is believed to be the desired software product takes place. The decision of what system is to be developed comes from an analysis of what is thought to be what the user wants. This poses a problem, since often users don't know what they want, and in some cases don't even know what they need. This can be overcome by extensive requirements engineering where the requirements engineers must choose the analysis and modeling technique that is best suited to the problem at hand~\cite{Zowghi-Paryani:2003}. However this process is cumbersome and time consuming.
+
+The term use is in this thesis used to describe the actual use of something. The usage performed by a user on a software system. 
+
+To truly develop systems that focus on what the users need, the activity of use ought to come first. The use of some software system that can be observed and analyzed. Due to the mismatch in user wants and needs~\cite{Kujala:2002}, the author of this thesis will examine if a user can actually actively take part in the system development with the aid of some software tool. The analysis of what system that is needed can then become an observation of what the users do and what they truly need. The implemented system can then become a reflection of this, a reaction of use. This would truly be user driven development. Development that is driven by what the user does, and how the user does it.
+
+This observation is different from the requirements elicitation technique called observation~\cite{Lauesen:2002}, where a developer follows the user in the everyday work to identify key features that needs to be in the final product. In this way the developer can get an idea of what system that needs to be developed and discuss it with the user. However it means that the developer will be occupied with shadowing the user for a long time before every need can be identified. With the initial system proposed here the developer will be free to work on other products while the user uses the system. The initial system records what the user does and could perhaps show this in a format that is easily comprehended by the developer who can then make improvements.
+
+In this thesis the author tries to overcome the obstacles of putting use first. This is done by implementing an initial system that is meant to be used first, before any development takes place. The scope of the thesis limits the possible systems to be developed to systems of the type input/output, which still can be applied to many kinds of systems. Development of the system takes place in three iterations and tested on different subjects during each cycle. 
+
+Chapter~\ref{chap:background-related-work} goes through a bit of background to the problem of use being in the end of development, followed a problem description and what goals are set for this thesis. Here is also a section about related work. Chapter~\ref{chap:research-questions-methodology} states the research questions and explains the chosen methodology for the work during the thesis. This chapter is followed by a proposed solution to the problem in chapter~\ref{chap:proposed-solution}. After the proposition, chapter~\ref{chap:development-testing-of-software} describes the development and result of the prototype as well as the testing performed on the software. Finally, in chapter~\ref{chap:discussion-conclusion} a discussion is held about the previous results and conclusions are drawn.
+
+This thesis was written by student Jonas Andersson for the account of Lund University, faculty of engineering, department of computer science. The work was performed at the company Jayway in Malmö.
+
+\chapter{Background \& Related Work} \label{chap:background-related-work}
+
+\section{Background}
+Most software development methods today involve some kind of requirements engineering. Even the agile methods have some sort of requirements or demands from the customer during every iteration. Every requirement is an interpretation of what the customer wants, not what the customer really needs. Of course there are methods to elicit good requirements~\cite{Lauesen:2002} and make sure that they specify what the customer really needs to as much extent as possible, but it is often expensive both in cost and time.
+
+\subsection{Waterfall Development} \label{sec:waterfall-development}
+A widely used software development methods of today~\cite{Petersen-et-al:2009} is the so-called \emph{waterfall} process and is depicted in figure~\ref{fig:waterfall1}. It was first described by Royce in~\cite{Royce:1987}, but not called waterfall until later. It has received much criticism for how it is almost impossible to fully identify the requirements and specifications of an entire system in just one phase of development.
+
+\uddimage{htbp}{0.9}{images/waterfall1-b.png}{waterfall1}
+	{The linear development method as first described by Royce~\cite{Royce:1987}}
+
+In the article \emph{A Rational Design Process: How and why to fake it}~\cite{Parnas-Clements:1985}, the authors Parnas and Clements, amongst other things, state seven reasons for why a software design process will always be an idealization. These are shown below.
+
+\begin{enumerate}
+	\item In most cases the people who commission the building of a software system do not know exactly what they want and are unable to tell us all that they know.
+	\item Even if we knew the requirements, there are many other facts that we need to know to design the software. Many of the details only become known to us as we progress in the implementation. Some of the things that we learn invalidate our design and we must backtrack. Because we try to minimize lost work, the resulting design may be one that would not result from a rational design process.
+	\item Even if we knew all of the relevant facts before we started, experience shows that human beings are unable to comprehend fully the plethora of details that must be taken into account in order to design and build a correct system. The process of designing the software is one in which we attempt to separate concerns so that we are working with a manageable amount of information. However, until we have separated the concerns, we are bound to make errors.
+	\item Even if we could master all of the detail needed, all but the most trivial projects are subject to change for external reasons. Some of those changes may invalidate previous design decisions. The resulting design is not one that would have been produced by a rational design process.
+	\item Human errors can only be avoided if one can avoid the use of humans. Even after the concerns are separated, errors will be made.
+	\item We are often burdened by preconceived design ideas, ideas that we invented, acquired on related projects, or heard about in a class. Sometimes we undertake a project in order to try out or use a favorite idea. Such ideas may not be derived from our requirements by a rational process.
+	\item Often we are encouraged, for economic reasons, to use software that was developed for some other project. In other situations, we may be encouraged to share our software with another ongoing project. The resulting software may not be the ideal software for either project, i.e., not the software that we would develop based on its requirements alone, but it is good enough and will save effort.
+\end{enumerate}
+
+Reasons 1--4 from Parnas and Clements all have to do with that a single phase of development will be unable to produce a system that fulfills the actual needs of the intended users. The original development method in figure~\ref{fig:waterfall1} therefore seems quite ineffective.
+
+Most people seem to have missed the fact that Royce~\cite{Royce:1987} actually suggests that before the final product, a prototype must be developed to ensure the success of the final delivery. This prototype is to be made as a miniature version of the whole system, and the usage of the prototype will affect the continued development, see figure~\ref{fig:waterfall2}. Here the importance of use is shown as it influences all of the remaining steps in the development.
+
+\uddimage{htbp}{0.9}{images/waterfall2-b.png}{waterfall2}
+	{The result of the prototype usage impacts all remaining activities~\cite{Royce:1987}}
+
+The waterfall method show results late during the project since requirements gathering and system usage is at totally different parts of the waterfall. No user feedback can be integrated into the development process. If errors are introduced early and not detected they can propagate to other parts of the development cycle and finally be quite hard do attend to. Even if you do involve the proposed prototyping process in the software development life cycle of waterfall projects, there is still the possibility that you miss some important requirements. If you do, this might not show until after delivery or when the system is already in use. In this case it might be very expensive and hard to fix the problem. Royce himself stated that if requirements must be modified or changes to the design are required, one can expect up to 100~\% overrun in both schedule and/or costs~\cite{Royce:1987}. In an article by Farmer and Gruba~\cite{Farmer-Gruba:2006} the authors refer to Schach~1999~\cite{Schach:1999} saying that requirements engineering and architectural design represents historically slightly more than 20~\% of software development time, yet accounts for nearly 80~\% of software development costs and ownership over it's entire lifetime.
+
+\subsection{Agile Methods}
+Today, a series of agile methods exist that shortens the distance between analysis, implementation and feedback. Extreme programming and Scrum are two examples of this. Extreme programming~\cite{Beck:1999}, or \emph{XP}, uses multiple iterations to develop the final product. The customer is closely involved in the development process and should be on site during the project. This enables short feedback loops as the programmers can always ask the customer and receive instant feedback. XP also tries to always have a working version of the latest developed version of the system that the customer always can check out. These are just some of the principles that XP uses.
+
+% The short iterations provide access to regular user feedback and a possibility of adapting to the users needs. All the time the developers listen to the customer and together they find a suiting solution. There are no time-demanding and error-prone requirements gathering. But still the developers must trust that the user knows what they need, and interpret what the user says. The implementation is based on beliefs of what the users says they want, not necessarily what they need.
+
+The short iterations provide access to regular user feedback and a possibility of adapting to the users needs. All the time the developers listen to the customer and together they find a suiting solution. The time spent on eliciting the requirements of the system is spread out during the project, and not concentrated to an early analysis stage. But still the developers must trust that the user knows what they need, and interpret what the user says. The implementation is based on beliefs of what the users says they want, not necessarily what they need.
+
+\subsection{Use is Always Last}
+\uddimage{htbp}{0.9}{images/flow-waterfall.png}{flow-waterfall}
+	{The activities during waterfall development. The different groups of activities are colored and framed differently representing the three main categories anlyze, implementation and usage}
+
+\label{sec:use-is-last} In both the waterfall and agile methods the possibility for use of the system is placed last. An interpretation of the order of activities in waterfall development is depicted in figure~\ref{fig:flow-waterfall}. The agile methods allow for shorter development iterations and faster feedback from system use as seen in figure~\ref{fig:flow-agile}, but the \emph{use} activity is still placed last. This tells us that the programming must be done as a prelude to finding out if the system supports the users' needs. The use will be a reflection of what the user can do with the system, not what the system can do for the user.
+
+The test phase in figure~\ref{fig:flow-waterfall} can be seen as both part of the implementation and as part of the use. Where to put it depends on what kind of testing is performed. Unit testing is part of the implementation while acceptance testing is part of the use. Therefore it has been given dual frames to connect it with either group.
+
+\uddimage{htbp}{0.9}{images/flow-agile.png}{flow-agile}
+	{The activities during agile development}
+
+\label{sec:use-first}To truly focus on the users' needs the \emph{use} part of development must be placed earlier in the process of development and enable developers to later observe and analyze the need for improvements, figure~\ref{fig:flow-udd}. If so, the programming would be turned into a reaction of what the users really need, an action taken in hindsight, not as an analysis of what the user might need. Performing several iterations of this should most likely end up with a system that satisfies the user’s needs as much as possible. A system that reflects the needs of the users.
+
+\uddimage{htbp}{0.9}{images/flow-udd.png}{flow-udd}
+	{The activities as they would be during true focus on user needs}
+
+However, to support a development method that allows use to be placed first, there must be something to use in the beginning. An initial system that enables the user to use the system upfront.
+
+\section{Desire Paths}
+\label{sec:desirepaths}
+Desire paths, or desire lines, is a term first used by Gaston Bachelard in his book \emph{The Poetics of Space}~\cite{Bachelard:1994}. The term describes the paths that are formed due to wear and tear on grassy areas. These paths are formed when the existing roads are not placed where people want or need to walk. Since the original roads do not meet the pedestrians' needs the people, or users, create their own roads. This is a good example of when the user feedback comes to late. It is first when the roads are already paved and the area is opened for public use that the true need of the users are visible.
+
+There are lots of examples when desire paths have been used to identify where the permanent roads will be placed, for example during the reconstruction of Central Park in New York~\cite{Barlow-Rogers:1987}. The method in these cases is simply to make permanent roads where the worn down paths are. The newly created roads will be a true representation of where the people want and need to move.
+
+In \emph{Commercial Success by looking for Desire Lines}~\cite{Myhill:2004} author Myhill describes desire lines as the ultimate unbiased expression of natural human purpose. He suggests that instead of trying to understand user needs from focus groups, developers should be alert for desire lines that show the users' actual purposes. A simple example of where this is easily accomplished is search fields on web sites. By analyzing what users search for it is possible to adapt the available information and fulfill the users' needs. Myhill also states that overall, web site statistics and especially search terms show a true expression of what the users actually do and need.
+
+\section{Problem description} \label{sec:problem-description}
+As described in section~\ref{sec:use-is-last} the actual use of a system always comes last in the software development process, while the process is always opened with an analysis. This analysis results in an assumption of what the system that is to be developed should be. Since the using of the system comes after the analysis, the actual use will be a reaction of the developed system, and if the analysis is faulty the system will be so as well. The problem with this kind of approach is that the developed system is not a reaction of what the users need, but of the analysis of what the users think they need. All use performed will be too late to indicate any desire paths. And all desire paths left will depend on the system.
+
+To better ensure that the system being developed meets the users' true needs, the relation must be the other way around. Use must be first. The system needs to be a reaction of the use as depicted in figure~\ref{fig:flow-udd}. If use is placed first the software developer can observe the usage and try to extract desire paths from what the users do. Doing this successfully could mean that the developed software would truly fulfil the users' true needs. It could also mean that the system would function in the way the users' want to use it. 
+
+In order to accomplish this, there probably needs to be some sort of software tool that the users and programmers can utilize throughout the development. A tool that can detect traces left by the user and is dynamic enough to fit a wide range of system domains.
+
+\section{Goals} \label{sec:goals}
+The goal of this master thesis is to try to apply desire paths to the software development life cycle and see if it is possible to observe and analyze the true needs of the user. To do this on already existing software is possible, and also quite easy. A few examples of this are discussed in section~\ref{sec:desire-paths-in-software}. But to make it possible to do it as early as in the beginning of the development might lead to that the system being developed would actually be a reaction of the user's true needs. To see if this is possible, a method and a software tool shall be developed and the outcome of will be explored.
+
+To be able to do this, the following goals have been set. 
+
+\begin{enumerate}
+	\item Apply desire paths to software development.
+	\item Explore if programming can be turned into a reaction of the customer's true needs, as described in section~\ref{sec:use-first}
+	\item Develop a software development method and a prototype of a software tool that supports the above goals.
+\end{enumerate}
+
+\section{Scope}
+To fit in the time frame of a master thesis suitable limitations have been set on the work to be done. These limitations are described below.
+
+\begin{itemize}
+	\item The software tool is to be limited to systems that can receive and display data, input/output. This will limit the available types of systems that will be able to use the development method. However, future research might show that it will still be applicable to a wide range of system.
+	\item The software tool should be as dynamic as possible to fit in as many domains as possible. However, it doesn't have to handle different types of stakeholders. Different users of the same system are assumed to have the same needs.
+	\item The software tool is not meant to be the final solution of what the users need, but to satisfy their needs as much as possible until a point where it is appropriate to develop a standalone system.
+	\item The users that participate in the development using the software tool are supposed to be domain experts to correctly represent the data that is being entered and viewed.
+\end{itemize}
+
+\section{Related Work}
+
+\subsection{Importance of User Involvement} \label{sec:importance-of-user-involvement}
+To not involve the users or customer in software development would surely end in failure. This was recognized as early as in Royce's paper from 1987~\cite{Royce:1987} where he states that; 
+
+\uddquote{It is important to involve the customer in a formal way so that he has committed himself at earlier points before final delivery}
+	{Winston W. Royce~\cite{Royce:1987}}
+
+He suggests three points after requirements gathering where the customer should be involved to improve the development, first a preliminary software review, second a critical software review and third a final software acceptance review. These steps are to be inserted in the original process, see figure~\ref{fig:waterfall1}, and results in a process depicted in figure~\ref{fig:waterfall3}.
+
+\uddimage{htbp}{0.9}{images/waterfall3-b.png}{waterfall3}
+	{Customer involvement according to Royce~\cite{Royce:1987}}
+
+Extreme programming~\cite{Beck:1999}, XP, suggests that the importance of user involvement demands you to go as far as having a customer on site during development. The customer will be able to give instant feedback and answer any questions the programmers might have, but can often also perform their regular duties, even though they are separated from their regular workplace. An ordinary objection to this is that the users who have the role of customer on site are to valuable to give away from the normal work. The management will have to decide if it is valuable or not lend out the user and have the system work sooner and better~\cite{Beck:1999}.
+
+In a review of 28 empirical studies that investigates how user involvement affect system success, Harris and Weistroffer~\cite{Harris-Roland:2009} conclude that the effect is positive. Out of the 28 reviewed studies only one indicated that user involvement may have a negative impact on the success of the system. That study~\cite{Lawrence-et-al:2002} concluded that although user satisfaction increased with higher levels of user involvement during development, the accuracy of the system decreased leading to a less successful system.
+
+Harris and Roland also refer to three previous reviews of empirical studies on user involvement. Two of them, the first written by Olson and Ives~\cite{Olson-Ives:1981} and the second by Cavaye~\cite{Cavaye:1995}, only found that slightly more than one third of the reviewed studies showed a positive impact on system success for user involvement. The third review, written by Hwang and Thorn~\cite{Hwang-Thorn:1999} did however show a positive link between involving users and the measured success of the developed system. Harris and Roland~\cite{Harris-Roland:2009} argue that the negative results from Olson, Ives and Cavaye may be because of different definitions of user involvement or a trend of user involvement becoming more effective during the last years (the first two studies were performed on studies prior to 1992). In the end of their article Harris and Roland state that the positive value of user involvement to system success has been established, but that much more research is needed to increase this value.
+
+The benefits of user involvement and the negative effects of lack thereof have been shown, besides in the above mentioned review, in several studies by Kujala et al.~\cite{Kujala:2008,Kujala-et-al:2005,Kujala:2003}. Kujala identifies that the nature of user involvement can vary between different projects and needs to be considered in order to benefit the most from it. It is also concluded that user involvement leads to better requirements and requirements quality, and contributes to system success.
+
+Kujala et al.~\cite{Kujala-et-al:2005} has found that one of the difficulties with involving users in the development process is that the users' knowledge of their own work might have become tacit through automation. This means that the users are not aware that they are doing certain tasks and will not be aware that they have the need for features that support them. Much of this very relevant knowledge is no longer consciously available to the users. Kujala et al. suggest that a promising approach to overcome this is to perform field studies were the users are observed in their own environment, doing the things that they normally do, rather than participating in an abstract requirements-elicitation workshop.
+
+\subsection{Requirements vs. Needs}
+Knowing what system to build may not always be obvious in the beginning of development. Eliciting the right requirements is a time-consuming task and requires great skill. The hard part of building systems is not building them, it’s knowing what to build~\cite{Armour:2000}. The possibility of bridging the gap between user needs and user requirements is investigated by Kujala et al. in~\cite{Kujala-et-al:2001}. They propose to turn user needs into user requirements using use-cases and user need tables. This in an effort to supply both the users and developers with information they can relate to and understand. During development it is important to maintain the focus on the users to enable the system to be as useful and usable as possible.
+
+Use cases give a feel of what the users wish to do and how they want to do it, and can give the developers an insight in how the users think and act in different situations. Originally, use cases are intended to be written from the users point of view and therefore depict realistic situations, but in practice they are more often written without any knowledge of users and from a technical perspective~\cite{Kujala-et-al:2001}. These use cases will be difficult for the users to understand and may therefore produce inaccurate results. In worst case the use cases will not even be accurate representations of what the users actually need to do.
+
+Users are the critical element in software development. They know what they want to do and how they want to do it. However, it is often hard to transfer that knowledge into the world of developers. This coupled with a linear development process can end in situations where the users will not recognize the software which they originally asked for, because the linear process discourages changes to the requirements once they have been set. Another aspect to consider is that users rarely have well defined needs in the beginning of the process and if no attention is given to the needs that pop up after the requirements analysis they will be lost~\cite{Mrenak:1990}.
+
+\subsection{End-User Development}
+End-user development~\cite{Lieberman-et-al:2006} refers to end-users making adaptations and improvements to already existing software. It's an active participation of end-users, as non-professional developers, in the software life cycle~\cite{Farmer-Gruba:2006}. It is the development that users do when for example creating spreadsheets and modifying web authoring tools. The end-user development contains a wide spectra of possible activities and levels of difficulty, all the way from children creating simple games to share with their friends~\cite{Petre-Blackwell:2007}, to professional end users like scientists or financial mathematicians who develop software to further their own professional goals~\cite{Segal:2007}
+
+The whole idea of having users develop their own system is very interesting since it empowers the users to develop whatever they want and need, without having to be aware that they are programming. The fact that they aren't aware that they are actually programming makes them \emph{unwitting software developers}~\cite{Costabile-et-al:2008}, a term inspired by~\cite{Petre-Blackwell:2007}. Perhaps this kind of development can be used to aid in user driven development as well. Giving the users the power to modify the system in development will also indicate where and what is needed to be improved.
+
+\subsection{Desire Paths in Software} \label{sec:desire-paths-in-software}
+Desire paths are perfect to distinguish what users say they need from what they really need. They show what users actually try to do as opposed to what they say they try to do, and the concept of desire lines might be extended from just referring to worn paths on grass~\cite{Myhill:2004}. In the same article, Myhill acknowledges that the use of desire paths can be used in the field of computing, and many times give a commercial advantage to the companies that do.
+
+Myhill gives a few examples of where companies do or should make use of desire paths. For instance, software support organizations. Every support call is basically a desire path waited to be recognized. Valuable feedback is given when a user phones in because he/she was unable to do what was needed to be done. However, these organizations often do the opposite of taking advantage of these desire path indications and instead tells the user how to get around the problem. So instead of looking for and acting upon desire paths they spend their entire existence on covering them up~\cite{Myhill:2004}. Telling users to stay on the predefined roads instead of creating new paths.
+
+Apple actively seeks feedback from users of their iTunes program. In the menu there is an option to \emph{Provide iTunes Feedback}, enabling users to show their desires in the actual moment of use, instead of in the abstract environment of an interview or a focus group~\cite{Myhill:2004}. Another sign of desire paths in iTunes is the \emph{Genius sidebar} functionality. Genius can create personalized playlists and song recommendations for the user depending on what music the user listens to. It also gives the user the option of buying new songs with just a few clicks, providing revenue to Apple as it captures impulse and click-happy shoppers~\cite{Murphy:2008}.
+
+Larry Wall, the inventor of the computer language Perl, has compared Perl to the trails left by people in the grass. In an interview in 1998~\cite{Dobb:1998} Wall say's:
+
+\uddquote{When they first built the University of California at Irvine campus, they just put the buildings in. They did not put any sidewalks, they just planted grass. The next year, they came back and built the sidewalks where the trails were in the grass. Perl is that kind of a language. It is not designed from first principles. Perl is those sidewalks in the grass. Those trails that were there before were the previous computer languages that Perl has borrowed ideas from. And Perl has unashamedly borrowed ideas from many, many different languages. Those paths can go diagonally. We want shortcuts. Sometimes we want to be able to do the orthogonal thing, so Perl generally allows the orthogonal approach also. But it also allows a certain number of shortcuts, and being able to insert those shortcuts is part of that evolutionary thing.}
+	{A Conversation with Larry Wall, The creator of\\Perl talks about language design and Perl.~\cite{Dobb:1998}}
+
+The trails in the grass are the desire paths discussed in section~\ref{sec:desirepaths}. Wall also compares the regular sidewalks and paths with the previously languages available. When these did not meet the needs of programmers they had to take shortcuts. These shortcuts became the worn down paths and Wall created Perl to support them.
+
+Another example of developers referring to desire paths is Jason van Zyl, the founder of the Apache Maven project. In a seminar at Øredev 2009~\cite{Zyl:2009} he said that when developing Maven 3.0 they observed how the users had used the previous versions of the program. The users had used the functionality of the program in a different way than originally intended, but still in a successful way. He compared this to desire paths and mentioned that during development of Maven 3.0 they had tried to improve the program to support the functionality that the user needed.
+
+If desire paths are to be used in software development there must be a way to measure how the data is \emph{worn} just like how the grass wears down to a path. In \emph{Edit Wear and Read Wear}~\cite{Hill-et-al:1992}, Hill et al. describe a system developed by modifying a text editor called Zmacs. The modified version tracked changes in each line of text to record where editing had been performed, and in turn made this information available to the user by showing marks on the scroll bar where the length of the mark depicts the magnitude of the wear. They chose the term \emph{wear} from an analogy to physical wear, and the wear can be seen as a kind of desire path within the edited document.
+
+Hill et al. compare the wear in \emph{Edit Wear and Read Wear} with the everyday wear of household objects like the cracked bindings of paperback books and that the most used recipes are the most stained ones. They describe wear as something that gradually changes the object that is being used, sometimes leaving valuable information. This makes wear a source of useable information especially appealing since it is basically free. It is a by-product of normal use. No extra effort is needed from the users~\cite{Hill-et-al:1992}.
+
+\chapter{Research Questions \& Methodology} \label{chap:research-questions-methodology}
+
+\section{Research Questions}
+The research questions of this thesis are listed below. They were formulated to comply with the goals set in section~\ref{sec:goals}. The answers to these questions are given by reading this thesis.
+
+\begin{enumerate}
+	\item Can software development be made into an observation/reaction of what the customer really needs?
+	\item Will a development method that puts usage first be able to produce successful software?
+	\item Is it possible to apply desire paths to software development?
+	\item Will a software tool that supports use first be appreciated by users and developers?
+\end{enumerate}
+
+\section{Methodology}
+The work during this thesis was carried out as an action research, during which the problem described in section~\ref{sec:problem-description} was investigated and solutions sought for. Action research is a flexible method and can adapt to changing circumstances during the work~\cite{Host-et-al:2006}. It begins with observing the problem at hand, something already done here in section~\ref{chap:background-related-work}, where the situation of today's development methods were observed. This will be followed by a proposed solution, which here can be found in section~\ref{chap:proposed-solution}. The proposed solution will then be implemented and evaluated.
+
+This approach will render more qualitative data than quantitative. This thesis could therefore not aim to prove anything with empirical numbers. It can however aim to show results that in some way will have an impact on software development. If more time had been available it would have been good to do more studies that generate empirical results. Parallel development of the same software using different development methods for example.
+
+Since action research both studies and evaluates a problem while trying to improve it and find solutions, there might be difficulties when giving critique. To ensure as much objectivity as possible some criterions for evaluation should be  established. Since the problem described in section~\ref{sec:problem-description} is the one being studied the goals in section~\ref{sec:goals} will be used as criterions for evaluation. This coupled with regular reviews of the work by the supervisors at both the university and Jayway tried to ensure that the project was as successful as possible.
+
+\section{The Work}
+The first step was a survey of related work. To find the related work the Electronic Library Information Navigator (ELIN) was used as well as the Inspec \& Compendex databases. Much time was spent searching and reading to find articles of interest. During this time much work was concentrated to writing the report's initial chapters. The book \emph{Att genomföra examensarbete}~\cite{Host-et-al:2006} was used to help structure the work and plan ahead.
+
+During the work on this thesis a prototype software was created. The development of the prototype took place in iterations similar to the Scrum method. Each iteration, or sprint, was one week long and a backlog was kept to structure the remaining work. At first the development strived towards getting a working prototype up and running, and allow for users to input data. When this was finished the work on different observations started.
+
+Testing of the prototype started when the software was deemed mature enough and when time constraints demanded. Much more work on the prototype could have been done with more time. The tests consisted of users using the prototype while this author acted as an observing programmer. To see if the observations recorded by the software was enough to draw conclusions from the testing user and the observing programmer had no direct contact. To evaluate the prototype, interviews were held after the tests. The interviews were semi-structured and held in swedish, the native language of both the test subject and the author. The interviews were also recorded and transcribed, and are included in appendix~\ref{app:transcribed-interviews}.
+
+The results of the interviews were analyzed by comparing the testers' responses to the observations performed during the test. To find points of interest and confusion, answers and thoughts common between different testers were sought for. The result of this is shown in section~\ref{sec:discussion}. Originally more testing was planned during the development of the prototype, but development took longer than anticipated.
+
+Threats to the validity of the discussion and conclusion of this thesis exist in the form that they were written by the same person who developed the prototype. However, they are heavily dependant on the interviews and hopefully a correct interpretation of them. There is also a risk that the answers given during the interview were biased towards a positive attitude. The interviews were overall quite positive, and perhaps it is because the testers didn't want to hurt the interviewers feeling by giving the prototype critique. Perhaps different answers would have been given if a person other than the developer of the system had held the interviews.
+
+\chapter{Proposed solution} \label{chap:proposed-solution}
+
+\section{Introduction}
+To overcome the drawbacks of regular software development methods, discussed in chapter~\ref{chap:background-related-work}, a new method needed to be developed and tested. This new method should aim to put focus on moving the activity of use to the beginning of the development process as described in section~\ref{sec:use-first}. This would hopefully result in a truly \emph{User Driven Development} (UDD) method. A process that in some extent can be considered as a reversed development method from the view that use comes first, not last.
+
+However, moving the use to the first step in development is probably not the only thing that is needed. UDD has to consider all the drawbacks and shortcomings discussed in chapter~\ref{chap:background-related-work} to have the possibility of becoming a successful development method. To do this, the following factors were considered.
+
+\begin{enumerate}
+	\item Use must be first, not last			\label{item:prop-sol:use-first}
+	\item Weakness of waterfall development		\label{item:prop-sol:waterfall}
+	\item Strength of agile methods				\label{item:prop-sol:agile}
+	\item Desire paths in software development	\label{item:prop-sol:desire-paths}
+	\item Importance of user involvement		\label{item:prop-sol:user-involvement}
+	\item Importance of user needs				\label{item:prop-sol:user-needs}
+\end{enumerate}
+
+First of all use must come first, as stated in item~\ref{item:prop-sol:use-first}. This is the main focus of UDD and should make it possible to observe and analyze the needs of the user. The importance of use is obvious since it is only during use that it shows if the system supports the users' needs. Use also enables the user to express knowledge that is not consciously available to the users as discussed in section~\ref{sec:importance-of-user-involvement}.
+
+Item~\ref{item:prop-sol:waterfall} together with item~\ref{item:prop-sol:agile} implies that UDD should be an agile method. This will ensure regular user feedback and that the system in development will not stray away from what the users need. In this way UDD will hopefully overcome reasons 1--4 from Parnas and Clements~\cite{Parnas-Clements:1985} shown in section~\ref{sec:waterfall-development}, who all have to do with that a single phase of development will be unable to produce a system that fulfills the true needs of the users. Agile might however not be the final solution and the advantages of waterfall as well as the limitations of agile development should also be considered.
+
+If use is placed first, then it will be possible to extract desire paths from that use. To in some way record and display what the user does and to what extent it is done, will give the developer valuable information of the user's needs. This information can be used to decide how to make improvements to the system during the next iteration. If this is successful, item~\ref{item:prop-sol:desire-paths} will be fulfilled. Developing according to desire paths further emphasizes the \emph{user driven} part of user driven development
+
+To lay the focus on use without involving the user is impossible. UDD therefore involves the user automatically since without a user there can be no use. Involving the user is therefore in a way already handled by items~\ref{item:prop-sol:use-first}, \ref{item:prop-sol:agile} and \ref{item:prop-sol:desire-paths}. But this is probably not enough to develop a successful system. The user will probably have to be involved in a way other than just using a system as in item~\ref{item:prop-sol:user-involvement}.
+
+User needs are truly important. With UDD the needs of users will hopefully show through desire paths or through the continuous involvement of users. The best case scenario is that users' needs are shown automatically from their use, and no extra effort will be needed to elicit requirements from users needs. However item~\ref{item:prop-sol:user-needs} have been included to show how important it is to develop systems that support users' needs.
+
+\section{UDD Method}
+The proposed method of UDD was to put use first through an initial data handling system. This system can be used as a starting point for the development process. The system should be a simple data input/output system, where the user can add and display data. The system must be dynamic enough to fit as many domains as possible, but still usable so that users aren't hindered by it.
+
+From this system, valuable information can be extracted about the usage and desire paths identified. By observing the traces left by the user a developer can identify key areas that need to be improved. Going through these with the user further improves both of their understanding of the system and it will be possible to identify what needs to be improved and how the system needs to evolve. After this the developer can implement the identified improvements and the cycle can begin anew.
+
+When no further improvements can be made, or if the system becomes to complex or grows outside the scope, the information gathered and the understanding of the system that the developer now has can be used to create a standalone system. The initial system is in other words not meant to be the final solution to the user's needs, but a way to observe them and support the development as far as possible. If the system in some way isn't successful in complying to the user's needs, perhaps it can still be used to identify key areas of importance. If so, it may serve as a tool for automated requirements gathering were much information about the system can be shown through use. Future research can focus on the potential such a system offers in the requirements gathering arena.
+
+\section{UDD Software} \label{sec:udd-software}
+To support the UDD method a system capable of allowing use-first needed to be developed. To make it easy for users to understand an object-oriented approach was suggested as the representation of data. This was believed to be both dynamic and understandable by the users. The system should empower the user to build a node space of their own domain, and use it to enter and display data. 
+
+The system should supports entering and viewing of data items. Each data item can be tagged with what kind of data it represents. Attributes represented by key-value pairs can be added to each data item. Apart from this the user can specify and name relationships between different data items. This leads to a system of nodes and relationships, called a \emph{node space}, which hopefully will depict the domain in question in an accurate way. This representations of data was chosen as it was believed to be both dynamic and able to fit many domains, and since it was believed to be easy for users to understand.
+
+To input a node the user can create a new data item and tag it with a text that describes what kind of data it represents, for example a \emph{person}. The resulting node space of this first simple action is depicted in figure~\ref{fig:nodespace-1}.
+
+\uddimage{htbp}{0.9}{images/nodespace-1.png}{nodespace-1}
+	{Node space with only one node with a single tag}
+
+Each data item can have attributes added to them using key-value pairs. Say that the user wants to add a name to the node in figure~\ref{fig:nodespace-1}, and also create another node of the same type but with a different name. This will result in a node space like the one in figure~\ref{fig:nodespace-2}
+
+\uddimage{htbp}{0.9}{images/nodespace-2.png}{nodespace-2}
+	{Node space with two person nodes with name attributes}
+
+Now a relationship can be used to connect the two nodes. The relationship must be named to show how the nodes relate to each other. In this case the user might want to show that the one of the persons know the other person. This might result in the node space from figure~\ref{fig:nodespace-3}
+
+\uddimage{htbp}{0.9}{images/nodespace-3.png}{nodespace-3}
+	{Node space with two person nodes connected with a relationship}
+
+Continuing in this manner the user can add nodes and tag them with different types. A single node can be tagged with many types and have many relationships. For example a person can also be an \emph{employee} and have a relationship \emph{works at} to a company. More attributes can be added to the nodes. Perhaps the user wants to add a date of birth attribute to the nodes with the employee tag. After a while the node space becomes a network of nodes and relationships containing information about what the user needs to do with the system. An example of a bit more mature node space is shown in figure~\ref{fig:nodespace-4}. 
+
+\uddimage{htbp}{0.9}{images/nodespace-4.png}{nodespace-4}
+	{Mature node space with persons, employees and companies}
+
+From these node spaces, reports can be generated to show what kinds of data it contains, how the user uses them and how the different types relate to each other. Exactly what kind of information that can be retrieved from the node spaces and how valuable it is, is explored during the development and testing of this system in chapter~\ref{chap:development-testing-of-software}.
+
+\chapter{Development \& Testing~Of~Software} \label{chap:development-testing-of-software}
+
+\section{Introduction}
+The prototype produced during this thesis was developed in an iterative manner with the author of this report as the sole developer. It was named \emph{ReUDD} (Real User Driven Development) and will be referred to as such in the rest of this thesis. The development aimed at creating a system that empowers users to create node spaces as described in section~\ref{sec:udd-software}, as well as enable programmers to observe the use of the system and from it be able to identify what kind of system it is and find areas of improvements.
+
+ReUDD was at first hand developed for user performance and to enable observation of what the users do. At the same time some focus have been on user experience as well, since if the program slows the users down it will probably hinder them from doing what they want to do. Ease of use is also important since ReUDD is meant to be able to be used by any arbitrary user that is in need of a new system. As it is now, users will first need a simple introduction of the theory of nodes, attributes and relationships as well as how to use the program.
+
+After development the system was tested on two users who used ReUDD to model a system unknown to a programmer, this author, which in turn used ReUDD to observe the actions and needs of the users to make improvements to the system. Finally the value and usability of ReUDD was evaluated in semi-structured interviews with the two test subjects to find out how they experienced ReUDD and the improvements made by the programmer.
+
+\section{ReUDD}
+The purpose of ReUDD is to enable use-first and aid in the detection of desire lines. But to be used in an agile development process with iterations of improvement it must support some way to make improvements. An attempt to allow this is to add meta-models for each type that the users have used to tag items with. In these type meta-models information common to all nodes of that type can be stored. For example say that the domain demands that all \emph{persons} have an attribute called \emph{name}. This information can be stored in the types meta-model and when users try to add nodes of the type \emph{person} they will be required to specify the name attribute.
+
+Adding required attributes is most likely just a small part of what the meta-models should be able to do. They will also have to be able to specify what kind of value each attribute represents, i.e. a string, integer, date etc. This will allow automatic validation when new nodes are added to the system, and users can perhaps be aided in their usage of the system.
+
+To further improve the system, each type can be associated with a view-model. These view-models contain information about the graphical presentation of data nodes. If all nodes look the same, i.e. like a list of tags, attributes and relationships, the system will not be very user friendly, and users might have trouble distinguishing different types from each other. To bolster the user-experience of the system and help during use, the view-models can be used to specify the look and layout of data nodes. This will separate the different kinds of data types from each other and prevent misunderstandings when editing nodes.
+
+If ReUDD turns out to be a success and easy to use, perhaps it might enable end-users to develop their own small systems in it. Maybe it already supports some users' needs that only want to store a small amount of data. But as complexity increases so does the need for improvements. But if the end-users can do these improvements by themselves, at least in the beginning, ReUDD could become truly successful. A system that enables end-user to unwittingly develop their own advanced systems. If in the end ReUDD is found to limit further improvements, the information already contained in ReUDD can be observed by developers and used to develop a standalone system. However, this approach would not have the benefit of a developer's understanding of the system being increased through iterations of improvements.
+
+\subsection{Neo4j Database}
+The dynamic needs of ReUDD are not suitable for a regular SQL database. The data model in ReUDD will change every time a user tags a data item with a new type. To represent this in SQL tables would be difficult and very stale. The demands on the database model will change during runtime, and SQL is therefore not a good choice. Data nodes could be represented in a table where attributes are listed in a string, but this is unnecessarily difficult to parse out single attributes from. Another drawback would be when trying to follow relationships between nodes where every traversal would have to use a join in the database, and joins in SQL are very expensive and slow.
+
+Neo4j~\cite{neo4j} is a graph-oriented database written in Java, that stores data in graphs instead of tables. This makes it more flexible and suited for the dynamic process that ReUDD requires. The node spaces described in section~\ref{sec:udd-software} can be applied directly to the neo4j database layer.
+
+The neotechnology web site~\cite{neotechnology-why-neo} states four key benefits of neo4j over regular SQL databases listed below. 
+
+\begin{enumerate}
+	\item \textbf{No O/R mismatch:} Because all object-oriented models are graphs, there's no inherent mismatch between the domain layer model and the persistence model. This substantially improves development time as programmers are no longer forced to map their OO domain layers to a relational backend.
+	\item \textbf{Easy schema evolution:} Neo has a data-first, bottom-up approach to schemas, which allows for rapidly evolving the data model along with the domain layer. This approach significantly reduces the time it takes to adapt the data model to changing business requirements.
+	\item \textbf{Efficient storage of semi-structured information:} Semi-structured information (data with few mandatory and many optional attributes) is exploding in growth in web 2.0/3.0 applications and elsewhere. It leads to so-called sparse tables in relational models, whereas Neo's key-value properties can efficiently represent semi-structure.
+	\item \textbf{High performance on deep traversals:} Unlike the relational model, where every ``jump'' in a graph or a tree is an expensive join, Neo traverses complex graphs with very high performance. It is not uncommon to have traversal performance improvements of 1000x or more compared to relational backends.
+\end{enumerate}
+
+These benefits suit ReUDD very well. The ability to directly translate the domain model into the database persistence layer and possibility of evolving the data model are perfect for when a user adds nodes and relationships to the system. Efficient storage of semi-structured data helps with having arbitrary amounts of attributes on nodes, and traversal performance is important when following the relations between nodes.
+
+In a technology introduction to neo4j~\cite{neo4j-whitepaper}, there are a few drawbacks listed as well. They talk about learning curves, lack of alternative implementations and better tool support for SQL-like databases. But apart from these it also states that relational databases are better at arbitrary queries on structured data. SQL for example would be better at answering questions like ``how many of my customers over age 25 and a last name that starts with an F have purchased items the last two months?''. That kind of query wouldn't go along the relationships of a node space, and SQL would be better suited to give a quick answer.
+
+All in all neo4j seems to be the database of choice for ReUDD, and has also been the database used during it's development. Neo4j is also good when using agile development methods since it is easy to adapt and evolve the database schemas as quickly as the logic in the business layer~\cite{neo4j-whitepaper}.
+
+\subsection{Groovy \& Grails}
+ReUDD was developed as a web site for maximum portability and impact on the community. It was coded using Groovy~\cite{groovy}, which is a dynamic extension of the Java platform. The dynamic features of Groovy were believed to be usable in the dynamic environment of ReUDD. To publish ReUDD on the web a framework named Grails~\cite{grails} was used. Grails is written in Groovy and allows for easy web development.
+
+Grails is originally intended to be used with SQL databases and has a strong automated object relational layer called \emph{GORM} (Grails Object Relational Mapping). GORM can however not be used together with neo4j since it is closely tied with the functionality of SQL databases. Instead all neo4j activities and functionality was developed as standalone groovy packages and tied into Grails through the Grails controllers, who are used to receive, process and return http requests and responses. To simplify the use of neo4j services from inside these controllers a plugin for using neo4j with Grails was used. This plugin wraps every request to the server inside a neo transaction.
+
+\section{User Functionality}
+When users first enter the web site they are presented with an almost empty page as seen in figure~\ref{fig:reudd-firstpage-empty}. On this page the only action available is to add a new node, which is done by pressing the plus sign next to the \emph{Nodes} text on the left. The solid colored bar at the top is a simple menu where only a link to the users part of ReUDD is visible. Below this, there is a trail of links called breadcrumbs that show where the user has navigated to get to the current page. But since this is an empty firstpage only the \emph{Home} link is visible.
+
+\uddimage{htbp}{1}{images/reudd-firstpage-empty.png}{reudd-firstpage-empty}
+	{The empty firstpage of the ReUDD site}
+
+\subsection{Adding Nodes}
+
+Adding a new node brings up the add new node page, displayed in figure~\ref{fig:reudd-addnode-empty}. Here the user is able to tag the node with what types it represents by clicking in the topmost input field. Doing this brings up a dropdown area where the user can choose from previously used types or add a new one. The ability to choose from a list of already used types is a way to ensure consistency in type naming, both for when multiple users are using the system simultaneously or when a single user has forgotten the exact name of the types previously used. If no type of naming consistency is ensured the nodes risk having different type tags representing the same actual type. This would mean that the node space could become scattered with many different types that actually represent the same type of nodes.
+
+\uddimage{htbp}{1}{images/reudd-addnode-empty.png}{reudd-addnode-empty}
+	{Adding a new node}
+
+Apart from specifying the type or types of the node, the user can also add an arbitrary number of attributes and relationships to the node. Attributes are as stated earlier in section~\ref{sec:udd-software}, represented by key-value pairs, for example the key \emph{name} could be set to \emph{Jonas} or \emph{Björn} to comply with the node space described in figure~\ref{fig:nodespace-2} on page~\pageref{fig:nodespace-2}. The attributes are entered in the input boxes below the attributes title, with the key on the left and the value to the right. In figure~\ref{fig:reudd-addnode-empty} only one row of attributes is visible, since this is the current default in ReUDD, but to add more the user can simply click the plus button underneath the row. This will insert a new row like the one already there between the row and the plus button. To remove an attribute row the user can simply click the minus button to the left of the row.
+
+Relationships work similar to attributes. They are given a name to represent what kind of relationship it is, for example \emph{knows} like in figure~\ref{fig:nodespace-3} page~\pageref{fig:nodespace-3}. To ensure naming consistency on the relationship names the user is presented with an autocomplete feature when entering the relationship name. The autocomplete suggest names after the user start typing that have already been used and begins with the same characters that the user has written. This is obviously only available when the node space already has existing nodes with relationships between them. After specifying the name of the relationship the user must choose which node the relationship shall point to. This is done with a simple drop down list with all the other nodes available. Again this is only possible when there are other nodes in the node space.
+
+The default direction of relationships is outgoing. Changing the direction can be accomplished by clicking the arrow in the middle of the relationship row, and selecting the appropriate direction from a drop down menu. This allows for editing of relationships that are both going outward from the current node and coming into it. With a node space as in figure~\ref{fig:nodespace-4} page~\pageref{fig:nodespace-4}, looking any of the company nodes would therefore show even the incoming \emph{works at} and \emph{studies at} relationships. If these wouldn't be shown, the company nodes might seem very empty and the meaning of them could perhaps be questioned. Allowing incoming relationships to be viewed in these cases also gives a great overview of which nodes that do work or study at the company nodes.
+
+In the top right corner of the frame around the node input fields there are three buttons for saving, closing and deleting the node. Since the user is now creating a new node, the delete button is unavailable.
+
+When adding additional nodes, the user can choose to get help from the system to fill up the attributes and relationships with already used ones. This is done by clicking the green downward pointing arrow to the right of the \emph{Types} title. This will trigger ReUDD to search for attribute and relationship names that have previously been used in conjunction with the types currently specified for the node. The user will then have the appropriate number of attributes and relationships automatically added to the lists and their names, i.e. the left hand side, will be filled in. This increases the flow of work for the user, aids in remembering names for the attributes and relationships as well as helps to remove erroneous spellings.
+
+\subsection{Listing Nodes} \label{sec:listing-nodes}
+
+After adding nodes equivalent to the node space in figure~\ref{fig:nodespace-3} page~\pageref{fig:nodespace-3} the ReUDD page will look like in figure~\ref{fig:reudd-listingnodes-2persons}. The left side of the screen has changed and filled up with more menus and new menu items. The \emph{Nodes} menu has filled up with two choices, one called \emph{All Types} and one called \emph{Person}. This is a dynamic listing of all available types that have been used for tagging nodes. Clicking on one of these will bring up a list of all nodes that are tagged with that type. 
+
+Another change is the additional \emph{Reports} menu and the \emph{Search} area. The Reports menu allows users to request and view specific reports that can be used to gather and display information about a collection of nodes, but more on that later. The search is a simple function that can be used to search for specific nodes containing a specified search phrase. It currently searches all nodes to see if the attributes of that node contain the search phrase, and displays a list of all nodes that were matched. This is an attempt to aid the user in finding nodes when the node space contains so many nodes that they can be hard to find in a list.
+
+\uddimage{htbp}{1}{images/reudd-listingnodes-2persons.png}{reudd-listingnodes-2persons}
+	{Listing all nodes currently in the node space}
+
+The first column in the list contains checkboxes that enable the users to delete multiple nodes at once. The second column has links to the node described on that row. By default the node's string representation is in the form \emph{list of types:[list of attributes]}. This is because that since ReUDD doesn't know anything about what kind of data the user inputs in the system the representation must describe the node in an understandable way. Doing this by displaying the types of a node together with the attributes should solve this, or at least make it possible to distinguish nodes from one another. However as the node space grows, this default representation can among other things make the list of nodes difficult to get an overview of.
+
+Besides showing the string representation of the nodes, the listing also shows a column with what types a node has been tagged with as well as a listing of all attributes and relationships. Types and attributes are simply shown as strings representing their values, while relationships have an icon and a link as well. The icon is either a green arrow pointing to the right or a blue arrow pointing to the left. These indicate whether the relationship is outgoing or incoming, since all relationships are directed. The green arrow indicates an outgoing relationship while the blue indicates an incoming. The link is a string representation of the node connected to the other side of the relationship.
+
+The list in figure~\ref{fig:reudd-listingnodes-2persons} was reached by clicking the \emph{All Types} menu item. This simple listing of nodes was chosen as a first solution for navigating the node space. A more intuitive approach would perhaps be to display the node space as a true node space where nodes and relationships are drawn in a graphical way. Initial testing of this however showed to be not only difficult to implement, but also hard to navigate in. When the node space is young and not containing many nodes the graphical representation could possibly be easy to grasp and navigate, but when it has become crowded with many nodes and relationships it gets cluttered and difficult to navigate. An example of an early testing of this is shown in figure~\ref{fig:jung-cluttered-nodespace}.
+
+\uddimage{htbp}{0.8}{images/jung-cluttered-nodespace.png}{jung-cluttered-nodespace}
+	{Cluttered graphical representation of a mature node space}
+
+\subsection{Viewing And Editing}
+To view a node in more detail the user can click the link of that node. This brings up the node view page displayed in figure~\ref{fig:reudd-viewingnode-person}. Viewing a node displays the same information that was available in the list of all nodes, but with less noise from other data items. In this very simple example this might not seem to be a great benefit, but with bigger node spaces and more attributes and relationships it is.
+
+With the links supplied in the listing of relationships the user can navigate to connecting nodes. The symbols for incoming and outgoing relationships are the same as described earlier.
+
+To change any of the values on the node the user must first enter the edit mode. This is done by clicking the edit button, in form of a pencil, in the top right corner. This brings up the edit page displayed in figure~\ref{fig:reudd-editingnode-person}. Editing a node works just like adding a new node, except that all changes now affect the already existing node, and that the option to delete the node is also available.
+
+\uddimage{htbp}{1}{images/reudd-viewingnode-person.png}{reudd-viewingnode-person}
+	{Viewing a node}
+
+\uddimage{htbp}{1}{images/reudd-editingnode-person.png}{reudd-editingnode-person}
+	{Editing a node}
+
+In figure~\ref{fig:reudd-editingnode-person}, the blue speech bubble to the right of the green downward pointing arrow allows the user to add comments to the chosen types for this particular node. Adding comments is a way for the users to give their opinions on the system being described. Being able to do this enables the users to write down whatever they need to mediate in the moment that they are using the system, instead of in an abstract environment, like during an interview perhaps. The comments can be whatever the users want, for example it could be \emph{all person must have a name}, indicating that the user who entered the comment wants all persons to have an attribute called \emph{name}.
+
+\subsection{Reports} \label{sec:reports-user}
+When the node space has grown and the number of nodes gets too high to easily overview in lists or viewing specific nodes, the user can request special reports. These reports have to be implemented by a programmer. This approach was chosen since ReUDD should be dynamic enough to support as many types of systems as possible it's impossible to know what kind of information the user needs to have displayed. The request and implementation of specific reports enables the users to ask for anything they need, and empowers a programmer to supply the necessary information.
+
+To request a new report the user must click the plus sign in the \emph{Reports} menu. Doing this brings up the add new report page, figure~\ref{fig:reudd-addreport}. 
+
+\uddimage{htbp}{1}{images/reudd-addreport.png}{reudd-addreport}
+	{Requesting a new report}
+
+Here the user can specify a title that identifies the report, and also add a comment to explain what the report should display. When ready the user can save the requested report by clicking the checkmark in the top right corner. Doing this brings up the display report page seen in figure~\ref{fig:reudd-unimplemented-report}. Since the report hasn't been implemented yet, the user is presented with a message saying so. At the top is the title of the report, and at the bottom a list of all comments made on the report as well as the possibility to add more comments.
+
+\uddimage{htbp}{1}{images/reudd-unimplemented-report.png}{reudd-unimplemented-report}
+	{Displaying a newly requested report}
+
+The report in figure~\ref{fig:reudd-unimplemented-report} has the title \emph{Workplaces} and a comment saying \emph{List all persons' names and workplaces if they have one}. This message is hopefully understandable by a programmer tasked with implementing the report. If the programmer fails to fulfil the needs of the user, more comments may be added to the report and a discussion can be held with the programmer until the report is approved.
+
+For this report request to have meaning the node space have to be populated with nodes corresponding to the ones in figure~\ref{fig:nodespace-4} page~\pageref{fig:nodespace-4}. In figure~\ref{fig:reudd-unimplemented-report} this has already been done and is indicated by the additional menu items in the \emph{Nodes} menu, namely \emph{Company} and \emph{Employee}. The implementation and result of the report requests will be covered in section~\ref{sec:reports-improvements}.
+
+\subsection{Breadcrumbs}
+The breadcrumbs in the examples so far have not been very useful, since they have at most displayed only a single node, i.e. the one displayed at the moment. The use of the breadcrumbs is better shown when the user has navigated through a few nodes, as in figure~\ref{fig:reudd-breadcrumbs}. The breadcrumbs where added as a way to help the user navigate to previously visited nodes without having to go back to the lists or searching. This speeds up the use and the user will hopefully not be distracted by having to pause and redo trivial tasks.
+
+\uddimage{htbp}{0.6}{images/reudd-breadcrumbs.png}{reudd-breadcrumbs}
+	{Breadcrumbs after navigating to a fourth node}
+
+In figure~\ref{fig:reudd-breadcrumbs} the user has navigated through three nodes via their relationships to a fourth one. If the user wants to go back to the first node, the breadcrumbs will allow this in one single click. Without the breadcrumbs the user would have to either search for the node and click it in the resulting list, or go back and list all nodes of the correct type and click the node there. Going back to a node using the breadcrumbs resets the breadcrumbs to what the links it contained when the user originally navigated to that node.
+
+Looking closely on the breadcrumbs in figure~\ref{fig:reudd-breadcrumbs} reveals that the string representation is no longer the default one discussed in section~\ref{sec:listing-nodes}. This is because of an improvement made by an observing programmer. The improvement has changed the string representation of the nodes to only showing the value of the attribute with the key \emph{name} on the nodes. More information about improvements follows in section~\ref{sec:observations-improvements}
+
+\section{Observations \& Improvements} \label{sec:observations-improvements}
+\uddimage{htbp}{1}{images/reudd-secret-observer-link.png}{reudd-secret-observer-link}
+	{Displaying the observer link in the top menu by hovering the mouse over it}
+
+To get to the observing programmers part of ReUDD there is a hidden link in the top menu. To use it the programmer must first hover the mouse pointer on top of it like in figure~\ref{fig:reudd-secret-observer-link}. The reason the link is hidden is to not arise the interest of the user. The observer part of ReUDD is currently designed only to be used by people who know what they're doing, and therefore has no focus on usability. A user who accidentally gets into the programmers part of ReUDD is therefore likely to get lost and confused.
+
+\uddimage{htbp}{1}{images/reudd-whatsnew.png}{reudd-whatsnew}
+	{A list of what has happened lately in the node space}
+
+The first page displayed to the programmer is the \emph{What's New} page, figure~\ref{fig:reudd-whatsnew}. This page lists all items in the database that have been either created or changed during the last 24 hours. This gives the programmer a sense of what the users have done in the node space. The list shows all items that have been changed with name, what kind of data it is and the timestamps for creation and last update. It's also possible for the programmer to specify a different timeframe than the default 24 hours if necessary.
+
+The different kinds shown in the list are \emph{Data}, \emph{Report} and \emph{Type}. Data means that the item in question is a node that the user has edited as part of the node space. Report refers to the report requests submitted by the user, who are marked as changed when they are created and whenever a comment is added to them. Type is the type meta-models. Each time a user specifies a new type to tag a node with, a specific type instance is created to hold meta information. All nodes tagged with a type by the user have a connection to that type's meta data and can benefit from the improvements done to it.
+
+\subsection{Tag Cloud Of Types}
+The types that are used to tag nodes with are central to ReUDD. These tags are connected to type meta-models that can be used to gather information about all nodes of that type in one place. Each node tagged with a type has a hidden connection to that type's meta-model. The meta-model is stored on a node in the underlying neo database. At first the overview of these types in ReUDD was only available as a regular list of all types and information about them, for example how many nodes that are tagged with that type.
+
+To give the observation of types in ReUDD a more intuitive approach, a list with text and values is probably not enough. Another way to represent the amount of types is by using a tag cloud~\cite{Viegas-Wattenberg:2008}. Tag clouds are lists of tags or words were the count, or \emph{popularity}, of each tag is represented by its font size. An example of a tag cloud displaying Flickr's most popular tags is shown in figure~\ref{fig:tag-cloud-flickr}. They are often used as visualization and navigation interfaces on the web~\cite{Lohmann-et-al:2009}. Using this kind of visual representation of the different tags will hopefully give an intuition of where the developers should focus their efforts when making improvements.
+
+\uddimage{htbp}{0.9}{images/tag-cloud-flickr-b.png}{tag-cloud-flickr}
+	{A tag cloud of the most popular tags on Flickr}
+
+The ReUDD tag cloud is created with a jQuery\footnote{jQuery is a fast and concise JavaScript Library that simplifies HTML document traversing, event handling, animating, and Ajax interactions for rapid web development; http://jquery.com Last visit: January 4 2010} plugin simply called TagCloud\footnote{TagCloud will convert any ordered or unordered list to a tagcloud. The font-size and color depend on the list elements value property or, if no value is set, the elements index; http://plugins.jquery.com/project/TagCloud Last visit: January 4 2010}. It's displayed like in figure~\ref{fig:reudd-tag-cloud}. The node space used is the same as before. In it there are more persons than employees, and more employees than companies. The exact numbers are five persons, three employees and two companies. These amounts are represented by the size and color of the text for each tag. The bigger and more colorful for tags used on many nodes, and smaller and faded for less. This display instantly gives the viewer a sense of which tags are used the most, and thereby which tags are possibly most important.
+
+\uddimage{!b}{0.9}{images/reudd-tag-cloud.png}{reudd-tag-cloud}
+	{Tag cloud in ReUDD}
+
+The employee tag in figure~\ref{fig:reudd-tag-cloud} is different from the others in that it has a small orange warning triangle on the right hand side. This is an indication of that no improvements have been made to the meta-model for that tag. The lack of this symbol next to the person and company tags indicates that improvements have been made to their meta-models. The actual improvements made are the ones manifesting in the more readable string representation of the nodes shown earlier in figure~\ref{fig:reudd-breadcrumbs}.
+
+Being of greater size in the tag cloud is an indication of importance. But it is not a definitive answer on which type is the most important to begin making improvements on. In figure~\ref{fig:reudd-tag-cloud} improvements have been made to the person and company types, while the employee type has been left alone. Even though the employee tag is bigger and indicating importance the company type meta-model has been chosen for improvements instead. In this particular case it's because all nodes in the current node space who are employees are also persons. Therefore the improvement to the person type meta-model also affects the nodes tagged with the employee type. This shows that the tag cloud doesn't give the final answer on what to improve, but an indication of where to start.
+
+\subsection{Type Meta-Models}
+Type meta-models hold the central information on improvements currently available in ReUDD. Every time a new type is used to tag a node, a specific type instance is created in the database. The types available in the current node space can be listed in the types page shown in figure~\ref{fig:reudd-type-list}. This list has the same column with checkboxes for mass deletion as the listing of regular nodes has. It also lists the types name, amount of nodes tagged with the type, the total count of how many times nodes of that type have been viewed and edited, total and average relations incoming and outgoing from the nodes of the current type. Finally the list show a red or green circle indicating if the type has an associated view or not, red for no and green for yes. More on these views in section~\ref{sec:type-view-models}.
+
+\uddimage{!b}{1}{images/reudd-type-list.png}{reudd-type-list}
+	{Listing all types used in the node space}
+
+The count of how many times nodes of a certain type have been viewed or edited shows what the users do with those kinds of nodes. If nodes of a specific type are viewed often but not edited they might hold information that doesn't change very often, but is still valuable for the users. If nodes are edited often they might contain information that is subject to continuous changes, or perhaps their relationships change over time. It is however important to notice that the views and edits listed are the sums of all nodes of each types views and edits. Meaning that if a type has only a single node tagged with itself and the value in the edit column is five, one single node has been edited five times. And if another type has 500 nodes tagged and the value in the edit column is 300, all nodes of that type haven't even been edited a single time each. So the values of views and edits should only be compared within each row of the list, not between different types.
+
+Showing the amount of relationships for the types was an early attempt to give an overview of what kind of nodes that are tagged with the types. This idea came from another node space's listing of nodes that showed persons with many attributes and relationships, both incoming and outgoing. Some of these persons had some kind of a relationship to a company node. The company nodes had no attributes except for their names and also had no outgoing relationships. The listing showed that all of the companies only had incoming relationships and the single name attribute, indicating that they might be simple information containers but still important since so many other nodes related to them.
+
+Clicking one of the types in the list enables the observing programmer to view that types meta-model and then editing it, figure~\ref{fig:reudd-type-edit}. The observer can change the name of the type if that should ever be necessary. This name change will not cause duplicate types but instead propagates to all the nodes in the node space already using that tag. It's also possible to apply global settings to the type as whole, as well as specific settings to each attribute of the nodes tagged with this type.
+
+\uddimage{htbp}{1}{images/reudd-type-edit.png}{reudd-type-edit}
+	{Editing a type meta-model}
+
+All settings are entered as strings formatted in the same way maps are formatted in Groovy. It's a comma-separated string with key-value pairs, \emph{key1:value1, key2:value2}. The value might also be a list that in turn is a comma-separated string inside brackets, \emph{key3:[value3a, value3b]}.
+
+Currently there is only one global, and one attribute specific setting. The global one is a \emph{toString} setting that changes the appearance of the string representation of the nodes. It can be seen in figure~\ref{fig:reudd-type-edit} as \emph{toString:[name]}. This makes the string representation become only the value of the attribute with the name key. If the person nodes have more attributes these can also be used in the toString setting by including them as a list of values. Arbitrary strings can also be used in the toString list to insert new words or whitespaces, by inserting words surrounded by quotation marks. For example, a toString setting with value \emph{[name, `` '', dob]} would render a string representation as \emph{Jonas YYMMDD} for a node with attributes for name and dob with values \emph{Jonas} and \emph{YYMMDD}. Notice the whitespace inserted between the two keys in the setting.
+
+The attribute specific setting available is a \emph{required} setting and can also be seen in figure~\ref{fig:reudd-type-edit}. This should have a value of either true or false to indicate if the specific attribute must be present in nodes of this type or not. If it is set to true, all nodes of that type will, when edited, have that attribute as an irremovable row. Nodes will also not be able to be saved until a value is specified for that attribute. The attribute will also automatically be added to new nodes if the current type is used as a tag.
+
+These two settings are only a first implementation of possible improvements. Other possible improvements is to set what kind of values an attribute has, i.e. if it is a number, string, date, file etc. Depending on what kind of attribute it is the value input of the type could be rendered differently, a text input for strings, a file selector for files, a calendar for dates and so on. Perhaps a maximum/minimum length setting could be used for limiting the length of strings. All the settings could enforce their own validation on the values of the keys and thereby ensuring a unified form on the values for attributes with the same keys.
+
+Viewing and editing types also enables the observer to see all the comments made by users on nodes of that type. The comments will be visible at the bottom of the page. Using these comments the observer can try to make improvements that the users might have asked for, or at least get a better understanding of what the users want to do.
+
+\subsection{Type View-Models} \label{sec:type-view-models}
+A further improvement that is possible is to change the appearance of the nodes when a user views or edits them. Without this possibility all nodes will look the same and the users might have trouble distinguishing them from each other. Allowing different layouts will hopefully not only help the user in seeing what kind of node they are viewing, but also may help in boosting the user experience by improving the usability of the system. In the current version of ReUDD it is only possible to change the appearance of the attributes of the nodes.
+
+To add a view for a model the observer can click the red circle in the view column of the types listing shown in figure~\ref{fig:reudd-type-list} page~\pageref{fig:reudd-type-list}. This brings up the view editing page, figure~\ref{fig:reudd-view-edit}. The view consists of two parts. In the \emph{Covered Attributes} field, a comma separated list of all the attribute's keys that should be removed from the autogenerated display of nodes and should instead be handled by this view. In this example the view is created for the type \emph{Employee}, and covered attributes is set to \emph{name, dob}. In the big textarea input a Grails template can be written that is rendered when a node is displayed on screen. This template can be a mixture of HTML and Grails tags\footnote{Grails provides a number of tag libraries. These tags can be used to generate often-used code with a single command. Some tags allow programming style blocks like if-else statements.} that together generate a HTML response to the user.
+
+\uddimage{htbp}{1}{images/reudd-view-edit.png}{reudd-view-edit}
+	{Editing a view-model for a type}
+
+Allowing the use of Grails templates as the language in views allows the observing programmer to alter the display of nodes in any way possible. But to avoid having to write the same code over and over again a few custom grails tags have been created for ReUDD. In figure~\ref{fig:reudd-view-edit} a tag called hBoxAuto has been used with the command shown in snippet~\ref{snip:view-hBoxAuto}.
+
+\begin{snippet}[hbtp]
+	\center
+	\texttt{<reudd:hBoxAuto data="[node,'name','dob']"/>}
+	\caption{Example use of the hBoxAuto custom tag}
+	\label{snip:view-hBoxAuto}
+\end{snippet}
+
+ReUDD custom tags always begin with \emph{reudd:}. This ensures that the template engine looks for the tag implementation in the correct namespace. After this follows the name of the tag, in this case \emph{hBoxAuto}. To know which attributes to render input elements for, the tag also needs to be given some data. This is done in the data attribute of the tag. Data takes a list of arguments where the first one currently must be simply node. Behind the scenes this is actually an object representing the current node being viewed or edited, and is needed for the tag to know where to fetch data from. After node comes a list of strings that represent the keys of the attributes that are to be rendered. For best performance these should be the same as the ones specified in the covered attributes field.
+
+The tag in snippet~\ref{snip:view-hBoxAuto} creates a HTML div component with input elements for the attributes with keys \emph{name} and \emph{dob}. All the input elements are set to be tiled horizontally floating to the left. This means that \emph{name} will be furthest to the left and \emph{dob} will follow after it. An example of this is shown in figure~\ref{fig:reudd-view-node}.
+
+\uddimage{htbp}{0.6}{images/reudd-view-node.png}{reudd-view-node}
+	{The result of applying the hBoxAuto tag to a view-model}
+
+Besides the hBoxAuto tag there are some other tags that can be used to aid in view-model creation, shown in table~\ref{tab:reudd-view-tags}. These can be used to help the observing programmer to create views fast and easy. If a view requires more than the tags currently offer, regular html can be used to create unique displays.
+
+\begin{table}[hbtp]
+	\center
+	\begin{tabular}{|l|p{7cm}|}
+		\hline
+		\textbf{Tag}	& \textbf{Description} \\ \hline
+		hBoxAuto		& Creates input elements for all specified attributes tiled horizontally. \\ \hline
+		vBoxAuto		& Same as hBoxAuto but tiles vertically instead \\ \hline
+		hBox			& Renders a HTML div element around the body of the tag that is styled so that all contained divs are tiled horizontally \\ \hline
+		vBox			& Same as hBox but tiles vertically instead \\ \hline
+		box				& Surrounds the body of the tag with a HTML div element. Can set the height and width of the div if they are specified as tag attributes \\ \hline
+		attributeInput	& Renders title and input element for the specified attribute. \\ \hline
+	\end{tabular}
+	\caption{All available custom tags for view-models}
+	\label{tab:reudd-view-tags}
+\end{table}
+
+The view-model enhancements currently available in ReUDD are just an example of what can be done. With the ability to change more than just the layout of a nodes attributes, much more could be done to alter the appearance of nodes. At its current state, the view-model can still be used to style and possibly enhance the user experience of nodes that have many attributes.
+
+Views were added late during the development process and are in the current form mostly a demonstration of what could be done with more development.
+
+\subsection{Reports} \label{sec:reports-improvements}
+All reports ordered by the users can be listed as in figure~\ref{fig:reudd-report-list}. The list shows the title of each report, a red or green circle indicating if the report is implemented or not and finally the number of comments on the report.
+
+\uddimage{htbp}{1}{images/reudd-report-list.png}{reudd-report-list}
+	{Listing all requested reports}
+
+Editing the report, figure~\ref{fig:reudd-report-edit}, enables the observing programmer to change the title if necessary, implement the body of the report and also to add new comments. The body of the report is built with regular Groovy code and is what finally decides what the report will display when viewed by users. To allow the programmer access to the node space two factory style variables are available in the report bodies. They are called \emph{dataNodeFactory} and \emph{typeNodeFactory}. The dataNodeFactory has the functionality to perform operations on the nodes added by the users in the node space, while the typeNodeFactory handles the types used in the same node space.
+	
+\uddimage{htbp}{1}{images/reudd-report-edit.png}{reudd-report-edit}
+	{Editing report}
+
+When a user chooses to view a report, the reports body is executed as standard Groovy code. The resulting display of a report is a HTML table that should contain the information requested by the user. To function correctly the body of a report should return a list of lists, where the latter lists represent the contents of each row in the resulting report.
+
+The report requested in figure~\ref{fig:reudd-report-edit} is a report that lists all persons and their workplace if they have one. An example of how this can be implemented is shown in snippet~\ref{snip:report-implementation}. If the requested report is of a common type, ReUDD currently offers two default report templates that can be copied into the report body and altered to fit the user's need. The first report template will list all nodes of a certain type and all their attributes specifically specified by the programmer. the second template shows two lists of nodes, one on the x-axis and on on the y-axis, with a marking in the middle cells if two nodes have a specified connection to each other. The second one could be used to display the same information as the requested report, but in a different way. Instead of a list of names and workplaces it would be for example all companies on the x-axis and all persons on the y-axis. If there exista a relationship called \emph{works at} between a person and a company, the cell in the intersection of the corresponding row and column could contain the text \emph{yes}.
+
+\begin{snippet}
+	\center
+	\begin{minipage}[h]{0.9\linewidth}
+		\begin{verbatim}
+			def titleRow = ["Name","Workplace"]
+			def rows = [titleRow]
+			def personType = typeNodeFactory.getTypeNode("Person")
+			def dataNodes = personType.getAllDataNodes()
+			dataNodes.each { node ->
+			    def row = [node.attributes.name]
+			    def workPlace = ""
+			    node.outRelationships.each { relationship ->
+			        if (relationship.name == "works at") {
+			            workPlace = relationship.getEndNode()
+			        }
+			    }
+			    row += workPlace
+			    rows.add(row)
+			}
+			rows
+		\end{verbatim}
+	\end{minipage}
+	\caption{Example implementation of a report body}
+	\label{snip:report-implementation}
+\end{snippet}
+
+The code in snippet~\ref{snip:report-implementation} is really quite simple. First a list of strings is created to represent the top title row in the report. Then a list of rows is initialized containing only the title row so far, and is named \emph{rows}. After this all nodes of the type \emph{Person} are gone through and for each of them a new row is created and filled up. Each nodes row is set to first contain the node as it's current string representation by simply adding it to the current row list. If the node has a relationship called \emph{works at} to another node, that other node is set to be the workplace of the first node and is added to the row list. During each iteration of the nodes the resulting row is added to the rows variable. Finally the last expression listed is returned by the execution of the reports body.
+
+When the report is implemented a user can view the resulting report table. For the current node space and the above implementation the report will look like figure~\ref{fig:reudd-report-implemented}.
+
+\uddimage{htbp}{1}{images/reudd-report-implemented.png}{reudd-report-implemented}
+	{Fully implemented report according to the user's request}
+
+These kinds of reports can give users the possibility to view important data from many nodes at once. Reports can be created to show any information available in the node space. The only limitation on report generation presently is that the result returned by the report body must be a list of all the rows that are transformed into a table. This doesn't give much freedom to the programmer to create other reports than just plain HTML tables.
+
+An improvement to the way reports work now is if they were made to work more like the view-models. The view-models can write their own Grails template and fully customize the way they look and are displayed. Adding this functionality to reports would allow a greater variation in the possible reports that can be generated.
+
+Another improvement to reports could be to make it possible for users to edit nodes from within the report itself. When displaying the report in figure~\ref{fig:reudd-report-implemented} a user could click the name of a person or the workplace to change the value currently listed. Perhaps even the functionality to add new columns and rows dynamically could be made possible and the user would be able to edit bulks of data in a fast and hopefully easy way.
+
+\subsection{Relation Browser}
+In an attempt to create a graphical navigation of the node space an open source solution called \emph{Relation Browser}\footnote{A radial browser designed to display complex concept network structures in a snappy and intuitive manner. It can be used to visualize conceptual structures, social networks, or anything else that can be expressed in nodes and links; http://moritz.stefaner.eu/projects/relation-browser/ Last visit: January 4 2010.} was used. A visual navigation option was thought to tie the user closer to the idea of nodes and relationships as well as the \emph{whiteboard friendly} approach. The relation browser, figure~\ref{fig:reudd-relation-browser}, currently only supports looking at nodes and not editing. It is also hidden from the user, since it's only available from the observer's menu.
+
+\uddimage{htbp}{1}{images/reudd-relation-browser.png}{reudd-relation-browser}
+	{A node displayed in the relation browser}
+
+The nodes are labeled with the string representation of the node. This works fine for the improved types, but the default string can clutter up the screen and make it difficult to read. Another downside is that the names of relationships aren't displayed unless the mouse is hovered above the white dot in the center of the lines. It's also unable to display multiple relationships between two nodes. In figure~\ref{fig:reudd-relation-browser} this is shown through the double directed relationship between the center node and the left one. The line between those two is actually two different relationships with different names and directions. Hovering the mouse over the circle only displays the name of one of the relationships.
+
+Because of time constraints and the downsides discussed above, the relation browser was not subject to further development than the state it is now. It can be used by the observer to navigate through nodes, and perhaps give a certain understanding about the node space that the regular listings and views doesn't.
+
+\subsection{Domain Model}
+From the node space ReUDD can calculate a domain model for the system the user is building. This is possible from the tagging of nodes and the naming of relationships. The domain model generated from the node space used earlier is show in figure~\ref{fig:reudd-domain-model}. Having the domain generated automatically means that if the user is accurate in describing the domain in question with the node space, no effort is required to investigate it by hand.
+
+\uddimage{htb}{1}{images/reudd-domain-model.png}{reudd-domain-model}
+	{Showing a domain model calculated from the node space created by a user}
+
+The domain model in figure~\ref{fig:reudd-domain-model} is ambiguous however, and shows a fault in the current generation of domain models. Nodes tagged with multiple types will produce duplicate arrows in the domain model. For example, the current node space contains persons who in some cases also are employees. Persons may know other persons, but since ReUDD doesn't know that the \emph{knows} relationships is for persons it's displayed from both person to person and person to employee in the domain model. Another example is the \emph{works at} relationship, which should be between an employee and a company. But since ReUDD again doesn't know where the relationship belongs it's displayed from both employee and person.
+
+Currently the domain model doesn't display how types might be used together with other types. In the node space used for the domain model in figure~\ref{fig:reudd-domain-model} there are nodes tagged with both person and employee types, but this is not shown in any way in the domain model. This is absolutely a weakness since it may give the observer a wrong impression of the domain in question.
+
+The software used to generate the image for the domain model is called Graphviz\footnote{Graphviz is open source graph visualization software; http://www.graphviz.org/ Last Visit: January 7 2010}. ReUDD uses this software whenever it needs to display graphs of this type.
+
+\subsection{Node Connections}
+The domain model shows all possible connections existing between types. It doesn't guarantee that all nodes actually have that connection, or even any connection. The domain model describes what kind of relationships the types might have, not what they actually do have.
+
+To get an overview of how many nodes of each type that relate to other types, ReUDD offers the node connections page showed in figure~\ref{fig:reudd-node-connections}. For each type used in the node space, it shows the percentage of how many of the nodes that have connections to other types. For example, in the figure all employees have relationships to a node of the type company while only 67\% have relationships to a person node.
+
+\uddimage{htbp}{1}{images/reudd-node-connections.png}{reudd-node-connections}
+	{Displaying how types are connected to each other}
+
+The node connections are a complement to the domain model, showing that not all nodes of a type must have relationships exactly as described by the domain model.
+
+\subsection{Navigated Paths}
+When a user navigates the node space using the links of relationships trails are left behind. These trails are perhaps the most prominent form of desire paths left by users in ReUDD. The trails are recorded and can be displayed with the navigated paths page in figure~\ref{fig:reudd-navigated-paths}. Beginning at the start node, the paths show what percentage of users, as well as the exact amount inside parentheses, that have followed each path to a node of the targeted type.
+
+\uddimage{htbp}{1}{images/reudd-navigated-paths.png}{reudd-navigated-paths}
+	{An example of how the navigated paths may look like}
+
+The navigated paths in figure~\ref{fig:reudd-navigated-paths} shows for example that 40\% of the time a user starts navigating the node space by looking at a node tagged with the type company. 75\% of these later continue on to visit a node tagged with both the employee and person types. From there 17\% continues on to a node of type person and 33\% to a node of the type company.
+
+If a single navigated path is used a lot and often followed a long way, perhaps further studies need to be made as to what causes this. If it's because of the users need to navigate through many nodes before being able to perform a specific task, perhaps some sort of shortcut is necessary to speed up the process. On the other hand it might be that a series of actions are performed on a long series of nodes and then some functionality that supports mass editing of these should be implemented. Currently ReUDD doesn't detect why the users follow these paths, and only detects how the users navigate between nodes.
+
+The recordings of navigated paths are reset to begin again from the start node every time a user navigates back to the list of nodes, uses the search or in any other way leaves the node path.
+
+\subsection{Add Bulk}
+ReUDD supports a primitive way to add bulks of data. This is mainly aimed at demonstrational purposes where the node space can be filled up swiftly. It is hidden in the observer's part of the interface since it isn't user friendly and doesn't handle faulty input very good.
+
+To utilize the feature, a csv\footnote{Comma-separated values} file must be created and uploaded. If formatted correctly each row of the file will create a new node, except for the top row which is used to set the names of attributes and relationships. An example and description of the syntax of the csv-file is available in appendix~\ref{app:csv-file}.
+
+\section{Testing}
+To find out if ReUDD could possibly allow use to be put first during the development process a test was set up. The aim of the test was to see if users could start using the prototype, after a short introduction to the subject, and if an observing programmer could observe this use and perform the appropriate improvements. The test also aimed at investigating if the user experience was satisfactory or not, and also to identify areas that needed improvement or was subject to change.
+
+A total of three different tests were performed. The first one with two users, where one of the users had already used ReUDD for testing purposes during development, and two with single users who had not used ReUDD at all before.
+
+After each test the use was evaluated using semi-structured interviews. These aimed at finding out how the user experienced the system and what they thought of the process. Transcribed versions of the interviews can be found in appendix~\ref{app:transcribed-interviews}.
+
+\subsection{First Test}
+This test was set up with two users using ReUDD to build up an arbitrary system unknown to an observing programmer. The two users chosen were two highly positioned employees at Jayway. They both came from a programming background but that was no longer their job. The first tester had never seen or used ReUDD before, and had never heard about it either. This tester will be referred to as \emph{person A} in the rest of the thesis. The other tester had previously helped with testing of ReUDD during its development, and was well aware of what could be done and how to do it as well as the purpose of the program. This tester will be referred to as \emph{person B}. The role as the observing programmer was set on the author of this thesis.
+
+The testers were given a short oral introduction, for about 15 minutes, to the concept of nodes, attributes and relationships. They were informed of how ReUDD could be used to build up node spaces describing the system they wanted to develop. Because of their background and that both were aware of the neo4j database, they had no problem understanding this. Instead of giving person A a tutorial on how to use ReUDD, person B acted as a guide during their use to aid in the creation of nodes and relationships.
+
+After person A and B had used ReUDD for a while, the observing programmer stepped in and started observing. No direct interaction between the observer and testers took place except for the observations made through ReUDD. The testers and observer had their workplaces located in different areas, and no listening in to the testers was possible.
+
+When the testers deemed themselves ready with their use, the testing was stopped and they were shown some of the observations available to the observing programmer. They were then interviewed one after the other to evaluate what they thought of ReUDD and the use of it.
+
+\subsubsection{Observations}
+It was quite early clear to the observer that the system being developed by the users was a system containing speakers, seminars and conferences. The speakers where persons who had held seminars at a conference during different years. So the different conferences in the system was actually the same conference but during different years. Each seminar was part of a certain tag representing an overall topic of the seminars. These tags were a standalone type created by the users, and should consequently not be confused with the type tags in ReUDD.
+
+At first many of the nodes created didn't utilize the use of relationships. Instead nodes were created and held all information in their attributes. For example, instead of creating speakers with relationships to the seminars they presented, they had an attribute representing the same thing. In the same way seminars had attributes for which conference they were held at instead of relationships. This is a perfectly valid solution, but it doesn't have the benefits of extracting information into nodes and sharing it in the node space. With attributes, to find all seminars presented at a conference on a certain year would mean to go through all seminars and collecting the ones with the correct value on the conference attribute. With relationships all seminars held on a certain conference would be directly available from that conference's node.
+
+Using more attributes than relationships created very long string representations for the nodes. Observing this, the first improvement made was to change the toString setting of the different types used in the node space. The types who first received this improvement were decided by looking at the tag cloud of types.
+
+After a while the users seemed to move some of the attributes into new nodes and using relationships to them instead. This changed the node space dramatically and some adjustments where made to the string representations. Once the node space had stabilized and only new tags of existing types were added the next improvement was to set some commonly used attributes as required. This was first implemented on the type seminar because of a lot of reasons. Nodes of this type held many attributes, the type was shown as central in the domain model and it was one of the biggest types in the tag cloud.
+
+The domain model and node connections observations looked very similar during the test. The domain model showed only one type of relationships between each pair of types, and the node connections showed that these relationships existed in 100\% of the nodes. It therefore seems that for the domain during the test, it would have been enough to have the domain model observation.
+
+Looking at the navigated paths the observer could see that the users only navigated to single nodes in the beginning. This was obvious since the navigated paths only grew wider and increased in numbers, but never grew deeper. However it seemed as if the users slowly started to navigate using the links shown in the nodes and finally the navigated paths became deeper and deeper. This gave no direct indication of what to improve, but showed that the navigation of the node space changed over time.
+
+Towards the end of the test the users requested two reports. One to list all speakers, and one to list all instances of a specific attribute. The implementation of these was trivial and the use of the reports questionable. The first report could as easily be replaced by the default listing of all nodes of the type speaker. The second one on the other hand had some meaning as it only showed a specific attribute for every node, removing the noise of other attributes. No matter what the reason for the report requests were, they were implemented and the users seemed content with the result.
+
+Because of seminar nodes having many attributes, the observer decided to create a view for that type. However the test ended before the users could see the result of this.
+
+\subsubsection{Interviews}
+Person B seemed to have taken the role of tutor throughout the testing, and person A had performed most of the actual usage. It is also possible that person A would have acted differently in certain situations if person B hadn't been there. On the other hand, person B seems to have taken a very passive role, and only interfered when necessary.
+
+First impressions of the system were good. The overall impression from the interviews was that both testers were satisfied with ReUDD. Person A had trouble letting go of the old SQL like line of thought with tables and columns. But once able to let that go, it seemed more intuitive. Perhaps the short introduction of nodes, attribute and relationships wasn't enough, or maybe person A's way of thinking was an obstacle. Either way something more is needed for ReUDD to become more usable.
+
+The system was thought to be easy to use, except for a few areas that took some time to get used to. The proposal of a help function to aid in these situations was met with scepticism from person A. A says that such a function would not be used, but according to person B, A actually did use help. The help used was the title texts that came up when hovering the mouse pointer above images. These short sentences didn't seem to register as help for person A. Such small help texts could perhaps be used to explain even more.
+
+The placement of the type selection when adding and editing nodes seemed to put the user off. Placed at the top of the node edit area, it's intuitive to select types first. But for person A the most important part of a node isn't its type, but it's attributes. This might also be true for many other users, and the position of types should definitely be thought through.
+
+During the interviews the need for a better way to add nodes came up. With the current flow of work, users must go to the add node page, tag the node with types, add attributes and relationships. Often during the testing nodes of the same type was added again and again. Instead of adding and tagging in the same way every time, there could be a way to add a node that will automatically be tagged with a type. This could be done in a number of ways. Person B brought up that A hade seemed to be searching for a way to add rows when listing nodes of a specific type. Perhaps it should be possible to add nodes from within these lists and have the new node automatically tagged with the type that was listed. This would allow for easier adding of nodes, and also remove the need for users to focus on tagging instead of attributes.
+
+The improvements made by the observing programmer helped the users and made it easier to use ReUDD. In some cases the improvements seemed so natural that person B had to point them out for person A to notice them.
+
+The domain model observed by ReUDD was deemed to be correct by both testers when they were shown it afterwards. This is surely a success in terms of putting use first and observing what the users do. So if nothing else, ReUDD can at least be used to extract domain models from what users build up using it.
+
+When having trouble to adapt to nodes and relationships, person A took a step back and sketched the domain on a whiteboard. This helped A to continue working. Person B brought up that perhaps the domain model available to the observing programmer could be made available to the users as well. It might give the users a better understanding of what happens when nodes and relationships are added.
+
+Both testers seemed interested in the future of ReUDD and were curious to see what comes out of it. This can be seen as a sign that they were satisfied with the way it worked, and believes that the idea is solid and can evolve into something good.
+
+\subsection{Second Test}
+The same setup as in the first test was used for this test. The person posing as a user was this time an experienced software tester with a background of some programming experience. This tester will be referred to as person C. 
+
+Person C had never heard about ReUDD before, and was given a short introduction to its purpose as well as an explanation to the concept of nodes, attributes and relationships. After this a very short demonstration of how to user ReUDD was given to get the user going. After this, the database was emptied for the user to start building a new system.
+
+\subsubsection{Observations}
+This time a system containing different workouts was constructed. The central node was a node tagged with a type called person. All other nodes had relationships to this central node, and it was clearly an important item. However it didn't contain many attributes and was not edited much once created.
+
+Apart from the type person a number of other types were defined. Some examples are trainer, exercise buddy, swimming, running and cycling. The central person had relationships to the swimming, running and cycling nodes named \emph{has exercised} indicating that the system was a record of previously performed workouts. The swimming, running and cycling nodes also had attributes for distance, time, weather, temperature and so on, furthering this belief. The trainer node was a trainer for a specific sport and the training buddy had a simple relationship \emph{works out with} to the central person node.
+
+The navigated paths never progressed beyond the initial level, which means that the user never used the links when displaying nodes. Instead the user seemed to have gone back to the listings of nodes every time. It seemed like the user never really reused the information in the nodes, but only the nodes themselves when creating relationships.
+
+An interesting observation this time was that all types only had a single node attached to them. Every single type was only used once. Therefore the improvement of making attributes required would have littel effect, since no new nodes were ever added with an existing type. Because of this required attributes would only be displayed as required when editing nodes where they were already present, and not automatically available when adding new nodes.
+
+Since all types were only used once throughout the node space, the tag cloud of types didn't give any indication of what type to start making improvements on. It was also difficult to identify what improvements to perform, since having only one node to draw conclusions from was quite hard. As a first step the string representations of the person, exercise buddy and trainer was chosen as subject for improvement. All of these nodes had an attribute called name, and it was thought that the name accurately represented the nodes. The rest of the nodes were a bit more difficult. The different exercise types swimming, running and cycling all had different attributes. The attributes most common to these types were \emph{distance} and \emph{time}. The string representation of these was therefore chosen to be these two attributes, preceded with a string indicating what kind of exercise the node was tagged with.
+
+Which attributes to mark as required was also difficult because of the small amount of nodes per type. Finally, all attributes was set as required to see if the user would even notice. Since new nodes of existing types were hardly ever added, and existing nodes hardly ever edited, this might not ever show to the user.
+
+The new usage of types indicated that they were interpreted as an identification of each node by itself, instead of an overall type representing a set of nodes. For instance, both the person and the exercise buddy are surely both persons, but the person probably represents the user's by him-/herself and the training buddy another person. It has earlier been thought that a user would use the person tags on both these nodes and model the training buddy in another way. Perhaps as a relationship, attribute or another type used together with person.
+
+Only one report was ordered by the user. It should display all workouts performed during a specific time frame. What time frame to use should be specified by the user when viewing the report. The ability for users to input parameters to reports was not something that ReUDD supported at this time and the report was therefore implemented as showing all workouts, and a comment was added explaining why to the user.
+
+\subsubsection{Interview}
+The short introduction and demo was accepted as enough to get the user going in the system, but person C thought that this might be because of his/hers programming background. At the same time the system was said to be easy to use and self-instructing, allowing the user to learn while doing. As an experienced tester, person C found a lot of bugs, and felt that they got in the way of using the system. But apart from that, the system was easy to use.
+
+As in the first test, the domain model observed was shown to the user. The user felt that the model was an adequate representation of the domain. This once again indicates that ReUDD can be used to extract domain models from the use performed.
+
+Person C never noticed the improvements made by the observer, apart from the report going from being unimplemented to being implemented. When the improvements to the string representations were pointed out to the user they were however confirmed. Not as being helpful, but as being different. Perhaps they were not noticed since the new format was an accurate representation of how they naturally should be. This suspicion was confirmed by the user. The attributes marked as required were also never noticed, since no type was ever used twice.
+
+The new usage of types was brought up, and person C still believed that a training buddy was separated from a node representing user's self. Even in other domains the user might interpret different nodes as different types even though they are both partly the same, for instance separating a boss and an employee who both are persons. When asked if the type concept was confusing, person C seemed to feel that the language used needed work. More specifically, the name \emph{node} needs change, was said. The language used in ReUDD might be adapted for programmers and not users.
+
+Upon discussing the possibility of a help-function the need for such functionality was discouraged. Person C thought it to be better to have an intuitive user interface and small help texts where applicable.
+
+Person C seemed positive to the idea of allowing users to use ReUDD to identify the needs and requirements of a system. Instead of talking about what system should be developed, the users could with ReUDD show what needs to be done and how things are connected.
+
+A new usage of relationships was brought up, not during the interview but in a discussion afterwards. A relation describing that a person had exercised triathlon\footnote{A sport containing all three events of swimming, running and cycling.} could not be created as the user required. The user wanted to create a relationship that could point to multiple nodes, one for each part of the triathlon. This is currently not supported in ReUDD since it isn't supported in neo4j. To model relationships in this way an intermediate node needs to be constructed, and from it three new relationships can point to the swimming, running and cycling nodes. The intermediate node could perhaps be tagged with a \emph{triathlon} type.
+
+\subsection{Third Test}
+Once again the same setup was used. The tester in the third test, person D, had this time previously heard about ReUDD and some of the work in this thesis and had expressed critique against it. Person D was a currently active programmer with experience and knowledge of the neo4j graph database used in ReUDD. The notion of nodes, attributes and relationships was therefore not new to person D. Nevertheless the short introduction was held as well as the demonstration of how to use ReUDD.
+
+\subsubsection{Observations}
+At first it was difficult to understand what kind of system was being built. The domain model was unstable and changed much during the beginning of the test. Possibly the user was trying different things and getting used to ReUDD. There were a few times where relationships seemed to change direction, indicating that they had been placed incorrectly at first.
+
+After a while it became clear that the system being modeled was some sort of financial transaction system. The system contained merchants, customers, transactions, purchases and points. The points were the currency of the domain and customers and merchants participated in transactions that resulted in purchases.
+
+An interesting thing about the domain was that person D created native types to the domain, meaning that two types called \emph{CustomerType} and \emph{TransactionType} were created and used to define what types the customers and merchants were. Though only one of each type were created and only had an attribute called type, it's interesting that they were introduced into the domain. Perhaps these types were to be used to hold information common to different types of customers and merchants. Person D's background as a programmer seemed to feel a need to hold such information in one place. Perhaps the underlying type mechanism already built into ReUDD could have been used instead. If person D had been introduced to ReUDD's types these domain specific ones might not have been created.
+
+Early during the session many different types were created, but not many nodes were tagged with each type. There were about two nodes for every type. Using the tag cloud to decide which types to start improving was therefore not the best approach. Instead the types that had many relationships and where viewed and edited much, were chosen as the first ones to improve. As a first step they were given a better string representation, but later some of the attributes were also marked as required.
+
+Throughout the test, person D never ordered any reports. Perhaps the display of nodes and their relationship was enough to satisfy the needs in this particular domain. Looking at a transaction for example, revealed all involved parties and what purchase it lead to. Another reason might have been that the domain simply didn't require any reports.
+
+During the test, many of the relationships connected to points were changed and renamed. It didn't appear to be because of errors in the model, but because of an evolving system. Points changed owners but the history of which points had been owned by whom still remained. Points also split up into smaller amounts of points. Person D seemed to use ReUDD in a way different than expected. Instead as a data in, report out system ReUDD was used to input a domain of nodes and test the use of that domain. Person D seemed to input a domain previously known and check out the possibilities of that domain. How could it evolve, how did things relate to each other and so on. This could also explain why no reports were requested. They were simply not applicable to the current domain.
+
+\subsubsection{Interview}
+ReUDD was accepted as quite easy to use, but with a learning curve. It could be a bit messy in the beginning but after a while the user got into it. Specifically the selection of types was a source of confusion. Some adjustments needs to be made on the graphical language to further simplify the users' understanding of the system.
+
+The short introduction was enough to get the user going. Although it's good o note that the user this time was an experienced programmer with experience of the neo4j graph database. Therefore the concept of nodes, attributes and relationships was well known and understood by person D before the introduction to ReUDD.
+
+ReUDD once again was able to observe the correct domain model, although the system was this time used to test out a domain already used by the tester in a standalone project. ReUDD was used to test out the domain and check out how things related to each other. Doing this discovered a type of relationship that wasn't discovered until late in person D's own project. Using ReUDD in the beginning of this project could have identified that relationship much earlier.
+
+The improvements made were noticed, but not appreciated. The attributes marked as required enabled them to automatically display when adding or editing nodes. This put the user of track since it changed the display of the nodes and how the user was used to see things. The change in string representations were also noticed but in some cases not accepted as the best solution. As an example both customers and merchants had an attribute called name. This name was chosen as the string representation for these kinds of nodes. However, this meant that in the drop down list of nodes the user could now no longer see what type a node had. This could have easily been fixed by giving the string representation a prefix explaining what type the node had.
+
+Person D expressed a belief that ReUDD can be truly successful. Especially for the data in report out types of system it's meant for, but also for testing out domains like in this particular test case. A possible improvement to further support such use is to introduce automatic actions that can be fired on different events. Like the splitting of points into several other points, that also set up relationships to the previous nodes as well as the new ones.
+
+The use of nodes and relationships was natural to person D. Much appreciation for the neo4j database was expressed during the interview and person D talked about the whiteboard-friendliness it has. When sketching domains and later implementing them in neo4j the result very often ended up in the same way. A belief that users will have easier to relate to this kind of databases was also expressed.
+
+\chapter{Discussion \& Conclusion} \label{chap:discussion-conclusion}
+
+\section{Discussion} \label{sec:discussion}
+
+\subsection{The UDD Method}
+The development method proposed in this thesis is really quite simple. Put use first and involve users through an initial data in, report out system. The more complicated part was to create the system that supports UDD. However the method of allowing use to be placed first seems to work, at least for the basic use cases in the testing performed during this master thesis. How difficult it would be to apply to a real life project has not been investigated in this thesis.
+
+The main thought behind UDD is to close the circle of use, observations and improvements. Let someone use something, observe what they do and how, and finally improve the thing being used. After this, the same iteration can be performed again and again. It truly is an agile form of development.
+
+Most of the work performed during this thesis has focused on the UDD software prototype called ReUDD. This prototype in turn covers the thought behind UDD as it puts use first and allows observations of what users do and in some extent how they do it.
+
+\subsection{The ReUDD prototype}
+During the testing performed, the ReUDD prototype proved successful in observing the use and domain. From this the prototype can be deemed a success. However this is only proof that it worked for those particular users and that domain. So ReUDD can't be said to have been proven successful, but perhaps at least shown to have promise of being so.
+
+The users testing ReUDD found it easy to use, but with a bit of a learning curve and some problems with how to perform certain tasks. The user experience is important as ReUDD focus a lot on what the users do. If users are not allowed to do what they want to do, the whole system fails. One can not claim to put use first, and then force users into doing certain things and hindering them from another. Good user experience will also probably increase the flow of use.
+
+To be applicable to a greater range of system domains ReUDD must offer more improvements. The ones existing now is a minimum and should absolutely not be the final ones. More observations and better representations of the ones currently available should also be developed. Much of the observer's interface can be difficult to understand at first glance, and even though this author and perhaps readers of this thesis understand it, some improvements could be beneficial.
+
+ReUDD could also offer better support for end-user development if more control was available also from the users' point of view. Things like marking attributes as required or choosing the string representation of nodes is something that users probably can do. They are also the ones most likely to know what should be required and what they want to see when looking at nodes. These options could of course perhaps clutter up the interface, and some effort should be put into how to make them available to users without coming in the way of the regular use.
+
+When developing a standalone system perhaps the underlying neo database can be used directly since the mapping between domain and persistence is so closely tied when using ReUDD. The close connection between the created node space and the underlying database is surely a benefit. If users have built mature and complex node spaces they would most likely not appreciate having to do it all over again if a standalone system was developed. The possibility to transfer the work already performed must therefore be of great importance.
+
+The third test showed a request for relationships with multiple end nodes. The example used was a person who had performed a triathlon and would like the relationship to represent the actual performance of this, and that it should point to three nodes of the types swimming, running and cycling. Neither ReUDD nor the neo4j database supports such relationships and requires the users to model this in a different way. Hindering the users from doing what they truly want can certainly be seen as a weakness and the possibility for such use should be researched further.
+
+The types caused some confusion during some tests. What causes this confusion is not clear, but something should be done to make the use of them easier. The types are required for ReUDD to observe the domain and for improvements to be made, so removing them is not an option at the moment.
+
+Throughout the tests nodes were only tagged with one type each. Though ReUDD currently supports multiple types it was never used. Allowing only single types could have meant that the implementation of ReUDD could have been made easier, but since there still might be domains that require multiple types this was not an option.
+
+During the third test it was shown that ReUDD could be used in other ways than originally intended. Instead of just being applicable to systems that receive and display data, ReUDD proved useful to input a domain and test and evolve it. This kind of explorational domain use was not within the scope of this thesis, but ReUDD seems to be able to handle it anyway.
+
+The view improvements were never used during any test and have therefore not been evaluated. Their value has not been proven, and they exist mostly to show what can be done in future versions.
+
+A weakness of ReUDD not found in any of the tests, but still present, is the possibility to miss important but not commonly occurring actions. For instance if an accounting system was being developed, a lot of nodes could be added to represent the different transactions, currencies, actors and so on. This could generate a lot of understanding and improvements on the day to day work of the system. But what if the system should be able to generate a yearly report that is the single most important aspect of the entire system. Since this action would only be performed once a year it would drown in all the other use observed by ReUDD. These kinds of needs are currently not identified by ReUDD.
+
+In a discussion with an employee at Jayway about what this master thesis was about he said \emph{So you are going to put us all out of work}. Though ReUDD can help a lot of end-users develop their own systems, this author doesn't believe that it will replace the need for real software developers. ReUDD will perhaps not be able to fulfill the users' needs to the fullest. However, it can empower the users to create systems that support their needs until a separate system can be developed. This system can be developed by looking at what the users have done in ReUDD and developed with relative ease. So ReUDD will not put the software developers out of work, it will empower them to develop systems that are truly needed.
+
+\subsection{Performed Work}
+Originally more testing was planned, but because of increased development time it had to be scaled down. Having more testing performed would have given more information to discuss and draw conclusions from. A wider range of testers and domains would also have given more input on the specific strengths and weaknesses of ReUDD.
+
+The testing performed has a number of shortcomings. Only four people where tested as users of ReUDD. They all have a background as programmers, which may give them a certain way of thinking. At the same time any other background could give another way of taking on problems. The best solution would have been to test on more people. The fact that person B took a more tutoring role than a using one during the first test also affected the result.
+
+The development of the ReUDD prototype took much more time than anticipated. If more time had been available more improvements and observations could have been implemented, and more testing performed. Perhaps the task of developing a fully functional system and evaluate it might be a task too big to fit in a single master thesis. The scope helped to narrow the amount of work as well as the focus on developing a prototype instead of a final solution.
+
+\section{Conclusion}
+By allowing use to be placed first in the development process and observing what users want to do, desire paths have been applied to software development. Using desire paths to improve already existing software was shown possible back in section~\ref{sec:desire-paths-in-software}, but with ReUDD they can be used to develop new software as well.
+
+Using the observations of use in ReUDD allows the improvements and programming to become a reaction of what the users actually do. In the belief that the usage in the long run represents the true needs of the users, a system developed as a reaction of use will be a reaction of the needs.
+
+ReUDD supports use-first, observations and improvements. The observations can be used to create a standalone system if the improvements of ReUDD aren't enough. Using the UDD method and ReUDD during software development has been shown to identify the correct domain models created by its users, observing their use and satisfied their experience of the system. Thereby the goals of this thesis can be said to have been fulfilled. ReUDD has also shown to be useful for one type of usage outside the scope it was originally intended for.
+
+\section{Future Work}
+More research is needed to prove if UDD and the kind of system ReUDD offers can be successfully used during a wider range of software development domains. ReUDD itself needs more testing and development to become truly valuable.
+
+The development of ReUDD will continue as an open source project. When it will be released is not certain at this time, but with more development and testing ReUDD can hopefully become a system that can be used by a wide range of users and programmers to develop their own systems. Possibly it can empower end-users to create their own software.
+
+An aspect not covered by this thesis is where testing is involved in the process. This subject needs to be investigated and discussed to make UDD a reliable method. Acceptance testing can perhaps be said to be done on the fly since the users are continuously using the system. If they aren't happy with any of the improvements they can inform the observer directly.
+
+\bibliographystyle{acm}
+\bibliography{references}
+
+\appendix
+
+\chapter{Bulk Add} \label{app:csv-file}
+\thispagestyle{empty}
+\pagestyle{empty}
+
+\section{File Syntax}
+Each row of the file should be a list of string separated by a semicolon (;). The top row will be used to set the types as well as the names of attributes and relationships. All other nodes should contain the types, values of the attributes or the targets for the relationships defined in the top row.
+
+To define a field to specify types to tag the nodes with use the string \emph{type:} in the top row. To define a new attribute with the key name simply write \emph{name}. To define a relationship write \emph{rel:rel\_name(attr\_key)}. The rel\_name will be the name of the relationship and the attr\_key tells ReUDD in what field to search for the target node. The target of the relationship will be the row whose attribute with the key attr\_key have the same value as specified in the relationships column.
+
+Uploading a file with the same content as figure~\ref{fig:csv-example} will generate a node space of three nodes of the type \emph{Person}. The three persons will each have an attribute with key \emph{name}, and the values of them will be set to \emph{Jonas}, \emph{Helge} and \emph{Urban}. Two relationships will be created from the node with name Jonas, one to each of the other nodes. The relationships will have the name \emph{knows}. None of the nodes will have an attribute called \emph{mock} even though it is defined in the top row. This is because none of the nodes have a value specified in the corresponding field.
+
+\begin{figure}[hbtp]
+	\center
+	\begin{minipage}[h]{0.9\linewidth}
+		\begin{verbatim}
+			type:  ; name  ; mock ; rel:knows(name) ; rel:knows(name)
+			Person ; Jonas ;      ; Helge           ; Urban
+			Person ; Helge ;      ;                 ;
+			Person ; Urban ;      ;                 ;
+		\end{verbatim}
+	\end{minipage}
+	\caption{Example of a filled in csv-file}
+	\label{fig:csv-example}
+\end{figure}
+
+\chapter{Transcribed Interviews} \label{app:transcribed-interviews}
+\thispagestyle{empty}
+\section{Syntax}
+
+The interviews were performed in swedish, since it was the native language of both the interviewer and the interviewees. Text written in boldface represent what the interviewer said during the interview, while normal text is what the interviewed person said. A short example is shown below.
+
+\vspace{1cm}
+
+\me{Hello, welcome to this interview.}
+\per{Thank you very much!}
+
+\section{Interview With Person~A}
+\input{transcription-A.tex}
+
+\section{Interview With Person~B}
+\input{transcription-B.tex}
+
+\section{Interview With Person~C}
+\input{transcription-C.tex}
+
+\section{Interview With Person~D}
+\input{transcription-D.tex}
+
+\end{document}

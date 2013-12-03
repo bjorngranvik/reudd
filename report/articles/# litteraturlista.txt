@@ -1,0 +1,312 @@
+=======================================
+=======================================
+Datum: 2009-09-14
+Sökmotor: ELIN
+Sökfras: user focus development
+=======================================
+=======================================
+---------------------------------------
+Notes: Applicera agilt på stora system. Verkar rekommendera agilt men kompleterad med skräddarsydd lösning. Utveckling av krav udner utveckling (UDD skulle inte bry sig om sådana ändringar då det reflekteras direkt i vilken data som finns och används). FULLTEXT
+http://elin.lub.lu.se.ludwig.lub.lu.se/elin?func=record&resid=b1088fa193fbf140dd99497cb57c56cf&lang=en&query=A%20Soft-Structured%20Agile%20Framework%20for%20Larger%20Scale%20Systems%20Development&start=&orgFunc=simpleSearch
+Title: A Soft-Structured Agile Framework for Larger Scale Systems Development
+Authors: Soundararajan, S.; Arthur, J.D.
+Abstract:
+One of the more important issues in the development of larger scale complex systems (product development period of two or more years) is accommodating changes to requirements. Requirements gathered for larger scale systems evolve during lengthy development periods due to changes in software and business environments, new user needs and technological advancements. Agile methods, which focus on accommodating change even late in the development lifecycle, can be adopted for the development of larger scale systems. However, as currently applied, these practices are not always suitable for the development of such systems. We propose a soft-structured framework combining the principles of agile and conventional software development that addresses the issue of rapidly changing requirements for larger scale systems. The framework consists of two parts: (1) a soft-structured requirements gathering approach that reflects the agile philosophy i.e., the agile requirements generation model and (2) a tailored development process that can be applied to either small or larger scale systems.
+Key words:
+software specification; larger scale systems development; soft-structured agile framework; requirements engineering; software development lifecycle; formal verification
+Journal: 2009 16th Annual IEEE International Conference and Workshop on the Engineering of Computer Based Systems
+Publisher: IEEE
+Year: 2009
+Pages: 187-195
+Provider: IEEE
+---------------------------------------
+Notes: Mest sista meningen i abstract som fångade mig, nämligen att customer feedback är viktigt. Hittar ingen fulltextversion.
+http://proquest.umi.com.ludwig.lub.lu.se/pqdlink?index=16&did=1664818041&SrchMode=3&sid=1&Fmt=2&VInst=PROD&VType=PQD&RQT=309&VName=PQD&TS=1253083557&clientId=53681&aid=1
+http://enr.construction.com/technology/information_technology/2009/0225-VirtualDesign.asp
+Title: Software Firms See User Needs Driving New Development
+Authors: Sawyer Tom
+Abstract:
+While pioneering firms strive to reduce risk and increase productivity by embracing virtual design and construction (VDC), the vendors enabling VDC struggle to anticipate user needs and differentiate themselves from their competition without losing customers in swamps of technological confusion. For now, the focus is on performance, constructibility and data interoperability. There is a lot of stuff happening, says Bhupinder Singh, VP of Bentley Software at Bentley Systems Inc, Exton, PA. One vision of building information modeling is that if merged, those models can fully define the project and empower coordinated management of all phases and disciplines over the lifecycle of the facility. Users and owners want data interoperability. The key to progress for any software developer is listening to feedback from customers, say both Bentley and Autodesk, and they both claim to pay close attention, although their customer relationships are different.
+Key words: Software; Construction industry; Virtualization; Interoperability; Innovations
+Journal: ENR
+Issn: 08919526
+Year: 2009
+Volume: 262
+Issue: 7
+Pages: 36
+Provider: Proquest
+---------------------------------------
+Notes: Kanske mest intressant vid framtagandet av websidan. Testa olika upplägg för olika grupper osv. FULLTEXT
+http://elin.lub.lu.se.ludwig.lub.lu.se/elin?func=record&resid=150da718d920f7a50283378801083233&lang=en&query=Controlled%20experiments%20on%20the%20web%3A%20survey%20and%20practical%20guide&start=&orgFunc=simpleSearch
+Title: Controlled experiments on the web: survey and practical guide
+Authors: Kohavi, Ron; Longbotham, Roger; Sommerfield, Dan; Henne, Randal M.
+Abstract: 
+The web provides an unprecedented opportunity to evaluate ideas quickly using controlled experiments, also called randomized experiments, A/B tests (and their generalizations), split tests, Control/Treatment tests, MultiVariable Tests (MVT) and parallel flights. Controlled experiments embody the best scientific design for establishing a causal relationship between changes and their influence on user-observable behavior. We provide a practical guide to conducting online experiments, where end-users can help guide the development of features. Our experience indicates that significant learning and return-on-investment (ROI) are seen when development teams listen to their customers, not to the Highest Paid Person's Opinion (HiPPO). We provide several examples of controlled experiments with surprising results. We review the important ingredients of running controlled experiments, and discuss their limitations (both technical and organizational). We focus on several areas that are critical to experimentation, including statistical power, sample size, and techniques for variance reduction. We describe common architectures for experimentation systems and analyze their advantages and disadvantages. We evaluate randomization and hashing techniques, which we show are not as simple in practice as is often assumed. Controlled experiments typically generate large amounts of data, which can be analyzed using data mining techniques to gain deeper understanding of the factors influencing the outcome of interest, leading to new hypotheses and creating a virtuous cycle of improvements. Organizations that embrace controlled experiments with clear evaluation criteria can evolve their systems with automated optimizations and real-time analyses. Based on our extensive practical experience with multiple systems and organizations, we share key lessons that will help practitioners in running trustworthy controlled experiments.
+Key words: Controlled experiments; A/B testing; e-commerce; Website optimization; MultiVariable Testing; MVT
+Journal: Data Mining and Knowledge Discovery
+Publisher: Springer
+Issn: 13845810
+Year: 2009
+Volume: 18
+Issue: 1
+Pages: 140-181
+Provider: Springer
+---------------------------------------
+Notes: Tar upp fokusen på användare vid utveckling av system. FULLTEXT
+http://elin.lub.lu.se.ludwig.lub.lu.se/elin?func=record&resid=c5f27a2fc68097af6b0c49ea70de995e&lang=en&query=A%20New%20Look%20at%20the%20Relationship%20between%20User%20Involvement%20in%20Systems%20Development%20and%20System%20Success&start=&orgFunc=simpleSearch
+http://proquest.umi.com.ludwig.lub.lu.se/pqdlink?index=4&did=1843397161&SrchMode=3&sid=2&Fmt=2&VInst=PROD&VType=PQD&RQT=309&VName=PQD&TS=1253083881&clientId=53681&aid=2
+Title: A New Look at the Relationship between User Involvement in Systems Development and System Success
+Authors: Harris Mark A; Weistroffer H Roland
+Abstract: 
+The relationship of user involvement to successful systems development has been the focus of much attention for information systems researchers for some time. Common understanding has been that extensive user involvement is not only important, but absolutely essential to system success. However, earlier studies trying to link user involvement to system success have shown mixed results. In this paper we review 28 empirical research studies that investigate the significance of user involvement. From our results we conclude that user involvement in the systems development process is indeed important to system success. We further identify several key points pertinent to making user involvement effective.
+Key words: Studies; Systems development; Information systems; User behavior
+Journal: Communications of the Association for Information Systems
+Issn: 15293181
+Year: 2009
+Volume: 24
+Issue: 1
+Pages: 16
+Provider: Proquest
+---------------------------------------
+=======================================
+=======================================
+Datum: 2009-09-14
+Sökmotor: ELIN
+Sökord: user centered development
+=======================================
+=======================================
+---------------------------------------
+Notes: Titeln verkar spännande - FULLTEXT
+http://elin.lub.lu.se.ludwig.lub.lu.se/elin?func=record&resid=552c4e838b0b32f2a26af6614d737468&lang=en&query=Usability%20and%20User-Centered%20Design%20in%20Scientific%20Software%20Development&start=&orgFunc=simpleSearch
+Title: Usability and User-Centered Design in Scientific Software Development
+Authors: Macaulay Catriona; Sloan David; Jiang Xinyi; Forbes Paula; Loynton Scott; Swedlow Jason R; Gregor Peter
+Abstract: 
+Usability is a growing issue for developers of scientific software. Scientists seeking software to support scientific discovery and funding bodies seeking better return on investment increase the pressure to produce scientific software that has an impact beyond a limited set of users (that is, scientists in a single lab). However, developing software for even a limited set of users is challenging, and commercial design techniques are rarely available for scientific software development in academic settings. Lessons learned from a case study in which developers integrated usability and user-centered design (UCD) methods into an image-data-management software suite for cell biologists might be useful to others working in similar contexts.
+Key words: Software engineering; Studies; Science; Research; Information management
+Journal: IEEE Software
+Issn: 07407459
+Year: 2009
+Volume: 26
+Issue: 1
+Pages: 96-102
+Provider: Proquest
+---------------------------------------
+=======================================
+=======================================
+Datum: 2009-09-15
+Sökmotor: ELIN, databas: Inspec & Compendex (Elsevier)
+Sökord: Christopher Alexander, requirements
+=======================================
+=======================================
+---------------------------------------
+Notes: Artikel som handlar om Christopher Alexander. Kan ha värdeful insikt och tankar om honom. Fulltext hämtad från http://members.cox.net/risingl1/Articles/goodsoft.html (090916 08:42)
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd7caaprod1data2&CID=quickSearchDetailedFormat&DOCINDEX=1&database=2105347&format=quickSearchDetailedFormat
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=1557c0123e19d9b693301prod3data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: The road, Christopher Alexander, and good software design
+Authors: Rising, L.
+Abstract:
+Christopher Alexander has had more influence on the object oriented software development world than any other person outside the community. He has an impressive list of credentials and has written several books. These books are about patterns, as well as something else he calls the “quality without a name”. This unnamed quality is the heart of what patterns are all about. As Alexander describes it: “there is a central quality which is the root criterion of life and spirit in [all things]...The search which we make for this quality in our own lives, is the central search of any person...It is the search for those moments and situations when we are most alive.” Alexander's central premise, driving over thirty years of thoughts, actions, and writings, is that there is something fundamentally wrong with twentieth century architectural design methods and practices. Alexander illustrates failures in the sensitivity of contemporary methods to the actual requirements and conditions surrounding their development. He argues that contemporary methods fail to generate products that satisfy the true requirements placed upon them by individuals and society, fail to meet the real demands of real users, and ultimately fail in the basic requirement that design and engineering improve the human condition
+---------------------------------------
+=======================================
+=======================================
+Datum: 2009-09-15
+Sökmotor: ELIN, databas: Inspec & Compendex (Elsevier)
+Sökord: user focus, software
+=======================================
+=======================================
+---------------------------------------
+Notes: End-user development verkar vara en version av det vi tänk oss som UDD. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=1c1ac46123b80869e8M3d0bprod4data1&CID=quickSearchDetailedFormat&DOCINDEX=2&database=3&format=quickSearchDetailedFormat
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=1c1ac46123e205c81fM6379prod4data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=1&format=quickSearchDetailedFormat
+Title: What is end-user software engineering and why does it matter?
+Authors: Burnett M.
+Abstract:
+End-user programming has become ubiquitous, so much so that there are more end-user programmers today than there are professional programmers. End-user programming empowers-but to do what? Make really bad decisions based on really bad programs? Enter software engineering's focus on quality. Considering software quality is necessary, because there is ample evidence that the programs end users create are filled with expensive errors. In this paper, I consider what happens when we add to end-user programming environments considerations of software quality, going beyond the "create a program" aspect of end-user programming. I describe a philosophy to software engineering for end users, and then survey several projects in this area. A basic premise is that end-user software engineering can only succeed to the extent that it respects the fact that the user probably has little expertise or even interest in software engineering. © 2009 Springer Berlin Heidelberg.
+---------------------------------------
+Notes: Talar om skillnader mellan end-users. Lite hur vad man ska tänka på med end-user. Verkar dock bara vara ett intro till ett seminarie. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123b8cbb379M41c5prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=10&database=3&format=quickSearchDetailedFormat
+http://ieeexplore.ieee.org/xpl/freeabs_all.jsp?arnumber=4343727
+Title: Helping end-user programmers "engineer" software: an opportunity for empirical researchers
+Authors: Rothermel G.
+Abstract:
+While much of the software that people depend on is written by professional software engineers, increasingly, important applications are being created by non-professional (end-user) programmers. Using tools such as spreadsheet environments and web authoring tools, these programmers are creating software that is being used to support significant activities and inform decisions. Such software needs to work dependably and increase user productivity, but evidence shows that it frequently does not. For example, studies have shown that a large percentage of the spreadsheets created by end-users contain faults, and data suggests that time spent maintaining web macros may actually impede their users' overall efforts. In recent years researchers have begun to address this problem, considering various approaches to adapting software engineering techniques to the realm of end-user programming. For example, researchers have sought ways to help end users test and debug spreadsheets, and to increase productivity in web macros by combining them with various software engineering devices. To make progress in this area, researchers are turning to empirical studies, in order to investigate new approaches, understand the factors that influence them, and better understand issues related to end user programmers themselves. In this talk I will present recent work being done in end-user software engineering, with a particular focus on the state of the art of empirical research in the area. I will show that there is a pressing need for further empirical work in this context, and that there are interesting questions that researchers from the ESEM community could help to answer. For example, how are end-users different from programmers, and how does that affect how we conduct the research? (Are there assumptions we make when doing studies with programmers that do not hold with end-users? What are the threats to validity when, say, we use CS students as subjects in end-user studies?) As another example, how are end-users different from each other and how does that affect study results? (The end-user community is much more diverse than the professional programmer community. What are the important context variables one needs to capture when studying them?) A concerted effort by the ESEM community on such issues could result in a substantial impact on society as a whole, and on the everyday lives of many people.© 2007 IEEE.
+--------------------------------------- 
+Notes: använder frasen "unwitting programmers". Problem med användare som utvecklar (exempelvis web-applikationer). FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123b8cbb3797098prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: End users as unwitting software developers
+Authors: Costabile Maria Francesca, Mussio Piero, Provenza Loredana Parasiliti, Piccinno Antonio
+Abstract:
+The widespread use of personal software systems and the boom of the so-called Web 2.0 is erasing the distinctions between those who create software products and those who use or consume them. End users are increasingly involved in the design and development of the tools they use. Unfortunately, there is a high incidence of errors in applications developed by end users. In this paper, a view on end-user development is outlined, which identifies the communication gap between end users and professional software developers as one main source of errors. The spectrum of users that lie between pure end users and professional developers is examined. In particular, the focus is on a particular type of end users that are very active in shaping software tools to their needs without being aware that they are programming: in short, they are unwitting programmers. Their characteristics and their need of appropriate development techniques and environments are analyzed. Finally, the metadesign participatory approach we have developed is briefly described to show how it fills the communication gap and well supports the activities of unwitting programmers.
+---------------------------------------
+Notes: Participatory design, blanda in användarna i utvecklingen, användares behov och förväntningar på systemet. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=83e1e123b781c9437a3fprod3data2&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: Adaptive development and maintenance of user-centric software systems
+Authors: Pahl C
+Abstract:
+A software system cannot be developed without considering the various facets of its environment. Stakeholders-including the users that play a central role-have their needs, expectations, and perceptions of a system. Organisational and technical aspects of the environment are constantly changing. The ability to adapt a software system and its requirements to its environment throughout its full lifecycle is of paramount importance in a constantly changing environment. The continuous involvement of users is as important as the constant evaluation of the system and the observation of evolving environments. We present a methodology for adaptive software systems development and maintenance. We draw upon a diverse range of accepted methods including participatory design, software architecture, and evolutionary design. Our focus is on user-centred software systems
+---------------------------------------
+Notes: Case-study med en revisor som använder ett system. Resultaten kan vara intresanta. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=1557c0123b76ab3797992prod3data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: Software visualization for end-user programmers: Trial period obstacles
+Authors: Subrahmaniyan Neeraja, Burnett Margaret, Bogart Christopher
+Abstract:
+Software visualization for end-user programmers is a relatively unexplored opportunity area. There are advances in software visualization research pertinent to this, but the adoption stage has been entirely ignored. In this paper, we focus on a popular facilitator of adoption decisions: the free trial period. We conducted a case study of an end-user programmer (an accountant) in this situation, as she tried out a commercial spreadsheet visualization tool to make an adoption decision. The results have implications for both theory and design, revealing open questions, design opportunities, and strengths and weaknesses of theoretical foundations.
+---------------------------------------
+Notes: Verkar verkligen ha fokus på användarna. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123b8cbb37970d0prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: Usage-centered software engineering: an agile approach to integrating users, user interfaces, and usability into software engineering practice
+Authors: Constantine L.L., Lockwood, L.A.D. 
+Abstract:
+Usage-centered design is a systematic, model-driven approach to visual and interaction design with an established record of effectiveness in a wide variety of settings and areas of application. The tutorial introduces the models and methods of usage-centered design and explores the integration of usage-centered approaches into software engineering practice. Agile approaches to modeling will be emphasized, with the focus on use cases, which are central to usage-centered design and serve as a common thread throughout an integrated usage-centered software engineering process
+---------------------------------------
+Notes: Erfarenheter från att utveckla system med fokus på användarna. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=1557c0123b76ab37979bfprod3data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=3&format=quickSearchDetailedFormat
+Title: Product definition using a user-centered design method
+Authors: Davison J
+Abstract:
+This paper communicates the author's experiences defining the external user interface specification for a new workstation product using a user-centered design team. The multidisciplinary team consisted of a technical writer, a programmer, and a human factors specialist to leverage the different skill sets of each profession. The work was familiar to all involved, but each professional represented their profession's perspectives and experiences in the product definition task. In so doing, the work took on several new characteristics that are described in this paper. In particular, the focus on the user and on the user's tasks was far greater than had been traditionally the case. Inside IBM, as in the software industry in general, two forces have been playing an increased role in software development. First, there has been focus on reduced cycle time. Secondly, there has been focus on providing customers with solutions that address the types of tasks they do in their jobs. To address these forces, IBM's Software Solutions Laboratory in Toronto, Ontario has been experimenting with different approaches to designing software. The experiences related here come from designing a new product's interface using a multidisciplinary design team.
+---------------------------------------
+=======================================
+=======================================
+Datum: 2009-09-22
+Sökmotor: ELIN, databas: Inspec & Compendex (Elsevier)
+Sökord: user involvement
+=======================================
+=======================================
+---------------------------------------
+Notes: Undersöker involvering av användare tidigt i processen. Tar upp hur man gör needs till krav. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=2&database=3&format=quickSearchDetailedFormat
+Title: User studies: a practical approach to user involvement for gathering user needs and requirements
+Authors: Kujala, S.
+Abstract:
+This thesis investigates the role of user involvement in the early phases of product development. It is generally believed that usability and more accurate user requirements are achieved through the involvement of potential users in product development. First, the benefits and challenges of user involvement identified in the literature were reviewed. It was discovered that early user involvement has positive effects on user and customer satisfaction and requirements quality, but it may additionally have negative effects on product development time and cost. A practical approach to early user involvement referred to as 'user study' was synthesised to find a way to apply cost-effectively early user involvement to real product development contexts. The goal of the user study is cost-effectively to gather data on users and their needs and to translate them to user requirements that support the development of useful and usable products. The user study approach was then evaluated in four case studies in five different product development companies. The first and second study focused on the usefulness of user studies. The third study investigated introducing the user study approach to a real product development context. The fourth study concerned representing the results of user studies: bridging the gap between user needs and user requirements. The results presented in the thesis reveal that early user involvement is useful even in a short time frame with relatively low costs. The results additionally provide further support for the successful implementation of user involvement in the early phases of the product development
+---------------------------------------
+Notes: Användarinvolvering i utvecklingsprocessen.  FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=3&database=3&format=quickSearchDetailedFormat
+Title: User involvement in the design process: why, when & how?
+Authors: Allen, C.Dennis ; Ballman, Don ; Begg, Vivienne ; Miller-Jacobs, Harold H. ; Muller, Michael ; Nielsen, Jakob ; Spool, Jared
+Abstract:
+For years the CHI community has championed the importance of the user in system development. As many of us develop systems, we find that the concept of user involvement is not so easy to implement. Does one always strive to involve the user in the design process? Are there situations when the users should not be involved? What if the user is reluctant to change? How is user involvement handled when the user claims to know all the answers and wants to design the entire interface his or her way? What if the users, or even potential users are not available? How can user involvement be accomplished under these developmental restrictions? User Involvement, therefore, may be a goal - not a given, and how to effect user involvement is not as straight forward as the text books convey. To assist the process of user interface development, many techniques have been developed such as Heuristic Evaluation, Participatory Design, Cognitive Walk Throughs, Task Analysis and Rapid Prototyping. These techniques vary considerably in the extent of user involvement that they require. This panel will attempt to match the technique with the degree of user involvement that the developer is faced with or can achieve.
+---------------------------------------
+Notes: Involvering av användare. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=5&database=3&format=quickSearchDetailedFormat
+Title: User involvement in innovation projects: toward an information processing model
+Authors: Gales, L. ; Mansour-Cole, D.
+Abstract:
+This study examines user involvement at the project level as a specific form of information processing. The information processing perspective (Daft and Lengel, (1984, 1986); Galbraith, (1977); Tushman and Nadler, (1980)) provides a robust framework for understanding the rationale and dynamics of user involvement in innovations, and complements existing work in this phenomenon (Alien, (1977); Ives and Olson, (1984); Foxall and Johnston, (1987); von Hippel, (1976, 1977, 1981, 1988)). Information processing provides the foundation for development of a contingency model of user involvement that emphasizes the importance of matching involvement to known and unknown uncertainty in projects and to the environmental context. In investigating the relationship between user involvement, organizational context and performance in 44 innovation projects, we found that the frequency of user involvement and number of users contacted increased as projects progressed from idea generation to commercialization. We also found that specific measures of uncertainty were related to user involvement. Additionally, we found a significant interaction between known uncertainty and frequency of user involvement with respect to project performance. Implications of these findings for project management and theory development are discussed
+---------------------------------------
+Notes: Verkar ta upp att användarnas oerfarenhet påverkar resultatet positivt. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=12&database=3&format=quickSearchDetailedFormat
+Title: User involvement for effective customization: an empirical study on voice networks
+Authors: Sioukas, A.V.
+Abstract:
+This paper addresses the role of customer involvement in effective customization of projects, products, or services. Relationships between variables such as project effectiveness, user involvement, supplier efficacy for service to the client, and project complexity are studied. The conditions necessitating involvement are also explored. The case of voice network customization is examined. A questionnaire is designed to measure the variables of the study. Factor analysis gives two factors of project complexity: project size/cost; and user inexperience. Findings provide evidence that user involvement is positively related to network project effectiveness. Supplier efficacy for service is positively and significantly related to user involvement and project effectiveness. The implication is that suppliers with a service-orientation can motivate user involvement and achieve client satisfaction, In addition, user inexperience is positively related to user involvement showing the importance of learning as a motivator for customer participation
+---------------------------------------
+Notes: Användarbehov och värderingar. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=14&database=3&format=quickSearchDetailedFormat
+Title: Effective user involvement in product development by improving the analysis of user needs
+Authors: Kujala, S.
+Abstract:
+User involvement has been shown to be beneficial in the development of useful and usable systems. The trend of software development becoming a product-oriented activity creates challenges to user involvement. Field studies appear a promising approach, but the analysis of the gathered user needs has been shown to be demanding. This study presents, on the basis of seven case studies, an early user-involvement process showing how user needs can be analysed and how the input to product development can be identified. In addition, the process is evaluated in two industrial cases with interviews and a questionnaire. The results show that the process supports effective early user involvement; the resulted requirements were evaluated as being more successful and their quality as better than average in a company. However, the case studies show that user involvement not only provides useful information about users' needs but also increases the understanding of users' values.
+---------------------------------------
+Notes: Inblandandet av användare är källan till framgång för projekt. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=19&database=3&format=quickSearchDetailedFormat
+Title: The role of user involvement in requirements quality and project success
+Authors: Kujala, S. ; Kauppinen, M. ; Lehtola, L. ; Kojo, T.
+Abstract:
+User involvement is the key concept in the development of useful and usable systems and has positive effects on system success and user satisfaction. This paper reports the results of interviews and a survey conducted to investigate the role of user involvement in defining user requirements in development projects. The survey involved 18 software practitioners working in software related development projects in 13 companies in Finland. In addition, eight software practitioners working in three companies were interviewed. By combining qualitative and statistical analysis, we examine how users are involved in development projects and how user involvement influences projects. The analysis shows that, although it is rare in development projects, early user involvement is related to better requirements quality. The analysis also shows that involving users and customers as the source of information is related to project success
+---------------------------------------
+Notes: Gämför olika typer av user-involvement.
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=20f443123b8c5b8dd74e6prod1data2&CID=quickSearchDetailedFormat&DOCINDEX=20&database=3&format=quickSearchDetailedFormat
+Title: User involvement in the design of human-computer interactions: some similarities and differences between design approaches
+Authors: Bekker, M. ; Long, J. 
+Abstract:
+This paper reviews user involvement in the design of human-computer interactions, as advocated by a selection of different approaches to design. The selection comprises: user-centred design; participatory design; socio-technical design; Soft Systems Methodology; and Joint Application Design. The review reveals a preliminary identification of non-configurable and configurable `attributes' of user involvement in design, and their associated `values', which characterise the similarities and differences between the design approaches. The attributes and values are intended in the longer term to support designers to compare and contrast various design approaches and to make more informed choices about the configuration of user involvement in design practice. Requirements for future research into the better understanding and configuring of user involvement are proposed
+---------------------------------------
+=======================================
+=======================================
+Datum: 2009-09-23
+Sökmotor: ELIN, databas: Inspec & Compendex (Elsevier)
+Sökord: user focus AND software development
+=======================================
+=======================================
+---------------------------------------
+Notes: Kanske intressant, men gammal. verkar mest jämföra mjukvaruutveckling med andra typer av utveckling. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123e2990c43M6b69prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=1&database=2105347&format=quickSearchDetailedFormat
+Title: A note on software engineering, software systems engineering and software design
+Authors: Rine, D.
+Abstract:
+Software systems engineering is more commonly applied to large scale software development while software design seems to be associated with smaller applications. A software systems engineering curriculum tends to have more traditional software engineering content than a software design curriculum which might have more content, relatively speaking that deals with user satisfaction of a one shot program running on a single user platform. Software design seems to focus less on traditional issues of software reuse and maintenance than software systems engineering. Software design seems to focus less on finding a mature software development process model than software systems engineering. Software design seems to focus less than software systems engineering on large scale development issues such as concurrent work, cooperative work, management and effort issues. On the other hand both practices seem to have important areas of overlap. These are as follows: (1) Importance of user-computer interaction. (2) Importance of the development of computer workstations in a social context. (3) Importance of requirements engineering and using practice that keeps the user tightly within the development loop. (4) Use of user-prototyping practice. (5) Use of building architecture approach to software development. (6) Importance of social, cognitive, and marketing science within software development
+---------------------------------------
+Notes: Tar upp mycket om user-involvement. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123e2990c43M6b69prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=4&database=2105347&format=quickSearchDetailedFormat
+Title: Towards model-driven end-user development in CALL
+Authors: Farmer, R. ; Gruba, P.
+Abstract:
+The purpose of this article is to introduce end-user development (EUD) processes to the CALL software development community. EUD refers to the active participation of end-users, as non-professional developers, in the software development life cycle. Unlike formal software engineering approaches, the focus in EUD on means/ends development is especially relevant to CALL application design, which traditionally suffers from idiosyncratic development efforts, minimal organisational support, and poor documentation practices. With the continued emphasis on teacher-led development in CALL, there is an urgent need to investigate appropriate frameworks, methodologies and tools that assist end-user developers to produce quality-driven, fit-for-purpose CALL applications. To this end, we promote the use of model-driven architectures (MDA) in EUD environments, and describe how MDA strategies lead to better alignment between software engineering and CALL design practices. Our discussion in this article seeks to achieve two objectives: (1) to underscore current limitations and possible future directions in CALL software development; and (2) to inform end-user developers in CALL of an appropriate and accessible software engineering framework for language learning environments
+---------------------------------------
+Notes: Tar upp problem med requirements och att de inte blir uppfyllda av diverse anledningar. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123e2990c43M6b69prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=5&database=2105347&format=quickSearchDetailedFormat
+Title: The progress of user requirements through a software development project
+Authors: Rexfelt, O. ; Rosenblad, E.
+Abstract:
+Many studies indicate that the fulfilment of user requirements is an important prerequisite for the development of successful products. The relevance of formulating well-founded user requirements for the product development process is supported. However, succeeding in eliciting relevant user requirements is not enough to ensure a successful product. The whole development process must be user-oriented if the user requirements are to be fulfilled by the final product. The objective of this study was to analyse and describe the obstacles and barriers to the fulfilment of user requirements encountered throughout a development project. The development of an Internet-mediated information system for public transport was used as a case study. The progress of the user requirements was followed through the development process. The studied project resulted in an information system that lacked much in content and functions required by the users because of a set of organisational, technical, competitive and social barriers. The general conclusion is that a product development process intended to be user-oriented must focus on user questions within the development process. The team should involve people with knowledge in that area, and those people should have influence on the important decisions in the project. The connection between requirements analysis and project planning must be clear, and the management of the specification of requirements should be analytical and specified. The project group should adopt a systematic view on how to create a user-oriented product; it is not necessarily done through the design of the product itself but also by overcoming external barriers. Identifying user requirements is necessary for developing a user-oriented product, but it is equally important to apply a development process that allows the project team to fulfil these requirements. [All rights reserved Elsevier]
+---------------------------------------
+Notes: Handlar om user-centered design där man har fokus på användarna. FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=111ded2123e2990c43M6b69prod1data1&CID=quickSearchDetailedFormat&DOCINDEX=7&database=2105347&format=quickSearchDetailedFormat
+Title: Beyond user-centered design and user experience: designing for user performance
+Authors: Constantine, L.
+Abstract:
+User-centered design is everywhere in the IT world. Just as it was once fashionable to tout "user-friendly" interfaces, everyone has jumped on the user-centered bandwagon. The bandwagon is a roomy one, and user-centered design can be almost anything in practice so long as it adheres to the core philosophy of keeping users at the center of the software development process. We focus on users as the central subject certainly seems to be a step forward from the technology-centered focus of bygone days, when users were all too often regarded as an annoyance to be ignored as much as possible. For identifying software defects, code inspections and structured walkthroughs have proved to be more efficient and cost-effective than testing. Based on similar principles and premises, collaborative usability inspection is a systematic technique developed and refined specifically for identifying usability testing. We propose model-based exploration, task modeling, and model-driven prototyping, which can help designers build their designs on a solid foundation rather than relying on inspiration
+---------------------------------------
+=======================================
+=======================================
+Förslag på sökord: 
+user participation, data input/output systems
+=======================================
+=======================================
+Hittat via andra rapporter och texter
+=======================================
+=======================================
+---------------------------------------
+Notes: Verkar ta upp problem med att blanda in användare i utvecklingen. FULLTEXT
+http://portal.acm.org/citation.cfm?id=211293#
+Found through: Examensarbete - Christina Hansson - User Driven Software Development in a Small Company
+Title: User Participation and Democracy: A Discussion of Scandinavian Research on System Development
+Authors: Bjerknesn, G., Bratteteig, T.
+Abstract:
+Scandinavian research projects in system development have traditionally put a strong emphasis on user participation as a strategy for increasing working life democracy. The article analyses a few of these projects with respect to this goal. We argue that there has been a development from politics to ethics in system development research, and that the political dimension should be reintroduced. A reorientation of system development strategies aiming at increasing working life democracy can learn from the historical success stories, in particular the combination of global strategy and local action used in the trade union projects in the 60’s. Recent development in technology and working life will, however, introduce new challenges to system development.
+---------------------------------------
+Notes: Använder "informerade användare" för att ta fram design/krav för ett system. FULLTEXT
+Found through: Examensarbete - Christina Hansson - User Driven Software Development in a Small Company
+Title: Seeding, Evolutionary Growth, and Reseeding: Enriching Participatory Design with Informed Participation
+Authors: Gerhard Fischer and Jonathan Ostwald
+Abstract:
+Historically, participatory design (PD) has focused on system development at design time by bringing developers and users together to envision contexts of use. But despite the best efforts at design time, systems need to evolve at use time to fit new needs, account for changing tasks, and incorporate new technologies. In this 
+paper, we argue that systems should be designed as seeds that are able to evolve. The evolutionary growth of the seed is driven by informed participation, in which active users explore complex design problems and, in the process, create new information. When evolutionary growth can no longer proceed efficiently, a reseeding phase is required to organize, formalize, and generalize information so that it may support a new period of evolutionary growth. Informed participation requires social changes as well as new interactive systems that provide the opportunity and resources for social debate and discussion rather than merely delivering predigested information to users. This paper presents key issues for designing new media in support of informed participation. These issues have been explored through several applications of the DynaSites system in contexts including collaborative design and courses-as-seeds.
+---------------------------------------
+Notes: Kan vara intressant. Tar upp utveckling med användare inblandade. FULTEXT
+Found through: Examensarbete - Christina Hansson - User Driven Software Development in a Small Company
+Title: STEPS to Software Development with Users 
+Authors: Floyd, Ch. Reisen, F M. Schmidt, G.
+Abstract: 
+The paper reports on the methodical approach STEPS, developed at the Technical University of Berlin and tried successfully in participative software development with users. STEPS views software development in its connection to work design. It gives guidance to developers and users for carrying out their cooperation, establishing quality criteria pertaining to software in use and putting them into practice in system design. It embodies an evolutionary approach, portraying system development in cycles of version production, application and revision. It supports mutual learning by developers and users by carefully establishing and coordinating processes of cooperation, by using prototyping for experiments and by adapting methods and tools to the needs of cooperation and incremental work.
+---------------------------------------
+Notes: Needs till requirements! FULLTEXT
+Found through: User studies: a practical approach to user involvement for gathering user needs and requirements
+Title: Bridging the Gap between User Needs and User Requirements
+Authors: Kujala, S., Kauppinen, M., and Rekola, S
+Abstract:
+Developing a usable product involves more than considering the user interface. The product should also fit into a context of use and meet user requirements. It remains a challenge to represent use contexts and user needs in a way that designers with technical backgrounds are able to make direct use of them. This paper proposes an approach to representing user needs and translating them into user requirements in industrial product development cases.
+---------------------------------------
+Notes: Wattenfallsmetodens första artikel?  FULLTEXT
+http://www.engineeringvillage.com.ludwig.lub.lu.se/controller/servlet/Controller?SEARCHID=83e1e123b781c9437df2prod3data2&CID=quickSearchDetailedFormat&DOCINDEX=1&database=2105347&format=quickSearchDetailedFormat
+Found through: Google sök på waterfall development
+Title: Managing the development of large software systems
+Authors: Royce, W.W.
+Abstract:
+The author describes his personal views about managing large software developments. His experiences have been mostly concerned with the development of software packages for spacecraft mission planning, commanding, and postflight analysis. He shares the approach he has arrived at with respect to arriving at an operational state on time, and within cost. He then presents five steps for transforming a risky development process into one that will provide the desired product
+
+
+
+

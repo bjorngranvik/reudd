@@ -1,0 +1,70 @@
+CATC = Changed According To Comment
+
+Page 2
+1. CATC
+2. CATC
+3. CATC
+4. Changed from "...put use aming..." to "...put the actual use among...". The use I'm talking about is the actual usage of the developed system. 
+5. Changed from "Even the agile methods do this but they have the advantage" to "Both tradition waterfall development and the agile methods do this, but agile methods have the advantage..."
+
+Page 4
+1. Changed to a section instead of a subsection
+2. No change at the moment. I want these sections to be after the background, but before the related work, since the related work depends on them (especially the scope). Should I extract them to their own chapter and then also put the related work in their own chapter?
+
+Page 6
+1. Added a paragrap describing use; "The term use is in this thesis used to describe the actual use of something. The usage performed by a user on a software system."
+2. Replaced, see next item.
+3. Changed from "This sounds a lot like job shadowing," to "This observation is different from the requirements elicitation technique called observation," with a reference to Lauesen
+
+Page 8
+1. CATC
+2. CATC
+
+Page 9
+1. Figur 2.1, 2.2, 2.6 är tagna från Royce, men det finns referenser till hans artikel i bildtexterna. Likaså är figur 5.12 tagen från en annan text men har också en referens till den texten. Jag har inte frågat författarna om medgivande då jag trodde att man fick använda deras bilder om man refererade till dess orginal. Om så inte är fallet ska jag absolut ta bort dom. Men kan jag då ersätta dom med egenritade versioner av samma bild? Jag frågade Alma om hur man gjorde med lånade bilder tidigt under arbetet och uppfatade det som att det var okej så länge man refererade till dess ursprung.
+
+Page 10
+1. Changed from "The waterfall method is very slow to deliver results" to "The waterfall method show results late during the project..."
+
+Page 11
+1. Changed the sentence to "The time spent on eliciting the requirements of the system is spread out during the project, and not concentrated to an early analysis stage"
+
+Page 12
+1. CATC
+2. CATC
+3. CATC
+
+Page 13
+1. Removed sentence
+2. CATC
+3. Changed from "is not only possible, but quite easy." to "...is possible, and also quite easy"
+
+Page 14
+1. CATC. Also changed "methodology" to "method" in other parts of the report
+2. Changed to "it is"
+3. Changed to "that is"
+4. Changed to "improve"
+
+Page 19
+1. Added short paragraph before; "The research questions of this thesis are listed below. They were formulated to comply with the goals set in section 2.4. The answers to these questions are given by reading this thesis."
+2. CATC. Ingen större tanke bakom ordningen. Den med desire paths var den jag började tanken med bara.
+3. CATC
+
+Page 20
+1. Added a whole new section, called "The Work" , describing the points in your comment.
+
+Page 21
+1. Added text to describe this in the second paragraph below the list.
+
+Page 58
+1. Added a sentence to the end of the paragraph; "How difficult it would be to apply the method to a real life project has not been investigated in this thesis."
+2. CATC
+3. CATC
+4. CATC
+
+Page 61
+1. The name of the author is "Soren Lauesen" with an 'o' and not an 'ö'
+2. Changed the latex bibstyle from "unsrt" to "acm", sorts alphabetically by first author's lastname. Jag tyckte dock det såg trevligare ut i texten när det var "in order of appearance"
+
+
+

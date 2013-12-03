@@ -99,6 +99,7 @@
 		<h3>No menu items</h3>
 	</div>
 </g:else>
+<!--TODO: This style needs to be renamed-->
 <div id="jayway-logo">
     Sponsored by <a href="http://diversify.se">
    		<img src="${resource(dir:'images',file:'diversify.png')}" alt="Diversify Logo" />

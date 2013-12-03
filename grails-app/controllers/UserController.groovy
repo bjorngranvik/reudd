@@ -296,10 +296,12 @@ public class UserController {
 
 
   def dataModel = {
-    TypeNodeFactory nodeFactory = new TypeNodeFactory(graphDatabaseService)
-    def data = DataModelGenerator.createD3DataModelFromTypeNodesFromTypeNodeFactory(nodeFactory)
-
-    render view: "dataModel", model: [data: JsonOutput.toJson(data)]
+//    def data = request.preData
+    def typeNodeFactory = request.typeNodeFactory
+    def data = JsonOutput.toJson(DataModelGenerator.createD3DataModelFromTypeNodesFromTypeNodeFactory(typeNodeFactory))
+    render view: "dataModel", model: [data: data,
+        menuItemsTypes: request.preData.menuItemsTypes,
+        menuItemsReports: request.reportNodeFactory.getReportNodes()]
   }
 
 

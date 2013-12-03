@@ -35,7 +35,7 @@
 </head>
 
 <body>
-<div id="domainModel">
+<div id="dataModel">
     <h1>Data Model</h1>
 
     <div class="center">
@@ -53,7 +53,7 @@
                     .charge(-400)
                     .size([width, height]);
 
-            var svg = d3.select("body").append("svg")
+            var svg = d3.select(".center").append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
@@ -123,7 +123,6 @@
                 d.fixed = true;
                 d3.select(this).classed("fixed", true);
             }
-
         </script>
     </div>
 </div>

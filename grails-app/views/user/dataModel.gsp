@@ -4,12 +4,6 @@
     <meta charset="utf-8">
     <title>Data Model</title>
     <style type="text/css">
-    svg .type {
-        fill: yellow;
-        stroke: orange;
-        stroke-width: 5;
-    }
-
     .node {
         stroke: #black;
         stroke-width: 2px;
@@ -19,10 +13,10 @@
     }
 
     .link {
-        stroke: #999;
         stroke-opacity: 1;
         font-family: serif;
-        font-size: 12px;
+        font-size: 10px;
+        fill: #000000
         color: black;
     }
 
@@ -47,32 +41,65 @@
 
             var color = d3.scale.category20();
 
+            var calculateLineId = function (d) {
+                return "s" + d.source.index + "t" + d.target.index;
+            }
+
             var force = d3.layout.force()
                     .gravity(.03)
                     .distance(200)
                     .charge(-400)
-                    .size([width, height]);
+                    .size([width, height])
+                    .nodes(data.nodes)
+                    .links(data.links)
+                    .start();
 
             var svg = d3.select(".center").append("svg")
                     .attr("width", width)
                     .attr("height", height);
 
 
-            force
-                    .nodes(data.nodes)
-                    .links(data.links)
-                    .start();
-
             force.linkDistance(function () {
                 width / force.nodes.length
             });
 
-            var link = svg.selectAll(".link")
+            var defs = svg.append("defs");
+
+            var link = defs.selectAll(".link")
                     .data(data.links)
-                    .enter().append("line")
+                    .enter()
+                    .append("path")
+                    .attr("stroke", "grey")
+                    .attr("stroke-width", 2)
+                    .attr("fill", "none")
+                    .attr("id", function (d) {
+                        return calculateLineId(d);
+                    });
+
+            svg.selectAll(".link")
+                    .data(data.links)
+                    .enter()
+                    .append("use")
+                    .attr("xlink:href", function (d) {
+                        return "#" + calculateLineId(d)
+                    });
+
+
+            var linkText = svg.selectAll(".link")
+                    .data(data.links)
+                    .enter()
+                    .append("text")
                     .attr("class", "link")
-                    .style("stroke-width", function (d) {
-                        return Math.sqrt(d.value);
+                    .attr("text-anchor", "middle");
+
+            linkText
+                    .append("svg:textPath")
+                    .attr("xlink:href", function (d) {
+                        return "#" + calculateLineId(d);
+                    })
+                    .attr("startOffset", "50%")
+                    .text(function (d) {
+                        return d.name;
                     });
 
             var node = svg.selectAll(".node")
@@ -100,23 +127,15 @@
                     });
 
             force.on("tick", function () {
-                link.attr("x1", function (d) {
-                    return d.source.x;
-                })
-                        .attr("y1", function (d) {
-                            return d.source.y;
-                        })
-                        .attr("x2", function (d) {
-                            return d.target.x;
-                        })
-                        .attr("y2", function (d) {
-                            return d.target.y;
-                        });
+                link.attr("d", function(d) {
+                    return "M" + d.source.x + " " + d.source.y + " L" + d.target.x + " " + d.target.y;
+                  });
 
                 node.attr("transform", function (d) {
                     return "translate(" + d.x + "," + d.y + ")";
                 });
             });
+
             force.drag().on("dragstart", dragstart);
 
             function dragstart(d) {

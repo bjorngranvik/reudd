@@ -1,576 +1,593 @@
 html * {
-    margin:0px;
-    padding:0px;
-    font-family:Sans-serif;
+  margin: 0px;
+  padding: 0px;
+  font-family: Sans-serif;
 }
 
 body, table, textarea {
-    font-size:13px;
+  font-size: 13px;
 }
 
 h1 {
-    margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 h2 {
-    margin:10px 0px;
+  margin: 10px 0px;
 }
 
 #wrapper {
-    width:950px;
-    margin:auto;
+  width: 950px;
+  margin: auto;
 }
 
 #wrapper #breadcrums {
-    padding:7px 0px 13px 0px;
-    color:#8BB381;
-    line-height:140%;
+  padding: 7px 0px 13px 0px;
+  color: #8BB381;
+  line-height: 140%;
 }
 
 #wrapper #breadcrums a {
-    color:#8BB381;
+  color: #8BB381;
 }
 
 #wrapper #breadcrums a:hover {
-    color:#254117;
+  color: #254117;
 }
 
 #wrapper #main #main-left {
-    float:left;
-    width:150px;
+  float: left;
+  width: 150px;
 }
 
 #wrapper #main #main-content {
-    float:right;
-    width:780px;
+  float: right;
+  width: 780px;
 }
 
 a {
-    text-decoration:none;
-    color:#254117;
+  text-decoration: none;
+  color: #254117;
 }
 
 a:hover {
-    color:#8BB381;
+  color: #8BB381;
 }
 
 a img {
-    border:none;
+  border: none;
 }
 
 img.imagelink {
-    cursor:pointer;
+  cursor: pointer;
 }
 
 img {
-    vertical-align:middle;
+  vertical-align: middle;
 }
 
 .clear {
-    clear:both;
+  clear: both;
 }
 
 .center {
-    text-align:center;
+  text-align: center;
 }
 
 .pad2px {
-    padding:2px;
+  padding: 2px;
 }
 
 .topmargin20 {
-    margin-top:20px;
+  margin-top: 20px;
 }
 
 .customView {
-    overflow:hidden;
-    margin:10px 0px;
+  overflow: hidden;
+  margin: 10px 0px;
 }
 
 /* topmenu */
 
 #topmenu {
-    background-color:#254117;
+  background-color: #254117;
 }
 
 #topmenu ul {
-    
+
 }
 
 #topmenu li {
-    display:inline;
+  display: inline;
 }
 
 #topmenu li a {
-    padding:5px;
-    float:left;
-    text-decoration:none;
-    color:#8BB381;
-    padding:5px 20px;
+  padding: 5px;
+  float: left;
+  text-decoration: none;
+  color: #8BB381;
+  padding: 5px 20px;
 }
 
 #topmenu li a:hover {
-    background-color:#348017;
+  background-color: #348017;
 }
 
 #topmenu li a.secret {
-    float:right;
-    color:#254117;
+  float: right;
+  color: #254117;
 }
 
 #topmenu li a.secret:hover {
-    color:#8BB381;
+  color: #8BB381;
 }
 
 /* leftmenu */
 
 .leftmenu {
-    border:2px solid #8BB381;
-    padding:10px;
-    padding-top:18px;
+  border: 2px solid #8BB381;
+  padding: 10px;
+  padding-top: 18px;
 }
 
 .menutitlerow {
-    background-color:#FFFFFF;
-    padding:0px 4px;
-    position:relative;
-    top:-30px;
-    left:-4px;
-    width:126px;
+  background-color: #FFFFFF;
+  padding: 0px 4px;
+  position: relative;
+  top: -30px;
+  left: -4px;
+  width: 126px;
 }
 
 .menutitlerow .title {
-    float:left;
-    font-weight:bold;
-    font-size:18px;
-    padding-top:3px;
+  float: left;
+  font-weight: bold;
+  font-size: 18px;
+  padding-top: 3px;
 }
 
 .menutitlerow .image {
-    float:right;
+  float: right;
 }
 
 .leftmenu h3 {
-    margin:0px 0px 5px 0px;
+  margin: 0px 0px 5px 0px;
 }
 
 .leftmenu .list {
-    position:relative;
-    top:-22px;
-    margin-bottom:-22px;
+  position: relative;
+  top: -22px;
+  margin-bottom: -22px;
 }
 
 .leftmenu li {
-    display:block;
-    margin-bottom:5px;
+  display: block;
+  margin-bottom: 5px;
 }
 
 .leftmenu ul ul li {
-    display:block;
-    margin-bottom:5px;
-    margin-left:20px;
+  display: block;
+  margin-bottom: 5px;
+  margin-left: 20px;
 }
 
 /* user crudNode */
 
 #crudNodeWrapper {
-    border:2px solid #000000;
-    padding:10px;
+  border: 2px solid #000000;
+  padding: 10px;
 }
 
 #crudNodeWrapper #crudNodeTop {
-    float:right;
-    position:relative;
-    top:-22px;
-    background-color:#FFFFFF;
-    padding:0px 4px;
+  float: right;
+  position: relative;
+  top: -22px;
+  background-color: #FFFFFF;
+  padding: 0px 4px;
 }
 
 #crudNodeWrapper #crudNode #titlerow {
-    margin-bottom:10px;
-    font-size:20px;
-    font-weight:bold;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 #crudNodeWrapper #crudNode #titlerow img {
-    margin-right:10px;
+  margin-right: 10px;
 }
 
 #crudNodeWrapper #crudNode #tags, #crudNode #attributes, #crudNode #settings {
-    margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 #crudNodeWrapper #crudNode .inputhead {
-    font-weight:bold;
+  font-weight: bold;
 }
 
 #crudNodeWrapper #crudNode .inputhead img {
-    margin-bottom:2px;
+  margin-bottom: 2px;
 }
 
 #crudNodeWrapper #crudNode #tags input, #crudNodeWrapper #crudNode #settings input {
-    width:100%;
-    margin-right:50px;
+  width: 100%;
+  margin-right: 50px;
 }
 
 #crudNodeWrapper #crudNode #tags input#customTypeInput {
-    margin:0px;
-    width:500px;
+  margin: 0px;
+  width: 500px;
 }
 
 #crudNodeWrapper #crudNode #typeAdmin {
-	background-color:#FFFFFF;
-	width:100%;
-	border: 1px solid;
-	display:none;
-	position:relative;
-	top:-18px;
+  background-color: #FFFFFF;
+  width: 100%;
+  border: 1px solid;
+  display: none;
+  position: relative;
+  top: -18px;
 }
 
 #crudNodeWrapper #crudNode #typeAdmin .typeNodes {
-	max-height:300px;
-	overflow:auto;
-	padding:5px 0px 5px 5px;
+  max-height: 300px;
+  overflow: auto;
+  padding: 5px 0px 5px 5px;
 }
 
 #crudNodeWrapper #crudNode .typeNodes .typeNodeItem {
-    margin:2px 0px;
+  margin: 2px 0px;
 }
 
 #crudNodeWrapper #crudNode #customTypeAdd, #crudNodeWrapper #crudNode .imagechecklink {
-	padding:5px;
+  padding: 5px;
 }
 
 #crudNodeWrapper #crudNode #typeComments .typeComment {
-    padding:5px;
+  padding: 5px;
 }
 
 #crudNodeWrapper #crudNode #typeComments .evenRow {
-    background-color:#EEEEEE;
+  background-color: #EEEEEE;
 }
 
 /* import */
 
 .importFile #importFileText {
-    width:100%;
-    height:60%;
+  width: 100%;
+  height: 60%;
 }
 
 /* tagCloudTypes */
 .typeNodeTagCloud #typelist img {
-    border:none;
-    vertical-align:top;
+  border: none;
+  vertical-align: top;
 }
 
 /* nodeConnections */
 
 .nodeConnections .title {
-    font-weight:bold;
+  font-weight: bold;
 }
 
 .nodeConnections table {
-    width:100%;
+  width: 100%;
 }
 
 .nodeConnections td.subcol {
-    padding-left:90px;
+  padding-left: 90px;
 }
 
 .nodeConnections td {
-    vertical-align:top;
+  vertical-align: top;
 }
 
 .nodeConnections td.percent {
-    background:url("../images/top-to-right.png") top left no-repeat;
-    vertical-align:middle;
-    text-align:right;
-    width:55px;
+  background: url("../images/top-to-right.png") top left no-repeat;
+  vertical-align: middle;
+  text-align: right;
+  width: 55px;
 }
 
 .nodeConnections td.image {
-    width:30px;
-    text-align:center;
+  width: 30px;
+  text-align: center;
 }
 
 .nodeConnections td.typename {
-    vertical-align:middle;
+  vertical-align: middle;
 }
 
 /* nodePaths */
 
 .nodePaths ul {
-    padding-left:20px;
+  padding-left: 20px;
 }
 
 .nodePaths li {
-    margin-bottom:5px;
+  margin-bottom: 5px;
 }
 
 /* user addReport */
 
 .report #title {
-    margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 .report #title input {
-    width:100%;
+  width: 100%;
 }
 
 .report textarea {
-    width:100%;
-    height:200px;
+  width: 100%;
+  height: 200px;
 }
 
 /* user displayReport */
 
 .report #comments .title {
-    margin:10px 0px;
+  margin: 10px 0px;
 }
 
 .report #comments .comment .author {
-    margin-bottom:5px;
-    font-weight:bold;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .report #comments .comment .date {
-    font-size:10px;
+  font-size: 10px;
 }
 
 .report #comments .comment .text {
-    
+
 }
 
 .report #comments textarea#addnewcomment {
-    width:400px;
-    height:80px;
+  width: 400px;
+  height: 80px;
 }
 
 .report #comments img {
-    position:relative;
-    top:-65px;
+  position: relative;
+  top: -65px;
 }
 
 #reportCommentsTable {
-    width:100%;
+  width: 100%;
 }
 
 #reportCommentsTable tr.comment {
-    margin-bottom:20px;
+  margin-bottom: 20px;
 }
 
 #reportCommentsTable tr.evenRow {
-    background-color:#EEEEEE;
+  background-color: #EEEEEE;
 }
 
 #reportCommentsTable td {
-    vertical-align:top;
-    padding:10px;
+  vertical-align: top;
+  padding: 10px;
 }
 
 #reportCommentsTable td.left {
-    width:100px;
+  width: 100px;
 }
 
 #reportCommentsTable td.right {
-    padding-left:20px;
+  padding-left: 20px;
 }
 
 /* programmer - editReport */
 
 .report #reportBody {
-    margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 /* imageaddlink */
 
 .imageaddlink {
-    padding:4px 0px;
+  padding: 4px 0px;
 }
 
 /* _attributerow */
 
 .attribute {
-    padding:2px 0px;
+  padding: 2px 0px;
 }
 
 .attribute .imageleft {
-    float:left;
-    padding:2px 10px 2px 0px;
+  float: left;
+  padding: 2px 10px 2px 0px;
 }
 
 .attribute .imagemiddle {
-    float:left;
-    padding:2px;
+  float: left;
+  padding: 2px;
 }
 
 .attribute .key {
-    text-align:right;
-    float:left;
-    width:47%;
+  text-align: right;
+  float: left;
+  width: 47%;
 }
 
 .attribute .key input {
-    text-align:left;
+  text-align: left;
 }
 
 .attribute .value {
-    float:left;
-    width:47%;
+  float: left;
+  width: 47%;
 }
 
 .attribute .key input, .attribute .value input, .attribute .value select {
-    width:100%;
+  width: 100%;
 }
 
 /* _relationshiprow */
 
 .relationshiprow {
-    padding:2px 0px;
+  padding: 2px 0px;
 }
 
 .relationshiprow .imageleft {
-    float:left;
-    padding:2px 10px 2px 0px;
+  float: left;
+  padding: 2px 10px 2px 0px;
 }
 
 .relationshiprow .imagemiddle {
-    float:left;
-    padding:2px;
+  float: left;
+  padding: 2px;
 }
 
 .relationshiprow .key {
-    text-align:right;
-    float:left;
-    width:47%;
+  text-align: right;
+  float: left;
+  width: 47%;
 }
 
 .relationshiprow .key input {
-    text-align:left;
+  text-align: left;
 }
 
 .relationshiprow .value {
-    float:left;
-    width:47%;
+  float: left;
+  width: 47%;
 }
 
 .relationshiprow .key input, .relationshiprow .value input {
-    width:100%;
+  width: 100%;
 }
 
 .relationshiprow .value select.relTypeFilter {
-    float: left;
-    width: 30%;
+  float: left;
+  width: 30%;
 }
 
 .relationshiprow .value select.relOtherNode {
-    float:right;
-    width: 68%;
+  float: right;
+  width: 68%;
 }
 
 /* greytable */
 table.greytable {
-    width:100%;
-    width:100%;
-    background-color:#E7E7E7;
-    border-spacing:1px;
+  width: 100%;
+  width: 100%;
+  background-color: #E7E7E7;
+  border-spacing: 1px;
 }
 
 table.greytable tr.title {
-    font-weight:bold;
-    text-align:center;
+  font-weight: bold;
+  text-align: center;
 }
 
 table.greytable td {
-    vertical-align:top;
-    border:1px solid #FFFFFF;
-    padding:5px;
+  vertical-align: top;
+  border: 1px solid #FFFFFF;
+  padding: 5px;
 }
 
 /* reports */
 
 .reportNode input {
-    width:100%;
+  width: 100%;
 }
 
 .reportNode textarea#bodyInput {
-    width:100%;
-    height:400px;
+  width: 100%;
+  height: 400px;
 }
 
 .reportNode textarea#newcomment {
-    width:100%;
-    height:200px;
+  width: 100%;
+  height: 200px;
 }
 
-
-/* views */ 
+/* views */
 
 #bodyInput {
-    width:100%;
-    height:400px;
+  width: 100%;
+  height: 400px;
 }
 
 #coveredAttributes {
-    margin-bottom:10px;
+  margin-bottom: 10px;
 }
 
 #coveredAttributes input {
-    width:100%;
+  width: 100%;
 }
 
 /* errors */
 
 #errorMessages {
-    color:#D00000;
-    border:2px solid #D00000;
-    margin:10px 0px;
-    padding:10px;
-    font-weight:bold;
-    background-color:#FFDEAD;
+  color: #D00000;
+  border: 2px solid #D00000;
+  margin: 10px 0px;
+  padding: 10px;
+  font-weight: bold;
+  background-color: #FFDEAD;
 }
 
 #errorMessages .title {
-    font-weight:bold;
-    font-size:20px;
-    margin-bottom:10px;
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
 }
 
 #errorMessages ul {
-    list-style-position:inside;
+  list-style-position: inside;
 }
 
 #errorMessages li {
-    margin-bottom:3px;
+  margin-bottom: 3px;
 }
 
 /* viewTags */
 
 .hBox {
-    overflow:hidden;
+  overflow: hidden;
 }
 
 .boxAttribute {
-    padding:2px 0px;
+  padding: 2px 0px;
 }
 
 .hBox .boxAttribute {
-    float:left;
-    padding-right:10px;
+  float: left;
+  padding-right: 10px;
 }
 
 .hBox .boxAttribute div {
-    float:left;
+  float: left;
 }
 
 .vBox .boxAttribute {
-    overflow:hidden;
+  overflow: hidden;
 }
 
 .vBox .boxAttribute div {
-    float:left;
+  float: left;
 }
 
 #jayway-logo {
-    margin-top:10px;
-    text-align:right;
+  margin-top: 10px;
+  text-align: right;
+}
+
+.node {
+  cursor: pointer;
+}
+
+.node circle {
+  stroke: #000000;
+  stroke-width: 2px;
+}
+
+.node text {
+  font-family: serif;
+  font-size: 12px;
+}
+
+.link textPath {
+  font-size: 10px;
 }

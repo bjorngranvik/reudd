@@ -296,7 +296,6 @@ public class UserController {
 
 
   def dataModel = {
-//    def data = request.preData
     def typeNodeFactory = request.typeNodeFactory
     def data = JsonOutput.toJson(DataModelGenerator.createD3DataModelFromTypeNodesFromTypeNodeFactory(typeNodeFactory))
     render view: "dataModel", model: [data: data,

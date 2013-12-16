@@ -15,88 +15,111 @@
  */
 package org.reudd.view.datamodel
 
+import com.google.common.collect.Lists
 import org.reudd.node.TypeNodeFactory
 
 abstract class DataModelGenerator {
 
-  private static final Map<String, List> EMPTY_DATA_MODEL = ["links": [], "nodes": []]
+    private static final Map<String, List> EMPTY_DATA_MODEL = ["links": [], "nodes": []]
 
-  private DataModelGenerator() {}
+    private DataModelGenerator() {}
 
-  static LinkedHashMap<String, NodeWithLinks> getTypeModelFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
-    def typeNodes = nodeFactory.getTypeNodes()
-    LinkedHashMap<String, NodeWithLinks> nodes = [:]
-    int index = 0
-    typeNodes.each { typeNode ->
-      NodeWithLinks node = new NodeWithLinks(name: typeNode.name, index: index)
-      typeNode.getOutgoingRelationshipNames().each { relationshipName ->
-        typeNode.getOutgoingRelationshipTargetTypeNames(relationshipName).each { target ->
-          node.addLink(new Link(name: relationshipName, source: node.name, target: target))
+    static LinkedHashMap<String, NodeWithLinks> getDataModelFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
+        def typeNodes = nodeFactory.getTypeNodes()
+        LinkedHashMap<String, NodeWithLinks> results = [:]
+        int index = 0
+        typeNodes.each { typeNode ->
+            NodeWithLinks node = new NodeWithLinks(name: typeNode.name, index: index)
+            typeNode.getOutgoingRelationshipNames().each { relationshipName ->
+                typeNode.getOutgoingRelationshipTargetTypeNames(relationshipName).each { target ->
+                    node.addLink(new Link(name: relationshipName, source: node.name, target: target))
+                }
+            }
+            results.put(node.name, node)
+            index++
         }
-      }
-      nodes.put(node.name, node)
-      index++
-    }
-    nodes
-  }
-
-  static def transformTypeNodeModelToNodeAndLinkModelForD3representation(final LinkedHashMap<String, NodeWithLinks> dataModelMap) {
-    if (dataModelMap.size() == 0)
-      return EMPTY_DATA_MODEL
-    List<Node> nodes = []
-    List<Link> links = []
-    dataModelMap.eachWithIndex { Map.Entry<String, NodeWithLinks> entry, int index ->
-      def n = entry.value
-      nodes.add(new Node(name: n.name, index: index))
-      n.links.each {l ->
-        links.add(new Link(name: l.name, source: index, target: dataModelMap[l.target].index))
-      }
+        results
     }
 
-    ["links": links, "nodes": nodes]
-  }
+    static LinkedHashMap<String, NodeWithLinks> getNodeConnectionsFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
+        def typeNodes = nodeFactory.getTypeNodes()
+        LinkedHashMap<String, NodeWithLinks> results = [:]
+        typeNodes.each { type ->
+            def name = type.name
+            NodeWithLinks n = new NodeWithLinks(name: name)
 
-  static def createD3DataModelFromTypeNodesFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
-    transformTypeNodeModelToNodeAndLinkModelForD3representation(getTypeModelFromTypeNodeFactory(nodeFactory))
-  }
+            typeNodes.each { otherType ->
+                def percentage = type.getConnectionPercentagesToType(otherType.name)
+                if (percentage != 0) {
+                    n.addLink(new Link(name: percentage + "%", target: otherType.name))
+                }
+            }
+            results.put(name, n)
+        }
+        results
+    }
+
+    static def transformTypeNodeModelToNodeAndLinkModelForD3representation(
+            final LinkedHashMap<String, NodeWithLinks> dataModelMap) {
+        if (dataModelMap.size() == 0)
+            return EMPTY_DATA_MODEL
+        ArrayList<String> names = Lists.newArrayList(dataModelMap.keySet().iterator())
+        List<Node> nodes = []
+        List<Link> links = []
+        dataModelMap.eachWithIndex { Map.Entry<String, NodeWithLinks> entry, int index ->
+            def n = entry.value
+            nodes.add(new Node(name: n.name, index: index))
+            n.links.each { l ->
+                links.add(new Link(name: l.name, source: index, target: names.indexOf(l.target)))
+            }
+        }
+
+        ["links": links, "nodes": nodes]
+    }
+
+    static def createD3DataModelFromTypeNodesFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
+        transformTypeNodeModelToNodeAndLinkModelForD3representation(getDataModelFromTypeNodeFactory(nodeFactory))
+    }
 }
 
 class Node {
-  String name
-  int index
+    String name
+    int index
 
-  int getColourGroup() {
-    return index
-  }
+    int getColourGroup() {
+        return index
+    }
 }
 
 class NodeWithLinks {
-  String name
-  int index
-  List<Link> links = []
+    String name
+    int index
+    List<Link> links = []
 
-  void addLink(Link link) {
-    links.add(link)
-  }
+    void addLink(Link link) {
+        links.add(link)
+    }
 
-  boolean equals(final o) {
-    if (this.is(o)) return true
-    if (getClass() != o.class) return false
+    boolean equals(final o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
 
-    final NodeWithLinks node = (NodeWithLinks) o
+        final NodeWithLinks node = (NodeWithLinks) o
 
-    if (name != node.name) return false
+        if (name != node.name) return false
 
-    return true
-  }
+        return true
+    }
 
-  int hashCode() {
-    return name.hashCode()
-  }
+    int hashCode() {
+        return name.hashCode()
+    }
+
+
 }
 
 class Link {
-  String name
-  def source
-  def target
+    String name
+    def source
+    def target
 }

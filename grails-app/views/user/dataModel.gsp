@@ -2,7 +2,6 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Data Model</title>
     <g:javascript library="d3"/>
     <r:require modules="d3"/>
     <r:layoutResources/>

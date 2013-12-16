@@ -27,7 +27,7 @@ import org.reudd.node.ViewNodeFactory
 import org.reudd.reports.ReportNode
 import org.reudd.reports.ReportNodeFactory
 import org.reudd.statistics.NodePathBuilder
-import org.reudd.view.datamodel.DataModelGenerator
+import org.reudd.view.datamodel.D3GraphRendererDataGenerator
 
 public class UserController {
 
@@ -297,7 +297,7 @@ public class UserController {
 
   def dataModel = {
     def typeNodeFactory = request.typeNodeFactory
-    def data = JsonOutput.toJson(DataModelGenerator.createD3DataModelFromTypeNodesFromTypeNodeFactory(typeNodeFactory))
+    def data = JsonOutput.toJson(D3GraphRendererDataGenerator.createD3DataModelFromTypeNodesFromTypeNodeFactory(typeNodeFactory))
     render view: "dataModel", model: [data: data,
         menuItemsTypes: request.preData.menuItemsTypes,
         menuItemsReports: request.reportNodeFactory.getReportNodes()]

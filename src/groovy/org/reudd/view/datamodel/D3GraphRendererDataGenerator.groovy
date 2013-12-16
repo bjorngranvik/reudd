@@ -14,34 +14,31 @@
  * limitations under the License.
  */
 package org.reudd.view.datamodel
-
 import com.google.common.collect.Lists
 import org.reudd.node.TypeNodeFactory
 
-abstract class DataModelGenerator {
+abstract class D3GraphRendererDataGenerator {
 
     private static final Map<String, List> EMPTY_DATA_MODEL = ["links": [], "nodes": []]
 
-    private DataModelGenerator() {}
+    private D3GraphRendererDataGenerator() {}
 
-    static LinkedHashMap<String, NodeWithLinks> getDataModelFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
+    static LinkedHashMap<String, NodeWithLinks> createDataModelDataUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
         def typeNodes = nodeFactory.getTypeNodes()
         LinkedHashMap<String, NodeWithLinks> results = [:]
-        int index = 0
         typeNodes.each { typeNode ->
-            NodeWithLinks node = new NodeWithLinks(name: typeNode.name, index: index)
+            NodeWithLinks node = new NodeWithLinks(name: typeNode.name)
             typeNode.getOutgoingRelationshipNames().each { relationshipName ->
                 typeNode.getOutgoingRelationshipTargetTypeNames(relationshipName).each { target ->
                     node.addLink(new Link(name: relationshipName, source: node.name, target: target))
                 }
             }
             results.put(node.name, node)
-            index++
         }
         results
     }
 
-    static LinkedHashMap<String, NodeWithLinks> getNodeConnectionsFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
+    static LinkedHashMap<String, NodeWithLinks> createNodeConnectionsUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
         def typeNodes = nodeFactory.getTypeNodes()
         LinkedHashMap<String, NodeWithLinks> results = [:]
         typeNodes.each { type ->
@@ -59,7 +56,7 @@ abstract class DataModelGenerator {
         results
     }
 
-    static def transformTypeNodeModelToNodeAndLinkModelForD3representation(
+    static def transformTypeNodeModelToD3NodeAndLinkModel(
             final LinkedHashMap<String, NodeWithLinks> dataModelMap) {
         if (dataModelMap.size() == 0)
             return EMPTY_DATA_MODEL
@@ -77,8 +74,12 @@ abstract class DataModelGenerator {
         ["links": links, "nodes": nodes]
     }
 
+    static def createNodeConnectionsForD3GraphRendering(TypeNodeFactory nodeFactory) {
+        transformTypeNodeModelToD3NodeAndLinkModel(createNodeConnectionsUsingTypeNodeFactory(nodeFactory))
+    }
+
     static def createD3DataModelFromTypeNodesFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
-        transformTypeNodeModelToNodeAndLinkModelForD3representation(getDataModelFromTypeNodeFactory(nodeFactory))
+        transformTypeNodeModelToD3NodeAndLinkModel(createDataModelDataUsingTypeNodeFactory(nodeFactory))
     }
 }
 
@@ -93,7 +94,6 @@ class Node {
 
 class NodeWithLinks {
     String name
-    int index
     List<Link> links = []
 
     void addLink(Link link) {

@@ -25,7 +25,7 @@ import org.reudd.reports.ReportNodeFactory
 import org.reudd.statistics.NodePathBuilder
 import org.reudd.util.ReUddConstants
 import org.reudd.util.ReUddRelationshipTypes
-import org.reudd.view.datamodel.DataModelGenerator
+import org.reudd.view.datamodel.D3GraphRendererDataGenerator
 
 public class ProgrammerController {
 
@@ -190,48 +190,8 @@ public class ProgrammerController {
 
     def nodeConnections = {
         def typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-        def data = JsonOutput.toJson(DataModelGenerator.transformTypeNodeModelToNodeAndLinkModelForD3representation(
-                DataModelGenerator.getNodeConnectionsFromTypeNodeFactory(typeNodeFactory)))
-        render view: "nodeConnections", model: [data: data]
-    }
-
-    def nodeConnectionsGraphviz = {
-        def dotBuffer = new StringWriter()
-        def out = new PrintWriter(dotBuffer)
-
-        TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-
-        out.println """digraph nodeConnections {"""
-        out.println """size="8,20";"""
-        out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
-
-        def typeNodes = typeNodeFactory.getTypeNodes()
-        typeNodes.each { type ->
-            typeNodes.each { otherType ->
-                def percentage = type.getConnectionPercentagesToType(otherType.name)
-                if (percentage != 0) {
-                    def startName = type.name.escapeSomeHtml()
-                    def endName = otherType.name.escapeSomeHtml()
-                    println """<$startName> -> <$endName> [label="  $percentage%  "]"""
-                    out.println """<$startName> -> <$endName> [label="  $percentage%  "]"""
-                }
-            }
-        }
-        out.println "}"
-
-        Runtime runtime = Runtime.getRuntime()
-        Process p = runtime.exec("dot -Tpng")
-        p.outputStream.withStream { stream ->
-            stream << dotBuffer.toString()
-        }
-
-        def imageBuffer = new ByteArrayOutputStream()
-        imageBuffer << p.inputStream
-        byte[] image = imageBuffer.toByteArray()
-
-        response.contentLength = image.length
-        response.contentType = "image/png"
-        response.outputStream << image
+        render view: "nodeConnections",
+                model: [data: JsonOutput.toJson(D3GraphRendererDataGenerator.createNodeConnectionsForD3GraphRendering(typeNodeFactory))]
     }
 
     def navigatedPaths = {
@@ -245,7 +205,6 @@ public class ProgrammerController {
         TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
 
         out.println """digraph navigatedPaths {"""
-//		out.println """rankdir="LR";"""
         out.println """size="8,20";"""
         out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
 

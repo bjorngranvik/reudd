@@ -27,8 +27,15 @@ import org.reudd.reports.ReportNodeFactory
 import org.reudd.statistics.NodePathBuilder
 
 public class UserController {
-	
-	GraphDatabaseService graphDatabaseService
+
+    // Import prefixes
+    public static final String RELATIONSHIP_DIRECTION_OUT = "-->"
+    public static final String RELATIONSHIP_DIRECTION_IN = "<--"
+    public static final String RELATIONSHIP_DIRECTION_IN_PREFIX = "-->:"
+    public static final String RELATIONSHIP_DIRECTION_OUT_PREFIX = "<--:"
+    public static final String RELATIONSHIP_PREFIX = "rel:"
+
+    GraphDatabaseService graphDatabaseService
 	
 	GroovyPagesTemplateEngine groovyPagesTemplateEngine
 	
@@ -380,10 +387,14 @@ public class UserController {
    								item.split(",").each { type ->
    									newNode.types.add type.trim()
    								}
-   							} else if (title.startsWith("rel:")) {
+   							} else if (title.startsWith(RELATIONSHIP_PREFIX)
+                                    || title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
+                                    || title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX) ) {
+   								def relDirectionOut = !title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
+                                def relDirection = relDirectionOut ? RELATIONSHIP_DIRECTION_OUT : RELATIONSHIP_DIRECTION_IN
    								def relName = title[4..title.lastIndexOf("(")-1]
    								def relKey = title[title.lastIndexOf("(")+1..-2]
-   								def relation = "$relName($relKey:$item)"
+   								def relation = "$relDirection$relName($relKey:$item)"
    								newNode.relationships.add relation
    							} else {
    								newNode.attributes[title] = item
@@ -423,13 +434,19 @@ public class UserController {
    				thisNode.inRelationships
    				def relationList = []
    				for (rel in item.relationships) {
-   					def relName = rel[0..rel.lastIndexOf("(")-1]
+                    def relDirectionOut = rel.startsWith(RELATIONSHIP_DIRECTION_OUT)
+   					def relName = rel[3..rel.lastIndexOf("(")-1]
    					def relTarget = rel[rel.lastIndexOf("(")+1..-2]
    					def relTargetKey = relTarget[0..relTarget.lastIndexOf(":")-1]
    					def relTargetValue = relTarget[relTarget.lastIndexOf(":")+1..-1]
    					for (dataNode in dataNodeFactory.getDataNodes()) {
                         if (dataNode.attributes[relTargetKey] && dataNode.attributes[relTargetKey] == relTargetValue) {
-                            relationList.add(new DynamicRelationship(thisNode, relName, dataNode))
+                            if (relDirectionOut) {
+                                relationList.add(new DynamicRelationship(thisNode, relName, dataNode))
+                            } else {
+                                relationList.add(new DynamicRelationship(dataNode, relName, thisNode))
+                            }
+
                         }
    					}
    				}

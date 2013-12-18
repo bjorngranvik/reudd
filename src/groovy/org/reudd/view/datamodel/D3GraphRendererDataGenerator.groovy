@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 package org.reudd.view.datamodel
+
 import com.google.common.collect.Lists
+import org.neo4j.graphdb.Direction
+import org.neo4j.graphdb.Relationship
 import org.reudd.node.TypeNodeFactory
+import org.reudd.statistics.NodePathBuilder
+import org.reudd.util.ReUddConstants
+import org.reudd.util.ReUddRelationshipTypes
 
 abstract class D3GraphRendererDataGenerator {
 
@@ -23,51 +29,50 @@ abstract class D3GraphRendererDataGenerator {
 
     private D3GraphRendererDataGenerator() {}
 
-    static LinkedHashMap<String, NodeWithLinks> createDataModelDataUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
+    static LinkedHashMap<NodeId, NodeWithLinks> createDataModelDataUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
         def typeNodes = nodeFactory.getTypeNodes()
-        LinkedHashMap<String, NodeWithLinks> results = [:]
+        LinkedHashMap<NodeId, NodeWithLinks> results = [:]
         typeNodes.each { typeNode ->
-            NodeWithLinks node = new NodeWithLinks(name: typeNode.name)
+            NodeWithLinks node = new NodeWithLinks(typeNode.name)
             typeNode.getOutgoingRelationshipNames().each { relationshipName ->
-                typeNode.getOutgoingRelationshipTargetTypeNames(relationshipName).each { target ->
-                    node.addLink(new Link(name: relationshipName, source: node.name, target: target))
+                typeNode.getOutgoingRelationshipTargetTypeNames(relationshipName).each { targetName ->
+                    node.addLink(relationshipName, new NodeId(targetName))
                 }
             }
-            results.put(node.name, node)
+            results.put(node.id, node)
         }
         results
     }
 
-    static LinkedHashMap<String, NodeWithLinks> createNodeConnectionsUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
+    static LinkedHashMap<NodeId, NodeWithLinks> createNodeConnectionsUsingTypeNodeFactory(TypeNodeFactory nodeFactory) {
         def typeNodes = nodeFactory.getTypeNodes()
-        LinkedHashMap<String, NodeWithLinks> results = [:]
+        LinkedHashMap<NodeId, NodeWithLinks> results = [:]
         typeNodes.each { type ->
-            def name = type.name
-            NodeWithLinks n = new NodeWithLinks(name: name)
-
+            NodeWithLinks n = new NodeWithLinks(type.name, type.id)
             typeNodes.each { otherType ->
-                def percentage = type.getConnectionPercentagesToType(otherType.name)
+                def percentage = type.getConnectionPercentagesToType(otherType.id)
+                NodeId otherTypeId = new NodeId(otherType.name, otherType.id)
                 if (percentage != 0) {
-                    n.addLink(new Link(name: percentage + "%", target: otherType.name))
+                    n.addLink(percentage + "%", otherTypeId)
                 }
             }
-            results.put(name, n)
+            results.put(n.id, n)
         }
         results
     }
 
     static def transformTypeNodeModelToD3NodeAndLinkModel(
-            final LinkedHashMap<String, NodeWithLinks> dataModelMap) {
+            final LinkedHashMap<NodeId, NodeWithLinks> dataModelMap) {
         if (dataModelMap.size() == 0)
             return EMPTY_DATA_MODEL
-        ArrayList<String> names = Lists.newArrayList(dataModelMap.keySet().iterator())
+        ArrayList<NodeId> ids = Lists.newArrayList(dataModelMap.keySet().iterator())
         List<Node> nodes = []
         List<Link> links = []
         dataModelMap.eachWithIndex { Map.Entry<String, NodeWithLinks> entry, int index ->
-            def n = entry.value
-            nodes.add(new Node(name: n.name, index: index))
-            n.links.each { l ->
-                links.add(new Link(name: l.name, source: index, target: names.indexOf(l.target)))
+            def node = entry.value
+            nodes.add(new Node(name: node.name, index: index))
+            node.links.each { l ->
+                links.add(new Link(l.name, index, ids.indexOf(l.target)))
             }
         }
 
@@ -81,7 +86,47 @@ abstract class D3GraphRendererDataGenerator {
     static def createD3DataModelFromTypeNodesFromTypeNodeFactory(TypeNodeFactory nodeFactory) {
         transformTypeNodeModelToD3NodeAndLinkModel(createDataModelDataUsingTypeNodeFactory(nodeFactory))
     }
+
+    static def generateNavigatedPath(NodePathBuilder pathBuilder) {
+        StringBuffer sb = new StringBuffer()
+
+        org.neo4j.graphdb.Node rootNode = pathBuilder.statisticsNode
+        Iterable<Relationship> relationships = rootNode.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
+        int outCount = 0
+        relationships.each { relationship ->
+            Integer travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
+            outCount += travCount
+        }
+        printRecursiveNavPaths(rootNode, sb, true, outCount)
+
+        println "sb: " + sb.toString()
+        sb.toString()
+    }
+
+    private static
+    def printRecursiveNavPaths(org.neo4j.graphdb.Node node, StringBuffer returnBuffer, boolean isStartNode, int prevCount) {
+        String nodeString = isStartNode ? "Start" : "No Type"
+        if (node.hasProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)) {
+            nodeString = node.getProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)
+        }
+        nodeString = nodeString.replaceAll(", ", "<br/>").escapeSomeHtml()
+        println """$node.id: $nodeString"""
+        returnBuffer.append """"$node.id" [label=<$nodeString>]"""
+        def relationships = node.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
+        relationships.each { relationship ->
+            def endNode = relationship.endNode
+            int travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
+            def percentage = 100
+            if (prevCount) {
+                percentage = new BigDecimal((travCount / prevCount) * 100)
+                percentage = percentage.setScale(0, BigDecimal.ROUND_HALF_UP)
+            }
+            returnBuffer.append """"$node.id" -> "$endNode.id" [label="  $percentage% ($travCount)  "]"""
+            printRecursiveNavPaths(endNode, returnBuffer, false, travCount)
+        }
+    }
 }
+
 
 class Node {
     String name
@@ -93,11 +138,22 @@ class Node {
 }
 
 class NodeWithLinks {
-    String name
-    List<Link> links = []
+    final String name
+    final NodeId id
+    final List<Link> links = []
 
-    void addLink(Link link) {
-        links.add(link)
+    NodeWithLinks(String name) {
+        this.name = name
+        this.id = new NodeId(name)
+    }
+
+    NodeWithLinks(String name, String id) {
+        this.name = name
+        this.id = new NodeId(name, id)
+    }
+
+    void addLink(String name, NodeId target) {
+        links.add(new Link(name, this.id, target))
     }
 
     boolean equals(final o) {
@@ -114,12 +170,56 @@ class NodeWithLinks {
     int hashCode() {
         return name.hashCode()
     }
-
-
 }
 
+class NodeId {
+    final String name
+    final String id
+
+    NodeId(String name) {
+        this.name = name
+        id = null
+    }
+
+    NodeId(String name, String id) {
+        this.name = name
+        this.id = id
+    }
+
+//    String getId() {
+//        if (id == null)
+//            return name
+//        return id
+//    }
+
+    boolean equals(final o) {
+        if (this.is(o)) return true
+        if (getClass() != o.class) return false
+
+        final NodeId nodeId = (NodeId) o
+        if (id != nodeId.id) return false
+        if (name != nodeId.name) return false
+
+        return true
+    }
+
+    int hashCode() {
+        int result
+        result = name.hashCode()
+        result = 31 * result + (id != null ? id.hashCode() : 0)
+        return result
+    }
+}
+
+
 class Link {
-    String name
-    def source
-    def target
+    final String name
+    final def source
+    final def target
+
+    Link(String name, def source, def target) {
+        this.name = name
+        this.source = source
+        this.target = target
+    }
 }

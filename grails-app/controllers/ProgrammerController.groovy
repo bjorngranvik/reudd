@@ -16,15 +16,13 @@
 
 
 
+
 import groovy.json.JsonOutput
-import org.neo4j.graphdb.Direction
 import org.reudd.node.DataNodeFactory
 import org.reudd.node.TypeNodeFactory
 import org.reudd.node.ViewNodeFactory
 import org.reudd.reports.ReportNodeFactory
 import org.reudd.statistics.NodePathBuilder
-import org.reudd.util.ReUddConstants
-import org.reudd.util.ReUddRelationshipTypes
 import org.reudd.view.datamodel.D3GraphRendererDataGenerator
 
 public class ProgrammerController {
@@ -195,64 +193,9 @@ public class ProgrammerController {
     }
 
     def navigatedPaths = {
-
-    }
-
-    def navigatedPathsGraphviz = {
-        def dotBuffer = new StringWriter()
-        def out = new PrintWriter(dotBuffer)
-
-        TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
-
-        out.println """digraph navigatedPaths {"""
-        out.println """size="8,20";"""
-        out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
-
         NodePathBuilder pathBuilder = new NodePathBuilder(graphDatabaseService)
-        def rootNode = pathBuilder.statisticsNode
-        def relationships = rootNode.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
-        def outCount = 0
-        relationships.each { relationship ->
-            def travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
-            outCount += travCount
-        }
-        printRecursiveNavPaths(rootNode, out, true, outCount)
-        out.println "}"
+        render view: "navigatedPaths", model: [data: JsonOutput.toJson(D3GraphRendererDataGenerator.generateNavigatedPath(pathBuilder))]
 
-        Runtime runtime = Runtime.getRuntime()
-        Process p = runtime.exec("dot -Tpng")
-        p.outputStream.withStream { stream ->
-            stream << dotBuffer.toString()
-        }
-
-        def imageBuffer = new ByteArrayOutputStream()
-        imageBuffer << p.inputStream
-        byte[] image = imageBuffer.toByteArray()
-
-        response.contentLength = image.length
-        response.contentType = "image/png"
-        response.outputStream << image
-    }
-
-    private def printRecursiveNavPaths(node, PrintWriter out, isStartNode, prevCount) {
-        def nodeString = isStartNode ? "Start" : "No Type"
-        if (node.hasProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)) {
-            nodeString = node.getProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)
-        }
-        nodeString = nodeString.replaceAll(", ", "<br/>").escapeSomeHtml()
-        out.println """"$node.id" [label=<$nodeString>]"""
-        def relationships = node.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
-        relationships.each { relationship ->
-            def endNode = relationship.endNode
-            def travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
-            def percentage = 100
-            if (prevCount) {
-                percentage = new BigDecimal((travCount / prevCount) * 100)
-                percentage = percentage.setScale(0, BigDecimal.ROUND_HALF_UP)
-            }
-            out.println """"$node.id" -> "$endNode.id" [label="  $percentage% ($travCount)  "]"""
-            printRecursiveNavPaths(endNode, out, false, travCount)
-        }
     }
 
     def addView = {

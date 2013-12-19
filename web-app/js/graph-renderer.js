@@ -100,7 +100,8 @@ var renderGraph = function (data) {
     .call(force.drag);
 
   node.append("circle")
-    .attr("r", nodeRadius);
+    .attr("r", nodeRadius)
+    .style("fill", "#FFFFFF");
 
   node.append("text")
     .attr("dy", ".35em")

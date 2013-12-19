@@ -88,8 +88,22 @@ abstract class D3GraphRendererDataGenerator {
     }
 
     static def generateNavigatedPath(NodePathBuilder pathBuilder) {
-        StringBuffer sb = new StringBuffer()
+        NavigatedPathGraphGenerator generator = new NavigatedPathGraphGenerator(pathBuilder)
+        def dataModel = generator.navigatedPathGraph()
+        return transformTypeNodeModelToD3NodeAndLinkModel(dataModel)
+    }
+}
 
+class NavigatedPathGraphGenerator {
+    private final NodePathBuilder pathBuilder
+    private final LinkedHashMap<NodeId, NodeWithLinks> navigatedPaths = [:]
+
+
+    NavigatedPathGraphGenerator(NodePathBuilder pathBuilder) {
+        this.pathBuilder = pathBuilder
+    }
+
+    LinkedHashMap<NodeId, NodeWithLinks> navigatedPathGraph() {
         org.neo4j.graphdb.Node rootNode = pathBuilder.statisticsNode
         Iterable<Relationship> relationships = rootNode.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
         int outCount = 0
@@ -97,36 +111,37 @@ abstract class D3GraphRendererDataGenerator {
             Integer travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
             outCount += travCount
         }
-        printRecursiveNavPaths(rootNode, sb, true, outCount)
 
-        println "sb: " + sb.toString()
-        sb.toString()
+        printRecursiveNavPaths(rootNode, true, outCount)
+
+        return navigatedPaths
     }
 
-    private static
-    def printRecursiveNavPaths(org.neo4j.graphdb.Node node, StringBuffer returnBuffer, boolean isStartNode, int prevCount) {
+    private void printRecursiveNavPaths(org.neo4j.graphdb.Node node, boolean isStartNode, int prevCount) {
         String nodeString = isStartNode ? "Start" : "No Type"
         if (node.hasProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)) {
             nodeString = node.getProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)
         }
         nodeString = nodeString.replaceAll(", ", "<br/>").escapeSomeHtml()
         println """$node.id: $nodeString"""
-        returnBuffer.append """"$node.id" [label=<$nodeString>]"""
-        def relationships = node.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
+        NodeWithLinks startNodeWithLinks = new NodeWithLinks(nodeString, node.id)
+        navigatedPaths.put(startNodeWithLinks.id, startNodeWithLinks)
+        Iterable<Relationship> relationships = node.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)
         relationships.each { relationship ->
-            def endNode = relationship.endNode
+            org.neo4j.graphdb.Node endNode = relationship.endNode
             int travCount = relationship.getProperty(ReUddConstants.NODE_PATH_TRAVERSED_COUNT)
             def percentage = 100
             if (prevCount) {
                 percentage = new BigDecimal((travCount / prevCount) * 100)
                 percentage = percentage.setScale(0, BigDecimal.ROUND_HALF_UP)
             }
-            returnBuffer.append """"$node.id" -> "$endNode.id" [label="  $percentage% ($travCount)  "]"""
-            printRecursiveNavPaths(endNode, returnBuffer, false, travCount)
+            startNodeWithLinks.addLink("""$percentage% ($travCount)""", new NodeId(endNode.id))
+            navigatedPaths.put(startNodeWithLinks.id, startNodeWithLinks)
+            printRecursiveNavPaths(endNode, false, travCount)
         }
+
     }
 }
-
 
 class Node {
     String name
@@ -147,7 +162,7 @@ class NodeWithLinks {
         this.id = new NodeId(name)
     }
 
-    NodeWithLinks(String name, String id) {
+    NodeWithLinks(String name, def id) {
         this.name = name
         this.id = new NodeId(name, id)
     }
@@ -174,31 +189,31 @@ class NodeWithLinks {
 
 class NodeId {
     final String name
-    final String id
+    final def id
 
     NodeId(String name) {
         this.name = name
         id = null
     }
 
-    NodeId(String name, String id) {
+    NodeId(String name, def id) {
         this.name = name
         this.id = id
     }
 
-//    String getId() {
-//        if (id == null)
-//            return name
-//        return id
-//    }
+    NodeId(def id) {
+        this.name = null
+        this.id = id
+    }
 
     boolean equals(final o) {
         if (this.is(o)) return true
         if (getClass() != o.class) return false
 
         final NodeId nodeId = (NodeId) o
+
+        if (id == null && name != nodeId.name) return false
         if (id != nodeId.id) return false
-        if (name != nodeId.name) return false
 
         return true
     }
@@ -208,6 +223,15 @@ class NodeId {
         result = name.hashCode()
         result = 31 * result + (id != null ? id.hashCode() : 0)
         return result
+    }
+
+
+    @Override
+    public String toString() {
+        return "NodeId{" +
+                "name='" + name + '\'' +
+                ", id='" + id + '\'' +
+                '}';
     }
 }
 

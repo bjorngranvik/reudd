@@ -40,11 +40,31 @@ class NodeIdEqualityTest {
     }
 
     @Test
-    public void nodeWithIdAndName() {
+    public void nodeWithDifferentNameAndIdAreDifferent() {
         NodeId first = new NodeId("first", "firstId")
-        NodeId sameAsFirst = new NodeId("first", "firstId")
-        NodeId second = new NodeId("second", "secondId")
-        assertThat(first, is(sameAsFirst))
-        assertThat(first, is(not(second)))
+        NodeId sameAsSecond = new NodeId("second", "secondId")
+        assertThat(first, is(not(sameAsSecond)))
     }
+
+    @Test
+    public void nodeWithSameIdAndDifferentNameAreEqual() {
+        NodeId firstWithId = new NodeId("first", "id")
+        NodeId sameAsSecondWithId = new NodeId("second", "id")
+        assertThat(firstWithId, is(sameAsSecondWithId))
+    }
+
+    @Test
+    public void nodesWithSameNameAndDifferentIdsAreNotEqual() {
+        NodeId first = new NodeId("name", "id1")
+        NodeId sameAsFirst = new NodeId("name", "id2")
+        assertThat(first, is(not(sameAsFirst)))
+    }
+
+    @Test
+    public void nodeWithNameAndIdIsSameAsNodeWithOnlyId() {
+        NodeId first = new NodeId("name", 1)
+        NodeId sameAsFirst = new NodeId(1)
+        assertThat(first, is(sameAsFirst))
+    }
+
 }

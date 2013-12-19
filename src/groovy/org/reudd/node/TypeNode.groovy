@@ -22,13 +22,16 @@ import org.reudd.util.ReUddRelationshipTypes
 import org.reudd.util.SettingsParser;
 
 public class TypeNode extends BaseNode {
-	
+
 	def name
-	
+
 	def settings
-	
+
 	def comments
-	
+
+    //SMELL: This is required to enable mocking, which in turn should not be needed.
+    TypeNode() {}
+
 	/**
 	 * Creates a TypeNode from an existing neo node and sets name and
 	 * settings from the node content.
@@ -55,13 +58,13 @@ public class TypeNode extends BaseNode {
 			underlyingNode.setProperty(ReUddConstants.TYPE_EDIT_COUNT,0)
 		}
 	}
-	
+
 	def getSetting(settingName) {
 		if (settings && !settings?.isEmpty()) {
 			SettingsParser.getSetting(settingName, settings)
 		}
 	}
-	
+
 	def getRequiredAttributes() {
 		def reqAttr = []
 		for (attr in attributes) {
@@ -71,14 +74,14 @@ public class TypeNode extends BaseNode {
 		}
 		reqAttr
 	}
-	
+
 	/**
 	 * Returns a string representation of the TypeNode
 	 */
 	def String toString() {
 		"TypeNode-" + name
 	}
-	
+
 	/**
 	 * Calculates the percentage of totalNbr of DataNodes that have the
 	 * current TypeNode as one of it's types
@@ -88,7 +91,7 @@ public class TypeNode extends BaseNode {
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 		return bd
 	}
-	
+
 	/**
 	 * Returns a list of all DataNodes that have the current TypeNode as one
 	 * of it's types
@@ -102,7 +105,7 @@ public class TypeNode extends BaseNode {
 		}
 		dataNodes
 	}
-	
+
 	/**
 	 * Returns the amount of DataNodes that have the current TypeNode as one
 	 * of it's types
@@ -110,7 +113,7 @@ public class TypeNode extends BaseNode {
 	def countDataNodes() {
 		underlyingNode.getRelationships(ReUddRelationshipTypes._REUDD_IS_OF_TYPE, Direction.INCOMING).size()
 	}
-	
+
 	def calcTotalOutgoingRelations() {
 		def total = 0
 		for (node in getAllDataNodes()) {
@@ -118,7 +121,7 @@ public class TypeNode extends BaseNode {
 		}
 		total
 	}
-	
+
 	def calcAverageOutgoingRelations() {
 		def nbrOfDataNodes = countDataNodes()
 		if (nbrOfDataNodes == 0) {
@@ -127,7 +130,7 @@ public class TypeNode extends BaseNode {
 		BigDecimal bd = new BigDecimal((calcTotalOutgoingRelations() / nbrOfDataNodes));
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
-	
+
 	def calcTotalIncomingRelations() {
 		def total = 0
 		for (node in getAllDataNodes()) {
@@ -135,7 +138,7 @@ public class TypeNode extends BaseNode {
 		}
 		total
 	}
-	
+
 	def calcAverageIncomingRelations() {
 		def nbrOfDataNodes = countDataNodes()
 		if (nbrOfDataNodes == 0) {
@@ -144,9 +147,9 @@ public class TypeNode extends BaseNode {
 		BigDecimal bd = new BigDecimal((calcTotalIncomingRelations() / nbrOfDataNodes));
 		bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
 	}
-	
+
 	/**
-	 * Checks if the TypeNode has any kind of meta-information by looking 
+	 * Checks if the TypeNode has any kind of meta-information by looking
 	 * at it's settings and attributes.
 	 */
 	def hasMetaModel() {
@@ -154,7 +157,7 @@ public class TypeNode extends BaseNode {
 		def hasAttributes = (attributes != null && !attributes.isEmpty())
 		hasSettings || hasAttributes
 	}
-	
+
 	def getConnectionPercentagesToType(String otherTypeName) {
 		def allNodes = getAllDataNodes()
 		def totalNbrOfNodes = allNodes.size()
@@ -173,7 +176,7 @@ public class TypeNode extends BaseNode {
         }
 		bd = bd.setScale(0, BigDecimal.ROUND_HALF_UP)
 	}
-	
+
 	private def getAllTypeNodes() {
 		def rel = underlyingNode.getSingleRelationship(ReUddRelationshipTypes._REUDD_TYPE_NODE, Direction.INCOMING)
 		def factoryNode = rel.getStartNode()
@@ -185,7 +188,7 @@ public class TypeNode extends BaseNode {
 		}
 		return list
 	}
-	
+
 	def getOutgoingRelationshipNames() {
 		def names = []
 		def dataNodes = getAllDataNodes()
@@ -198,7 +201,7 @@ public class TypeNode extends BaseNode {
 		}
 		names
 	}
-	
+
 	def getIncomingRelationshipNames() {
 		def names = []
 		def dataNodes = getAllDataNodes()
@@ -211,7 +214,7 @@ public class TypeNode extends BaseNode {
 		}
 		names
 	}
-	
+
 	def getOutgoingRelationshipTargetTypeNames(String relName) {
 		def names = []
 		def dataNodes = getAllDataNodes()
@@ -226,7 +229,7 @@ public class TypeNode extends BaseNode {
 		}
 		names
 	}
-	
+
 	def checkExistingAttributes() {
 		def dataNodes = getAllDataNodes()
 		dataNodes.each { node ->
@@ -237,25 +240,25 @@ public class TypeNode extends BaseNode {
 			}
 		}
 	}
-	
+
 	def increaseViewCount() {
 		def currentCount = underlyingNode.getProperty(ReUddConstants.TYPE_VIEW_COUNT)
 		underlyingNode.setProperty(ReUddConstants.TYPE_VIEW_COUNT, currentCount+1)
 	}
-	
+
 	def increaseEditCount() {
 		def currentCount = underlyingNode.getProperty(ReUddConstants.TYPE_EDIT_COUNT)
 		underlyingNode.setProperty(ReUddConstants.TYPE_EDIT_COUNT, currentCount+1)
 	}
-	
+
 	def getViewCount() {
 		underlyingNode.getProperty(ReUddConstants.TYPE_VIEW_COUNT)
 	}
-	
+
 	def getEditCount() {
 		underlyingNode.getProperty(ReUddConstants.TYPE_EDIT_COUNT)
 	}
-	
+
 	def addComment(String text) {
 		if (comments) {
 			comments += text
@@ -263,7 +266,7 @@ public class TypeNode extends BaseNode {
 			comments = [text]
 		}
 	}
-	
+
 	def hasView() {
 		def result = false
 		def viewRelation = underlyingNode.getSingleRelationship(ReUddRelationshipTypes._REUDD_HAS_VIEW, Direction.OUTGOING)
@@ -272,11 +275,11 @@ public class TypeNode extends BaseNode {
 		}
 		result
 	}
-	
+
 	def addViewNode(ViewNode viewNode) {
 		underlyingNode.createRelationshipTo(viewNode.underlyingNode, ReUddRelationshipTypes._REUDD_HAS_VIEW)
 	}
-	
+
 	def ViewNode getViewNode() {
 		def viewNode
 		def viewRelation = underlyingNode.getSingleRelationship(ReUddRelationshipTypes._REUDD_HAS_VIEW, Direction.OUTGOING)
@@ -285,12 +288,12 @@ public class TypeNode extends BaseNode {
 		}
 		viewNode
 	}
-	
+
 	def hasViewThatCoversAttribute(String key) {
 		if (getViewNode()?.coversAttribute(key)) {
 			return true
 		}
 		false
 	}
-	
+
 }

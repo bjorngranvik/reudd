@@ -22,11 +22,17 @@ import org.reudd.util.ReUddConstants
 import org.reudd.util.ReUddRelationshipTypes;
 
 public class TypeNodeFactory extends BaseNodeFactory {
-	
+
+    //SMELL: This is required to enable mocking, which in turn should not be needed.
+    TypeNodeFactory() {
+    }
+
 	TypeNodeFactory(GraphDatabaseService graphDatabaseService) {
-		super(graphDatabaseService, "TYPE_NODES", ReUddRelationshipTypes._REUDD_TYPE_NODES, ReUddRelationshipTypes._REUDD_TYPE_NODE)
+		super(graphDatabaseService, "TYPE_NODES",
+                ReUddRelationshipTypes._REUDD_TYPE_NODES,
+                ReUddRelationshipTypes._REUDD_TYPE_NODE)
 	}
-	
+
 	def TypeNode getOrCreateNode(String typeName) {
 		def typeNode = getTypeNode(typeName)
 		if (!typeNode) {
@@ -38,7 +44,7 @@ public class TypeNodeFactory extends BaseNodeFactory {
 		}
 		typeNode
 	}
-	
+
 	def TypeNode getTypeNode(typeName) {
 		typeName = typeName.toLowerCase()
 		def typeNode
@@ -52,7 +58,7 @@ public class TypeNodeFactory extends BaseNodeFactory {
 		}
 		typeNode
 	}
-	
+
 	/**
 	 * Saves the TypeNode instance to the neo service.
 	 */
@@ -68,40 +74,40 @@ public class TypeNodeFactory extends BaseNodeFactory {
 			typeNode.underlyingNode.setProperty(ReUddConstants.TYPE_COMMENTS,comments)
 		}
 	}
-	
+
 	/**
 	 * Returns a list of all TypeNodes currently available
 	 */
-	def getTypeNodes() {
+	List<TypeNode> getTypeNodes() {
 		def relations = factoryNode.getRelationships(nodeType, Direction.OUTGOING)
-		def list = [] 
+		def list = []
 		for (relation in relations) {
 			def typeName = relation.getEndNode().getProperty(ReUddConstants.TYPE_NAME)
 			list.add(getTypeNode(typeName))
 		}
 		list.sort { it.name }
 	}
-	
+
 	/**
 	 * Returns the amount of TypeNodes currently available.
 	 */
 	def getNbrOfTypeNodes() {
 		return getTypeNodes().size()
 	}
-	
+
 	def connectToType(DataNode dataNode, String name) {
 		TypeNode typeNode = createOrGetNode(name)
 		dataNode.addType(typeNode)
 	}
-	
+
 	/**
-	 * Retrieves a neo node with the id and returns a TypeNode instance 
+	 * Retrieves a neo node with the id and returns a TypeNode instance
 	 * created from that node.
 	 */
 	def getTypeNode(long id) {
 		return new TypeNode(graphDatabaseService.getNodeById(id))
 	}
-	
+
 	def getDataNodesConnectionPercentages() {
 		def connectionMap = [:]
 		def totalNodesMap = [:]
@@ -137,5 +143,5 @@ public class TypeNodeFactory extends BaseNodeFactory {
 		}
 		connectionMap
 	}
-	
+
 }

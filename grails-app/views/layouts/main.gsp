@@ -3,7 +3,7 @@
 		<title><g:layoutTitle default="ReUDD" /></title>
 		<link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
         <link rel="stylesheet" href="${resource(dir:'css',file:'main.css')}" />
-		<g:javascript library="application" />
+		<g:javascript src="application.js" />
 		<g:javascript src="reudd.js" />
 		<g:layoutHead />
 	</head>

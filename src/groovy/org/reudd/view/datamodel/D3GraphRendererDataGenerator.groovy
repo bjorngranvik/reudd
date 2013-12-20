@@ -50,7 +50,7 @@ abstract class D3GraphRendererDataGenerator {
         typeNodes.each { type ->
             NodeWithLinks n = new NodeWithLinks(type.name, type.id)
             typeNodes.each { otherType ->
-                def percentage = type.getConnectionPercentagesToType(otherType.id)
+                def percentage = type.getConnectionPercentagesToType(otherType.name)
                 NodeId otherTypeId = new NodeId(otherType.name, otherType.id)
                 if (percentage != 0) {
                     n.addLink(percentage + "%", otherTypeId)

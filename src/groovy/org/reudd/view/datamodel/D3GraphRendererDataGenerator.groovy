@@ -122,8 +122,7 @@ class NavigatedPathGraphGenerator {
         if (node.hasProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)) {
             nodeString = node.getProperty(ReUddConstants.STATISTIC_NODE_PATH_STRING)
         }
-        nodeString = nodeString.replaceAll(", ", "<br/>").escapeSomeHtml()
-        println """$node.id: $nodeString"""
+        nodeString = nodeString.escapeSomeHtml()
         NodeWithLinks startNodeWithLinks = new NodeWithLinks(nodeString, node.id)
         navigatedPaths.put(startNodeWithLinks.id, startNodeWithLinks)
         Iterable<Relationship> relationships = node.getRelationships(ReUddRelationshipTypes._REUDD_NODE_PATH, Direction.OUTGOING)

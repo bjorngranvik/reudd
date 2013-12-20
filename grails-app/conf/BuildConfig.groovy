@@ -31,6 +31,7 @@ grails.project.dependency.resolution = {
     dependencies {
         runtime 'org.neo4j:neo4j-community:1.9.5'
         compile "org.neo4j:neo4j-rest-graphdb:1.9"
+        compile "com.google.guava:guava:15.0"
         test "org.mockito:mockito-core:1.9.5"
         test "org.hamcrest:hamcrest-all:1.3"
 

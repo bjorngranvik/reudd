@@ -215,8 +215,8 @@ public class TypeNode extends BaseNode {
 		names
 	}
 
-	def getOutgoingRelationshipTargetTypeNames(String relName) {
-		def names = []
+	List<String> getOutgoingRelationshipTargetTypeNames(String relName) {
+		List<String> names = []
 		def dataNodes = getAllDataNodes()
 		dataNodes.each { dataNode ->
 			dataNode.getRelationships(relName,Direction.OUTGOING).each { relationship ->

@@ -1,7 +1,6 @@
 <html>
     <head>
         <meta name="layout" content="main"></meta>
-		<g:javascript library="prototype" />
     </head>
     <body>
 		<div id="nodeRelationshipTypes">

@@ -11,7 +11,14 @@
             <input type="file" name="file"/>
         </div>
 
+        <div id="delimiter">
+            <br>
+            <div class="inputhead">Field Delimiter:</div>
+            <input id="delimiterInput" type="text" value=";" size="4" name="delimiter" />
+        </div>
+
         <div>
+            <br>
             <g:submitButton value="Import!" name="importFile"/>
         </div>
     </g:form>

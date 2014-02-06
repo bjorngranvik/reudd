@@ -317,18 +317,19 @@ public class UserController {
 
    	def importFileSubmit = {
    		def importtext = request.getFile("file").inputStream
+        String delimiter = params.delimiter //';'
 
    		if (importtext) {
    			def headline = []
    			def nodeList = []
    			importtext.eachLine { line, index ->
    				if (index == 1) {
-   					line.split(';').each { item ->
+                    line.split(delimiter).each { item ->
    						headline.add item
    					}
    				} else {
    					def newNode = [types:[],attributes:[:],relationships:[]]
-   					line.split(';').eachWithIndex { item, innerIndex ->
+   					line.split(delimiter).eachWithIndex { item, innerIndex ->
    						if (!item.isEmpty()) {
    							def title = headline[innerIndex]
    							if (title == "type:") {
@@ -338,7 +339,7 @@ public class UserController {
    							} else if (title.startsWith(RELATIONSHIP_PREFIX)
                                     || title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
                                     || title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX) ) {
-   								def relDirectionOut = !title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
+   								def relDirectionOut = !title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX)
                                 def relDirection = relDirectionOut ? RELATIONSHIP_DIRECTION_OUT : RELATIONSHIP_DIRECTION_IN
    								def relName = title[4..title.lastIndexOf("(")-1]
    								def relKey = title[title.lastIndexOf("(")+1..-2]

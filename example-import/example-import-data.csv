@@ -1,1 +1,28 @@
-type:;name;members;title;duration;rel:on(title);rel:record deal(name);rel:made by(name);rel:performed by(name);rel:produced by(name)Band;Foo Fighters;4;;;;RCA;;;Band;Queen;4;;;;Parlophone;;;Band;Pearl Jam;5;;;;Epic;;;Album;;;Backspacer;;;;Pearl Jam;;EpicSong;;;Got some;03.03;Backspacer;;;Pearl Jam;Album;;;Binaural;;;;Pearl Jam;;EpicSong;;;Breakerfall;02.19;Binaural;;;Pearl Jam;Album;;;Rearviewmirror;;;;Pearl Jam;;EpicSong;;;Even Flow;05.04;Rearviewmirror;;;Pearl Jam;Song;;;Animal;02.48;Rearviewmirror;;;Pearl Jam;Song;;;Better Man;04.29;Rearviewmirror;;;Pearl Jam;Album;;;Skin and bones;;;;Foo Fighters;;RCASong;;;Razor;06.48;Skin and bones;;;Foo Fighters;Song;;;Over and out;05.57;Skin and bones;;;Foo Fighters;Song;;;My hero;04.51;Skin and bones;;;Foo Fighters;Album;;;Greatest hits;;;;Foo Fighters;;RCASong;;;Everlong;04.10;Greatest hits;;;Foo Fighters;Song;;;Monkey wrench;03.51;Greatest hits;;;Foo Fighters;Album;;;Made in heaven;;;;Queen;;ParlophoneSong;;;Too much love will kill you;04.20;Made in heaven;;;Queen;Song;;;You don't fool me;05.25;Made in heaven;;;Queen;Song;;;A winter's tale;03.49;Made in heaven;;;Queen;RecordLabel;RCA;;;;;;;;RecordLabel;Epic;;;;;;;;RecordLabel;Parlophone;;;;;;;;
+type:;name;members;title;duration;comment;rel:on(title);rel:record deal(name);rel:made by(name);rel:performed by(name);rel:produced by(name);<--:wrote(name);-->:review of(title)
+Person;Björn;;;;;;;;;;;
+Review;;;Touchy feely stuff;;Lorem Ipsum comment;;;;;;Björn;Razor
+Band;Foo Fighters;4;;;;;RCA;;;;;
+Band;Queen;4;;;;;Parlophone;;;;;
+Band;Pearl Jam;5;;;;;Epic;;;;;
+Album;;;Backspacer;;;;;Pearl Jam;;Epic;;
+Song;;;Got some;03.03;;Backspacer;;;Pearl Jam;;;
+Album;;;Binaural;;;;;Pearl Jam;;Epic;;
+Song;;;Breakerfall;02.19;;Binaural;;;Pearl Jam;;;
+Album;;;Rearviewmirror;;;;;Pearl Jam;;Epic;;
+Song;;;Even Flow;05.04;;Rearviewmirror;;;Pearl Jam;;;
+Song;;;Animal;02.48;;Rearviewmirror;;;Pearl Jam;;;
+Song;;;Better Man;04.29;;Rearviewmirror;;;Pearl Jam;;;
+Album;;;Skin and bones;;;;;Foo Fighters;;RCA;;
+Song;;;Razor;06.48;;Skin and bones;;;Foo Fighters;;;
+Song;;;Over and out;05.57;;Skin and bones;;;Foo Fighters;;;
+Song;;;My hero;04.51;;Skin and bones;;;Foo Fighters;;;
+Album;;;Greatest hits;;;;;Foo Fighters;;RCA;;
+Song;;;Everlong;04.10;;Greatest hits;;;Foo Fighters;;;
+Song;;;Monkey wrench;03.51;;Greatest hits;;;Foo Fighters;;;
+Album;;;Made in heaven;;;;;Queen;;Parlophone;;
+Song;;;Too much love will kill you;04.20;;Made in heaven;;;Queen;;;
+Song;;;You don't fool me;05.25;;Made in heaven;;;Queen;;;
+Song;;;A winter's tale;03.49;;Made in heaven;;;Queen;;;
+RecordLabel;RCA;;;;;;;;;;;
+RecordLabel;Epic;;;;;;;;;;;
+RecordLabel;Parlophone;;;;;;;;;;;

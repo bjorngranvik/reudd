@@ -38,7 +38,8 @@ public class TypeNodeFactory extends BaseNodeFactory {
 		if (!typeNode) {
 			def node = graphDatabaseService.createNode()
 			node.setProperty ReUddConstants.TYPE_NAME, typeName
-			node.setProperty ReUddConstants.TYPE_SETTINGS, ""
+            //Sneaky and practical: Setting a default title to use uuid attribute. uuid = unique and usable id
+			node.setProperty ReUddConstants.TYPE_SETTINGS, "toString:[uuid]"
 			factoryNode.createRelationshipTo(node, nodeType)
 			typeNode = new TypeNode(node)
 		}

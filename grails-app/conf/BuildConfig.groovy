@@ -35,6 +35,7 @@ grails.project.dependency.resolution = {
         test "org.mockito:mockito-core:1.9.5"
         test "org.hamcrest:hamcrest-all:1.3"
 
+       test group: 'org.neo4j', name: 'neo4j-kernel', version: '1.9.5', classifier: 'tests'
     }
 
     plugins {

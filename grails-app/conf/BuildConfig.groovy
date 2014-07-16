@@ -4,7 +4,7 @@ grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
 grails.project.target.level = 1.7
 grails.project.source.level = 1.7
-grails.project.dependency.resolver = "ivy"
+grails.project.dependency.resolver = "maven"
 
 grails.project.dependency.resolution = {
     inherits("global") {
@@ -23,29 +23,28 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 
-        mavenRepo name: "Neo4j", root: "http://m2.neo4j.org/releases"
-
+        mavenRepo 'http://m2.neo4j.org/releases'
     }
 
 
     dependencies {
         runtime 'org.neo4j:neo4j-community:1.9.5'
+
         compile "org.neo4j:neo4j-rest-graphdb:1.9"
         compile "com.google.guava:guava:15.0"
+        compile group: 'org.neo4j.app', name: 'neo4j-server', version: '1.9.5'
+
         test "org.mockito:mockito-core:1.9.5"
         test "org.hamcrest:hamcrest-all:1.3"
-
-       test group: 'org.neo4j', name: 'neo4j-kernel', version: '1.9.5', classifier: 'tests'
+        test group: 'org.neo4j', name: 'neo4j-kernel', version: '1.9.5', classifier: 'tests'
     }
 
     plugins {
-        runtime ":neo4j:1.0.1"
-
+        runtime ":neo4j:1.1.1"
         runtime ":jquery:1.8.3"
         runtime ":resources:1.2"
 
         compile ":d3:3.3.9.0"
-
         compile ":jetty:2.0.3"
 
     }

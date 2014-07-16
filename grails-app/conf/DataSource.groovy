@@ -12,7 +12,7 @@ grails {
 
         // Using temporary virtual volume for safe handling of data.
         // Encrypted usb cannot lock neo4j file for some reason.
-        //location = "/Volumes/vDisk/data/neo4j"
+        location = "/Volumes/vDisk/data/neo4j"
 
         // location = "data/neo4j"
         // params = [:]

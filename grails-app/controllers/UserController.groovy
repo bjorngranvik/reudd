@@ -309,6 +309,65 @@ public class UserController {
     }
 
 
+    def domainModel = {
+        def data = request.preData
+        data
+    }
+
+    def domainModelGraphviz = {
+        def dotBuffer = new StringWriter()
+        def out = new PrintWriter(dotBuffer)
+
+        TypeNodeFactory typeNodeFactory = new TypeNodeFactory(graphDatabaseService)
+
+        out.println """digraph domainModel {"""
+        out.println """size="8,20";"""
+        out.println """node [shape=circle,fixedsize=true,width=1,height=1];"""
+        def typeNodes = typeNodeFactory.getTypeNodes()
+        typeNodes.each { type ->
+            def outRels = type.getOutgoingRelationshipNames()
+            outRels.each { relName ->
+                def targets = type.getOutgoingRelationshipTargetTypeNames(relName)
+                targets.each { target ->
+                    out.println """<$type.name> -> <$target> [label=<  $relName  >];"""
+                }
+            }
+            if (!outRels) {
+                out.println "<$type.name>"
+            }
+        }
+        out.println "}"
+
+        Runtime runtime = Runtime.getRuntime()
+        // On a mac and Intellij the PATH variable is not inherited from .bash_profile.
+        // This means that Graphviz dot below might work just fine in your Terminal since you PATH variable is setup
+        // correctly. However, IntelliJ might not be started with the same values set.
+        // Check using
+        //    $ launchctl export
+        // and see if you have "/usr/local/bin" there.
+        // If not, you can use launctl command, create a file in /etc/launchd.conf or fiddle with plists.
+        // But these approach all have problems and seem dependent on your Mac OS version. Sigh.
+        //
+        // Poor man's solution: Set a PATH variable in your IntelliJ project
+        // Go Settings->Path Variables and enter a new PATH with for instance the value
+        //    /usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin
+        // For some reason I had set the PATH variable on the runtime configuration (various conf for running/debugging).
+        Process p = runtime.exec("dot -Tsvg")
+        //Process p = runtime.exec("/usr/local/bin/dot -Tpng")
+        p.outputStream.withStream { stream ->
+            stream << dotBuffer.toString()
+        }
+
+        def imageBuffer = new ByteArrayOutputStream()
+        imageBuffer << p.inputStream
+        byte[] image = imageBuffer.toByteArray()
+
+        response.contentLength = image.length
+        response.contentType = "image/svg+xml"
+        response.outputStream << image
+    }
+
+
     def importFile = {
         def data = request.preData
       	data

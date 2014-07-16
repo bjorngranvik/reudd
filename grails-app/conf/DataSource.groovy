@@ -9,6 +9,11 @@ grails {
         // location: the path where Neo4j is stored, defaults to "data/neo4j"
         // params: optional map passed to EmbeddedGraphDatabase
         type = "embedded"
+
+        // Using temporary virtual volume for safe handling of data.
+        // Encrypted usb cannot lock neo4j file for some reason.
+        //location = "/Volumes/vDisk/data/neo4j"
+
         // location = "data/neo4j"
         // params = [:]
 

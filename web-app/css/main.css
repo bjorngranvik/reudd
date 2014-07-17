@@ -486,6 +486,25 @@ table.greytable td {
     padding: 5px;
 }
 
+/* reportTable */
+table.reportTable {
+    width: 100%;
+    width: 100%;
+    border-spacing: 0px;
+}
+
+table.reportTable tr.title {
+    font-weight: bold;
+    text-align: center;
+    background-color: #E7E7E7;
+}
+
+table.reportTable td {
+    vertical-align: top;
+    border: 1px solid #AAAAAA;
+    padding: 2px;
+}
+
 /* reports */
 
 .reportNode input {

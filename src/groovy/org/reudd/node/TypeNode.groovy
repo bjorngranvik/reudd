@@ -215,7 +215,7 @@ public class TypeNode extends BaseNode {
 		names
 	}
 
-	List<String> getOutgoingRelationshipTargetTypeNames(String relName) {
+    List<String> getOutgoingRelationshipTargetTypeNames(String relName) {
 		List<String> names = []
 		def dataNodes = getAllDataNodes()
 		dataNodes.each { dataNode ->
@@ -230,7 +230,22 @@ public class TypeNode extends BaseNode {
 		names
 	}
 
-	def checkExistingAttributes() {
+    List<String> getIncomingRelationshipTargetTypeNames(String relName) {
+        List<String> names = []
+        def dataNodes = getAllDataNodes()
+        dataNodes.each { dataNode ->
+            dataNode.getRelationships(relName,Direction.INCOMING).each { relationship ->
+                relationship.startNode.types.each { type ->
+                    if (!names.contains(type.name)) {
+                        names += type.name
+                    }
+                }
+            }
+        }
+        names
+    }
+
+    def checkExistingAttributes() {
 		def dataNodes = getAllDataNodes()
 		dataNodes.each { node ->
 			node.attributes.each { attribute ->

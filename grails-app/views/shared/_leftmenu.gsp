@@ -18,6 +18,7 @@
 				<g:if test="${menuItemsTypes && menuItemsTypes.size() != 0}">
                     <li><g:link action="dataModel">Data Model</g:link></li>
                     <li><g:link action="domainModel">Data Model GV</g:link></li>
+                    <li><g:link action="dataModelReport">Data Model Report</g:link></li>
 					<li>
 						<g:link action="listNodes" params="[type:'*']">All Types</g:link>
 					</li>

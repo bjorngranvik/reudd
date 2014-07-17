@@ -79,7 +79,7 @@ public class UserController {
 		}
 	}
 
-	def listNodes = {
+    def listNodes = {
 		def data = request.preData
 		DataNodeFactory dataNodeFactory = request.dataNodeFactory
 		TypeNodeFactory typeNodeFactory = request.typeNodeFactory
@@ -365,6 +365,14 @@ public class UserController {
         response.contentLength = image.length
         response.contentType = "image/svg+xml"
         response.outputStream << image
+    }
+
+
+    def dataModelReport = {
+        def data = request.preData
+        TypeNodeFactory factory = new TypeNodeFactory(graphDatabaseService)
+        data.allNodes = factory.getTypeNodes()
+        data
     }
 
 

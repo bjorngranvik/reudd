@@ -1,0 +1,5 @@
+type:;name;age;<--:father(name)
+Person,Father;Björn;50;
+Person;Max;17;Björn
+Person;Felix;13;Björn
+Person;Bix;10;Björn

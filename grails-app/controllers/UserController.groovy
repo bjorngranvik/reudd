@@ -387,41 +387,8 @@ public class UserController {
         String delimiter = params.delimiter //';'
 
    		if (importtext) {
-   			def headline = []
    			def nodeList = []
-   			importtext.eachLine { line, index ->
-   				if (index == 1) {
-                    line.split(delimiter).each { item ->
-   						headline.add item
-   					}
-   				} else {
-   					def newNode = [types:[],attributes:[:],relationships:[]]
-   					line.split(delimiter).eachWithIndex { item, innerIndex ->
-   						if (!item.isEmpty()) {
-   							def title = headline[innerIndex]
-   							if (title == "type:") {
-   								item.split(",").each { type ->
-   									newNode.types.add type.trim()
-   								}
-   							} else if (title.startsWith(RELATIONSHIP_PREFIX)
-                                    || title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
-                                    || title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX) ) {
-   								def relDirectionOut = !title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX)
-                                def relDirection = relDirectionOut ? RELATIONSHIP_DIRECTION_OUT : RELATIONSHIP_DIRECTION_IN
-   								def relName = title[4..title.lastIndexOf("(")-1]
-   								def relKey = title[title.lastIndexOf("(")+1..-2]
-   								def relation = "$relDirection$relName($relKey:$item)"
-   								newNode.relationships.add relation
-   							} else {
-   								newNode.attributes[title] = item
-   							}
-   						}
-   					}
-   					if (!newNode.isEmpty()) {
-   						nodeList.add(newNode)
-   					}
-   				}
-   			}
+            nodeList = processImportText(importtext, delimiter)
 
    			// Add nodes
    			DataNodeFactory dataNodeFactory = new DataNodeFactory(graphDatabaseService)
@@ -474,7 +441,47 @@ public class UserController {
    	}
 
 
-	def addReport = {
+    def processImportText(importText, delimiter) {
+        def nodeList = []
+        def headline = []
+        importText.eachLine { line, index ->
+            if (index == 1) {
+                line.split(delimiter).each { item ->
+                    headline.add item
+                }
+            } else {
+                def newNode = [types: [], attributes: [:], relationships: []]
+                line.split(delimiter).eachWithIndex { item, innerIndex ->
+                    if (!item.isEmpty()) {
+                        def title = headline[innerIndex]
+                        if (title == "type:") {
+                            item.split(",").each { type ->
+                                newNode.types.add type.trim()
+                            }
+                        } else if (title.startsWith(RELATIONSHIP_PREFIX)
+                                || title.startsWith(RELATIONSHIP_DIRECTION_IN_PREFIX)
+                                || title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX)) {
+                            def relDirectionOut = !title.startsWith(RELATIONSHIP_DIRECTION_OUT_PREFIX)
+                            def relDirection = relDirectionOut ? RELATIONSHIP_DIRECTION_OUT : RELATIONSHIP_DIRECTION_IN
+                            def relName = title[4..title.lastIndexOf("(") - 1]
+                            def relKey = title[title.lastIndexOf("(") + 1..-2]
+                            def relation = "$relDirection$relName($relKey:$item)"
+                            newNode.relationships.add relation
+                        } else {
+                            newNode.attributes[title] = item
+                        }
+                    }
+                }
+                if (!newNode.isEmpty()) {
+                    nodeList.add(newNode)
+                }
+            }
+        }
+        return nodeList
+    }
+
+
+    def addReport = {
 		def data = request.preData
 		data
 	}
@@ -699,4 +706,10 @@ public class UserController {
 		render(template)
 	}
 
+
+    def hello() {
+        DataNodeFactory dataNodeFactory = new DataNodeFactory(graphDatabaseService)
+
+        render "hello"
+    }
 }

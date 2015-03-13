@@ -23,14 +23,18 @@ grails.project.dependency.resolution = {
         mavenLocal()
         mavenCentral()
 
-        mavenRepo 'http://m2.neo4j.org/releases'
+        // uncomment the below to enable remote dependency resolution
+        // from public Maven repositories
+        //todo Travis barked and complained about missing neo4j-rest-graphdb.
+        //mavenRepo 'http://m2.neo4j.org/releases'
     }
 
 
     dependencies {
         runtime 'org.neo4j:neo4j-community:1.9.5'
 
-        compile "org.neo4j:neo4j-rest-graphdb:1.9"
+        // Not using rest interface right now. See above on Travis problem.
+        //compile "org.neo4j:neo4j-rest-graphdb:1.9"
         compile "com.google.guava:guava:15.0"
         compile group: 'org.neo4j.app', name: 'neo4j-server', version: '1.9.5'
 

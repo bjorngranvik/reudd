@@ -588,11 +588,6 @@ table.reportTable td {
     float: left;
 }
 
-#jayway-logo {
-    margin-top: 10px;
-    text-align: right;
-}
-
 .node {
     cursor: pointer;
 }

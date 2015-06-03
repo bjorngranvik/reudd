@@ -20,6 +20,9 @@ import groovy.json.JsonOutput
 import org.codehaus.groovy.grails.web.pages.GroovyPagesTemplateEngine
 import org.neo4j.cypher.javacompat.ExecutionEngine
 import org.neo4j.graphdb.GraphDatabaseService
+import org.neo4j.graphdb.Transaction
+import org.neo4j.kernel.EmbeddedGraphDatabase
+import org.reudd.node.BaseNode
 import org.reudd.node.DataNodeFactory
 import org.reudd.node.DynamicRelationship
 import org.reudd.node.TypeNodeFactory
@@ -30,11 +33,6 @@ import org.reudd.statistics.NodePathBuilder
 import org.reudd.view.datamodel.D3GraphRendererDataGenerator
 
 public class UserController {
-    public static final String RELATIONSHIP_DIRECTION_OUT = "-->"
-      public static final String RELATIONSHIP_DIRECTION_IN = "<--"
-      public static final String RELATIONSHIP_DIRECTION_IN_PREFIX = "-->:"
-      public static final String RELATIONSHIP_DIRECTION_OUT_PREFIX = "<--:"
-      public static final String RELATIONSHIP_PREFIX = "rel:"
 
 	GraphDatabaseService graphDatabaseService
 
@@ -382,9 +380,16 @@ public class UserController {
    	}
 
 
-   	def importFileSubmit = {
-   		def importtext = request.getFile("file").inputStream
+    def importFileSubmit = {
+        def importtext = request.getFile("file").inputStream
         String delimiter = params.delimiter //';'
+
+        importFileSubmitSub(importtext, delimiter, graphDatabaseService)
+
+        redirect( action:index, params:[type:'*'] )
+    }
+
+   	def static importFileSubmitSub(importtext, delimiter, graphDatabaseService) {
 
    		if (importtext) {
    			def nodeList = []
@@ -417,7 +422,7 @@ public class UserController {
    				thisNode.inRelationships
    				def relationList = []
    				for (rel in item.relationships) {
-                    def relDirectionOut = rel.startsWith(RELATIONSHIP_DIRECTION_OUT)
+                    def relDirectionOut = rel.startsWith(BaseNode.RELATIONSHIP_DIRECTION_OUT)
    					def relName = rel[3..rel.lastIndexOf("(")-1]
    					def relTarget = rel[rel.lastIndexOf("(")+1..-2]
    					def relTargetKey = relTarget[0..relTarget.lastIndexOf(":")-1]
@@ -437,11 +442,10 @@ public class UserController {
    				dataNodeFactory.saveNode(thisNode)
    			}
    		}
-   		redirect( action:index, params:[type:'*'] )
    	}
 
 
-    def processImportText(importText, delimiter) {
+    static def processImportText(importText, delimiter) {
         def nodeList = []
         def headline = []
         def headLineImported = false
@@ -486,18 +490,18 @@ public class UserController {
     }
 
 
-    private boolean shouldImportLine(line) {
+    private static boolean shouldImportLine(line) {
         if (line == "") {
             return false
         }
         return !( isComment(line) || isEmptyLine(line))
     }
 
-    private boolean isEmptyLine(line) {
+    private static boolean isEmptyLine(line) {
         return line.matches("[;]+")
     }
 
-    private boolean isComment(line) {
+    private static boolean isComment(line) {
         return line.length() >= 2 && line.substring(0, 2) == "//"
     }
 

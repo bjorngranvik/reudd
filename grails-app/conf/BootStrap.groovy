@@ -29,7 +29,7 @@ import org.neo4j.graphdb.Node
 import org.neo4j.graphdb.GraphDatabaseService;
 
 class BootStrap {
-	
+
 	GraphDatabaseService graphDatabaseService
 	
 	def init = { servletContext ->

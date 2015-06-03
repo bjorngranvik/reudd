@@ -21,6 +21,13 @@ import org.reudd.util.ReUddConstants;
 
 public abstract class BaseNode {
 
+    public static final String RELATIONSHIP_DIRECTION_OUT = "-->"
+    public static final String RELATIONSHIP_DIRECTION_IN = "<--"
+    public static final String RELATIONSHIP_DIRECTION_IN_PREFIX = "-->:"
+    public static final String RELATIONSHIP_DIRECTION_OUT_PREFIX = "<--:"
+    public static final String RELATIONSHIP_PREFIX = "rel:"
+
+
 	Node underlyingNode
 
 	def id

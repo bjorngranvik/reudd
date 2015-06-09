@@ -5,8 +5,7 @@ jdk:
 
 before_install:
 - rm -rf ~/.gvm
-- pwd
-- ls -al
+- mkdir data
 - curl -s get.gvmtool.net > ~/install_gvm.sh
 - chmod 775 ~/install_gvm.sh
 - ~/install_gvm.sh

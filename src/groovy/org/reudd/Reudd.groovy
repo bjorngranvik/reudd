@@ -38,18 +38,22 @@ public class Reudd {
         } else {
             switch (args[0]) {
                 case "version":
+                case "v":
                     doVersion()
                     break
 
                 case "import":
+                case "i":
                     doImport(args)
                     break
 
                 case "schema":
+                case "s":
                     doSchema(args)
                     break
 
                 case "help":
+                case "h":
                 default:
                     doHelp()
                     break
@@ -83,7 +87,7 @@ public class Reudd {
 
     static String getArg( def args, int i, String defaultValue ) {
         if (args.size() >= i+1 && !args[i].isEmpty()) {
-            return args[1]
+            return args[i]
         } else {
             return defaultValue
         }
@@ -126,6 +130,7 @@ public class Reudd {
         String outputfilename = getArg(args, 1, "reudd_schema")
         String fileformat = getArg(args, 2, "svg")
         String databasePath = getArg(args, 3, "data/neo4j")
+        println "Output to " + outputfilename + "." + fileformat + " from " + databasePath
 
         if(!outputfilename.isEmpty()) {
             init()

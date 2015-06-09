@@ -5,6 +5,8 @@ jdk:
 
 before_install:
 - rm -rf ~/.gvm
+- pwd
+- ls -al
 - curl -s get.gvmtool.net > ~/install_gvm.sh
 - chmod 775 ~/install_gvm.sh
 - ~/install_gvm.sh
@@ -13,3 +15,4 @@ before_install:
 - gvm install grails "2.3.5" || true
 
 script: grails clean && grails upgrade --non-interactive && grails test-app --non-interactive --stacktrace
+

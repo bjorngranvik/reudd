@@ -23,6 +23,7 @@ import org.neo4j.graphdb.GraphDatabaseService
 import org.neo4j.graphdb.Transaction
 import org.neo4j.kernel.EmbeddedGraphDatabase
 import org.reudd.node.BaseNode
+import static org.reudd.node.BaseNode.*
 import org.reudd.node.DataNodeFactory
 import org.reudd.node.DynamicRelationship
 import org.reudd.node.TypeNodeFactory

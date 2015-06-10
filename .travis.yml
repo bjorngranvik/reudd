@@ -15,4 +15,5 @@ before_install:
 script: grails clean && grails upgrade --non-interactive && grails test-app --non-interactive --stacktrace
 
 after_failure:
-- ls data/neo4j/
+  - ls -al
+  - ls -al data/neo4j/

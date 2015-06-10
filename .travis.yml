@@ -17,3 +17,4 @@ script: grails clean && grails upgrade --non-interactive && grails test-app --no
 after_failure:
   - ls -al
   - ls -al data/neo4j/
+  - cat data/neo4j/messages.log

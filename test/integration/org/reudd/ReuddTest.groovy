@@ -29,7 +29,7 @@ public class ReuddTest {
 
     @Test
     public void testImport() {
-        String[] args = ["import", "example-import/example-import-data_semicolon.csv"]
+        String[] args = ["import", "example-import/example-import-data_semicolon.csv", ";"]
         String result = doImport(args)
 
         assert result != null

@@ -67,7 +67,7 @@ public class Reudd {
         String result = "Usage: reudd <command> <options>\n" +
                 "\n" +
                 "   commands:\n" +
-                "       import   or i    <importfile> <dbdir>\n" +
+                "       import   or i    <importfile> <separator> <dbdir>\n" +
                 "       schema   or s    <outputfilename> <fileformat> <dbdir>\n" +
                 "       help     or h\n" +
                 "       version  or v"
@@ -96,7 +96,8 @@ public class Reudd {
 
     static def doImport(def args) {
         String importFiles = getArg(args, 1, "")
-        String databasePath = getArg(args, 2, "data/neo4j")
+        String separator = getArg(args, 2, "\t")
+        String databasePath = getArg(args, 3, "data/neo4j")
         String result = ""
 
         if(!importFiles.isEmpty()) {
@@ -112,7 +113,7 @@ public class Reudd {
                 Transaction transaction
                 transaction = graphDatabaseService.beginTx()
 
-                result += file + " " + importFileSubmitSub(text, ";", graphDatabaseService) + "\n"
+                result += file + " " + importFileSubmitSub(text, separator, graphDatabaseService) + "\n"
 
                 transaction.success()
                 transaction.finish()

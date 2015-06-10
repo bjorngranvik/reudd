@@ -5,7 +5,6 @@ jdk:
 
 before_install:
 - rm -rf ~/.gvm
-- mkdir data
 - curl -s get.gvmtool.net > ~/install_gvm.sh
 - chmod 775 ~/install_gvm.sh
 - ~/install_gvm.sh
@@ -15,3 +14,5 @@ before_install:
 
 script: grails clean && grails upgrade --non-interactive && grails test-app --non-interactive --stacktrace
 
+after_failure:
+- ls data/neo4j/

@@ -78,8 +78,10 @@ public class Reudd {
 
 
     static String doVersion() {
-        //todo version number
-        String result = "ReUDD v" + "//todo version";
+        def config = new ConfigSlurper("dev").parse(new File("ReuddConfig.groovy").toURI().toURL())
+        String version = config.app.version
+
+        String result = "ReUDD v" + version;
         println(result )
         return result
     }

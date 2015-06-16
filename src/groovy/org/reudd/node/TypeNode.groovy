@@ -246,6 +246,7 @@ public class TypeNode extends BaseNode {
     }
 
     def checkExistingAttributes() {
+        //todo getAllDataNodes call will be very expensive when scaling?
 		def dataNodes = getAllDataNodes()
 		dataNodes.each { node ->
 			node.attributes.each { attribute ->

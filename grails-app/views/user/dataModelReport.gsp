@@ -17,6 +17,11 @@
                     <td>
                         <g:if test="${node.name}">
                             <b>[${node.name}]</b>
+                            <g:if test="${node.getRequiredAttributes().size() > 0}">
+                                <g:each var="attr" in="${node.getRequiredAttributes()}">
+                                    </br>${attr}
+                                </g:each>
+                            </g:if>
                         </g:if>
                         <g:else>
                             <b>[Node-${node.id}]</b>

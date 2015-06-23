@@ -1,28 +1,28 @@
-type:,ruid,name,members,title,duration,comment,rel:on(title),rel:record deal(name),rel:made by(name),rel:performed by(name),rel:produced by(name)
-Person,Person Björn,Björn,,,,,,,,,
-Review,Review Touchy feely stuff,,,Touchy feely stuff,,Lorem Ipsum comment,,,,,
-Band,Band Foo Fighters,Foo Fighters,4,,,,,RCA,,,
-Band,Band Queen,Queen,4,,,,,Parlophone,,,
-Band,Band Pearl Jam,Pearl Jam,5,,,,,Epic,,,
-Album,Album Backspacer,,,Backspacer,,,,,Pearl Jam,,Epic
-Song,Song Got some,,,Got some,03.03,,Backspacer,,,Pearl Jam,
-Album,Album Binaural,,,Binaural,,,,,Pearl Jam,,Epic
-Song,Song Breakerfall,,,Breakerfall,02.19,,Binaural,,,Pearl Jam,
-Album,Album Rearviewmirror,,,Rearviewmirror,,,,,Pearl Jam,,Epic
-Song,Song Even Flow,,,Even Flow,05.04,,Rearviewmirror,,,Pearl Jam,
-Song,Song Animal,,,Animal,02.48,,Rearviewmirror,,,Pearl Jam,
-Song,Song Better Man,,,Better Man,04.29,,Rearviewmirror,,,Pearl Jam,
-Album,Album Skin and bones,,,Skin and bones,,,,,Foo Fighters,,RCA
-Song,Song Razor,,,Razor,06.48,,Skin and bones,,,Foo Fighters,
-Song,Song Over and out,,,Over and out,05.57,,Skin and bones,,,Foo Fighters,
-Song,Song My hero,,,My hero,04.51,,Skin and bones,,,Foo Fighters,
-Album,Album Greatest hits,,,Greatest hits,,,,,Foo Fighters,,RCA
-Song,Song Everlong,,,Everlong,04.10,,Greatest hits,,,Foo Fighters,
-Song,Song Monkey wrench,,,Monkey wrench,03.51,,Greatest hits,,,Foo Fighters,
-Album,Album Made in heaven,,,Made in heaven,,,,,Queen,,Parlophone
-Song,Song Too much love will kill you,,,Too much love will kill you,04.20,,Made in heaven,,,Queen,
-Song,Song You don't fool me,,,You don't fool me,05.25,,Made in heaven,,,Queen,
-Song,Song A winter's tale,,,A winter's tale,03.49,,Made in heaven,,,Queen,
-RecordLabel,RecordLabel RCA,RCA,,,,,,,,,
-RecordLabel,RecordLabel Epic,Epic,,,,,,,,,
-RecordLabel,RecordLabel Parlophone,Parlophone,,,,,,,,,
+type:;ruid;name;members;title;duration;comment;rel:on(title);rel:record deal(name);rel:made by(name);rel:performed by(name);rel:produced by(name);<--:wrote(name);-->:review of(title)
+Person;Person Björn;Björn;;;;;;;;;;;
+Review;Review Touchy feely stuff;;;Touchy feely stuff;;Lorem Ipsum comment;;;;;;Björn;Razor
+Band;Band Foo Fighters;Foo Fighters;4;;;;;RCA;;;;;
+Band;Band Queen;Queen;4;;;;;Parlophone;;;;;
+Band;Band Pearl Jam;Pearl Jam;5;;;;;Epic;;;;;
+Album;Album Backspacer;;;Backspacer;;;;;Pearl Jam;;Epic;;
+Song;Song Got some;;;Got some;03.03;;Backspacer;;;Pearl Jam;;;
+Album;Album Binaural;;;Binaural;;;;;Pearl Jam;;Epic;;
+Song;Song Breakerfall;;;Breakerfall;02.19;;Binaural;;;Pearl Jam;;;
+Album;Album Rearviewmirror;;;Rearviewmirror;;;;;Pearl Jam;;Epic;;
+Song;Song Even Flow;;;Even Flow;05.04;;Rearviewmirror;;;Pearl Jam;;;
+Song;Song Animal;;;Animal;02.48;;Rearviewmirror;;;Pearl Jam;;;
+Song;Song Better Man;;;Better Man;04.29;;Rearviewmirror;;;Pearl Jam;;;
+Album;Album Skin and bones;;;Skin and bones;;;;;Foo Fighters;;RCA;;
+Song;Song Razor;;;Razor;06.48;;Skin and bones;;;Foo Fighters;;;
+Song;Song Over and out;;;Over and out;05.57;;Skin and bones;;;Foo Fighters;;;
+Song;Song My hero;;;My hero;04.51;;Skin and bones;;;Foo Fighters;;;
+Album;Album Greatest hits;;;Greatest hits;;;;;Foo Fighters;;RCA;;
+Song;Song Everlong;;;Everlong;04.10;;Greatest hits;;;Foo Fighters;;;
+Song;Song Monkey wrench;;;Monkey wrench;03.51;;Greatest hits;;;Foo Fighters;;;
+Album;Album Made in heaven;;;Made in heaven;;;;;Queen;;Parlophone;;
+Song;Song Too much love will kill you;;;Too much love will kill you;04.20;;Made in heaven;;;Queen;;;
+Song;Song You don't fool me;;;You don't fool me;05.25;;Made in heaven;;;Queen;;;
+Song;Song A winter's tale;;;A winter's tale;03.49;;Made in heaven;;;Queen;;;
+RecordLabel;RecordLabel RCA;RCA;;;;;;;;;;;
+RecordLabel;RecordLabel Epic;Epic;;;;;;;;;;;
+RecordLabel;RecordLabel Parlophone;Parlophone;;;;;;;;;;;

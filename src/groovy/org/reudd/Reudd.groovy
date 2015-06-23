@@ -98,7 +98,7 @@ public class Reudd {
 
     static def doImport(def args) {
         String importFiles = getArg(args, 1, "")
-        String separator = getArg(args, 2, "\t")
+        String separator = getArg(args, 2, ";")
         String databasePath = getArg(args, 3, "data/neo4j")
         String result = ""
 
@@ -336,6 +336,7 @@ public class Reudd {
 
         importText.eachLine { line, index ->
             if (shouldImportLine(line)) {
+                //println(index + ": " + line)
                 if (!headLineImported) {
                     line.split(delimiter).each { item ->
                         headline.add item

@@ -314,11 +314,11 @@ public class Reudd {
 
                         }
                     }
+                    nRelationships++
                 }
                 thisNode.outRelationships = relationList
                 dataNodeFactory.saveNode(thisNode)
 
-                nRelationships++
             }
 
             String result = "nodes:" + nNodes + ", relationships:" + + nRelationships

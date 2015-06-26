@@ -33,6 +33,6 @@ public class ReuddTest {
         String result = doImport(args)
 
         assert result != null
-        assert result == "example-import/example-import-data_semicolon.csv nodes:27, relationships:27\n"
+        assert result == "example-import/example-import-data_semicolon.csv nodes:27, relationships:43\n"
     }
 }
